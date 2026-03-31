@@ -18,7 +18,7 @@ const TopNavigation = ({ divisions, onCitySelect }) => {
             onChange={(e) => onCitySelect(e.target.value)}
             style={styles.select}
           >
-            <option value="">-- Select City --</option>
+            <option value="">-- CHOOSE DIVISION --</option>
             {/* Defensive check: only map if divisions exists */}
             {divisions && divisions.map((item, index) => (
               <option key={index} value={item.Division || item.name}>
