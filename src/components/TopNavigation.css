@@ -38,10 +38,10 @@
   border-radius: 4px;
 }
 
-.brand-text { textAlign: left; }
+.brand-text { text-align: left; }
 
 .brand-text p:first-child { font-size: 12px; margin: 0; letter-spacing: 1px; }
-.brand-text h1 { font-size: 24px; fontWeight: bold; margin: 2px 0; }
+.brand-text h1 { font-size: 24px; font-weight: bold; margin: 2px 0; }
 .brand-text p:last-child { font-size: 12px; margin: 0; opacity: 0.8; }
 
 .white-bar {
