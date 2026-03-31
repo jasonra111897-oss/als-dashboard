@@ -1,94 +1,53 @@
-import React from "react";
+import React from 'react';
+import './TopNavigation.css'; // Import your new CSS file
 
 const TopNavigation = ({ divisions, onCitySelect }) => {
   return (
-    <header style={styles.header}>
-      <div style={styles.container}>
-        <div style={styles.logoSection}>
-          <span style={styles.divider}>|</span>
-          <h1 style={styles.title}>ALS NCR DASHBOARD</h1>
-        </div>
+    <header className="header-wrapper">
+      <div className="mini-nav">
+        <span>ALSPH</span>
+        <span>Home</span>
+        <span>About Us</span>
+        <span>Resources</span>
+        <span>Contact Us</span>
+      </div>
 
-        <div style={styles.navActions}>
-          <label htmlFor="division-select" style={styles.label}>
-            VIEW DIVISION:
-          </label>
-          <select
-            id="division-select"
+      <div className="blue-bar">
+        <div className="logo-group">
+          <img src="/deped-ncr-logo.png" alt="DepEd" className="main-logo" />
+          <div className="brand-text">
+            <p>REPUBLIC OF THE PHILIPPINES</p>
+            <h1>DEPARTMENT OF EDUCATION</h1>
+            <p>NATIONAL CAPITAL REGION (NCR)</p>
+          </div>
+        </div>
+        <img src="/als-logo.png" alt="ALS" className="side-logo" />
+      </div>
+
+      <div className="white-bar">
+        <div className="breadcrumb">
+          <span style={{ color: '#94a3b8' }}>YOU ARE HERE: </span>
+          <span style={{ color: '#64748b', fontWeight: 'bold' }}>NCR DASHBOARD</span>
+        </div>
+        <div className="selector-area">
+          <span className="view-label">VIEW DIVISION:</span>
+          <select 
             onChange={(e) => onCitySelect(e.target.value)}
-            style={styles.select}
+            className="dropdown"
           >
-            <option value="">-- CHOOSE DIVISION --</option>
-            {/* Defensive check: only map if divisions exists */}
-            {divisions && divisions.map((item, index) => (
-              <option key={index} value={item.Division || item.name}>
-                {item.Division || item.name}
+            <option value="">-- Select City --</option>
+            {divisions.map((div, index) => (
+              <option key={index} value={div.Division}>
+                {div.Division}
               </option>
             ))}
           </select>
         </div>
       </div>
-      <div style={styles.yellowBar}></div>
+      
+      <div className="yellow-accent"></div>
     </header>
   );
-};
-
-const styles = {
-  header: {
-    backgroundColor: "#fff",
-    paddingTop: "20px",
-    position: "sticky",
-    top: 0,
-    zIndex: 1000,
-  },
-  container: {
-    maxWidth: "1250px",
-    margin: "0 auto",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "0 20px 15px 20px",
-  },
-  logoSection: {
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-  },
-  divider: {
-    color: "#0038a8",
-    fontSize: "24px",
-    fontWeight: "bold",
-  },
-  title: {
-    fontSize: "18px",
-    color: "#0038a8",
-    fontWeight: "bold",
-    margin: 0,
-  },
-  navActions: {
-    display: "flex",
-    alignItems: "center",
-    gap: "15px",
-  },
-  label: {
-    fontSize: "14px",
-    color: "#0038a8",
-    fontWeight: "bold",
-  },
-  select: {
-    padding: "8px 12px",
-    borderRadius: "6px",
-    border: "1px solid #ccc",
-    fontSize: "14px",
-    fontWeight: "bold",
-    minWidth: "200px",
-    cursor: "pointer",
-  },
-  yellowBar: {
-    height: "4px",
-    backgroundColor: "#ffcd00",
-    width: "100%",
-  },
 };
 
 export default TopNavigation;
