@@ -1,35 +1,28 @@
-import React from 'react';
-
 const StatCards = ({ cityData }) => {
-  // Helper to safely get the numbers we calculated in Step 1
-  const getVal = (key) => cityData[key] || 0;
+  if (!cityData) return null;
 
   return (
     <div style={styles.grid}>
-      <div style={styles.card}>
-        <h3>Teacher I</h3>
-        <p style={styles.number}>{getVal("Teacher I")}</p>
+      {/* Card 1: Total Schools */}
+      <div style={styles.cardBlue}>
+        <h3>TOTAL SCHOOLS</h3>
+        <p style={styles.number}>16</p> 
+        <span>Registered Centers</span>
+      </div>
+
+      {/* Card 2: Total Implementers (Pulled from Excel count) */}
+      <div style={styles.cardGreen}>
+        <h3>TOTAL IMPLEMENTERS</h3>
+        <p style={styles.number}>{cityData["Total Implementers"] || 0}</p>
         <span>Active Personnel</span>
       </div>
-      <div style={styles.card}>
-        <h3>Teacher II</h3>
-        <p style={styles.number}>{getVal("Teacher II")}</p>
-        <span>Active Personnel</span>
-      </div>
-      <div style={styles.card}>
-        <h3>Teacher III</h3>
-        <p style={styles.number}>{getVal("Teacher III")}</p>
-        <span>Active Personnel</span>
+
+      {/* Card 3: Active Divisions */}
+      <div style={styles.cardYellow}>
+        <h3>ACTIVE DIVISIONS</h3>
+        <p style={styles.number}>16</p>
+        <span>NCR Districts</span>
       </div>
     </div>
   );
 };
-
-// YOU MUST INCLUDE THIS BLOCK OR IT WILL CRASH
-const styles = {
-  grid: { display: "flex", gap: "20px", marginBottom: "30px" },
-  card: { backgroundColor: "#fff", padding: "20px", borderRadius: "12px", flex: 1, boxShadow: "0 4px 6px rgba(0,0,0,0.1)" },
-  number: { fontSize: "32px", fontWeight: "bold", margin: "10px 0" }
-};
-
-export default StatCards;
