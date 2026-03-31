@@ -1,94 +1,75 @@
-import React from "react";
+import React from 'react';
 
 const TopNavigation = ({ divisions, onCitySelect }) => {
   return (
-    <header style={styles.header}>
-      <div style={styles.container}>
-        <div style={styles.logoSection}>
-          <span style={styles.divider}>|</span>
-          <h1 style={styles.title}>ALS NCR DASHBOARD</h1>
-        </div>
+    <header style={styles.headerWrapper}>
+      {/* 1. Top Mini Nav (Optional/Text only) */}
+      <div style={styles.miniNav}>
+        <span>ALSPH</span>
+        <span>Home</span>
+        <span>About Us</span>
+        <span>Resources</span>
+        <span>Contact Us</span>
+      </div>
 
-        <div style={styles.navActions}>
-          <label htmlFor="division-select" style={styles.label}>
-            VIEW DIVISION:
-          </label>
-          <select
-            id="division-select"
+      {/* 2. Main Blue Branding Bar */}
+      <div style={styles.blueBar}>
+        <div style={styles.logoGroup}>
+          <img src="/deped-ncr-logo.png" alt="DepEd" style={styles.mainLogo} />
+          <div style={styles.brandText}>
+            <p style={styles.topText}>REPUBLIC OF THE PHILIPPINES</p>
+            <h1 style={styles.middleText}>DEPARTMENT OF EDUCATION</h1>
+            <p style={styles.bottomText}>NATIONAL CAPITAL REGION (NCR)</p>
+          </div>
+        </div>
+        <img src="/als-logo.png" alt="ALS" style={styles.sideLogo} />
+      </div>
+
+      {/* 3. Breadcrumb & Selector Bar */}
+      <div style={styles.whiteBar}>
+        <div style={styles.breadcrumb}>
+          <span style={styles.breadcrumbText}>YOU ARE HERE: </span>
+          <span style={styles.breadcrumbActive}>NCR DASHBOARD</span>
+        </div>
+        <div style={styles.selectorArea}>
+          <span style={styles.viewLabel}>VIEW DIVISION:</span>
+          <select 
             onChange={(e) => onCitySelect(e.target.value)}
-            style={styles.select}
+            style={styles.dropdown}
           >
-            <option value="">-- CHOOSE DIVISION --</option>
-            {/* Defensive check: only map if divisions exists */}
-            {divisions && divisions.map((item, index) => (
-              <option key={index} value={item.Division || item.name}>
-                {item.Division || item.name}
+            <option value="">-- Select City --</option>
+            {divisions.map((div, index) => (
+              <option key={index} value={div.Division}>
+                {div.Division}
               </option>
             ))}
           </select>
         </div>
       </div>
-      <div style={styles.yellowBar}></div>
+      
+      {/* Yellow Accent Border */}
+      <div style={styles.yellowAccent}></div>
     </header>
   );
 };
 
 const styles = {
-  header: {
-    backgroundColor: "#fff",
-    paddingTop: "20px",
-    position: "sticky",
-    top: 0,
-    zIndex: 1000,
-  },
-  container: {
-    maxWidth: "1250px",
-    margin: "0 auto",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "0 20px 15px 20px",
-  },
-  logoSection: {
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-  },
-  divider: {
-    color: "#0038a8",
-    fontSize: "24px",
-    fontWeight: "bold",
-  },
-  title: {
-    fontSize: "18px",
-    color: "#0038a8",
-    fontWeight: "bold",
-    margin: 0,
-  },
-  navActions: {
-    display: "flex",
-    alignItems: "center",
-    gap: "15px",
-  },
-  label: {
-    fontSize: "14px",
-    color: "#0038a8",
-    fontWeight: "bold",
-  },
-  select: {
-    padding: "8px 12px",
-    borderRadius: "6px",
-    border: "1px solid #ccc",
-    fontSize: "14px",
-    fontWeight: "bold",
-    minWidth: "200px",
-    cursor: "pointer",
-  },
-  yellowBar: {
-    height: "4px",
-    backgroundColor: "#ffcd00",
-    width: "100%",
-  },
+  headerWrapper: { width: '100%', fontFamily: 'Arial, sans-serif' },
+  miniNav: { display: 'flex', justifyContent: 'space-around', padding: '5px 15%', fontSize: '10px', color: '#64748b', backgroundColor: '#fff', borderBottom: '1px solid #f1f5f9' },
+  blueBar: { backgroundColor: '#0038a8', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '15px 5%' },
+  logoGroup: { display: 'flex', alignItems: 'center', gap: '20px' },
+  mainLogo: { height: '70px' },
+  sideLogo: { height: '60px', backgroundColor: '#fff', padding: '5px', borderRadius: '4px' },
+  brandText: { textAlign: 'left' },
+  topText: { fontSize: '12px', margin: 0, letterSpacing: '1px' },
+  middleText: { fontSize: '24px', fontWeight: 'bold', margin: '2px 0' },
+  bottomText: { fontSize: '12px', margin: 0, opacity: 0.8 },
+  whiteBar: { backgroundColor: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 5%', fontSize: '12px' },
+  breadcrumbText: { color: '#94a3b8' },
+  breadcrumbActive: { color: '#64748b', fontWeight: 'bold' },
+  viewLabel: { color: '#0038a8', fontWeight: 'bold', marginRight: '10px' },
+  dropdown: { border: '1px solid #cbd5e1', borderRadius: '4px', padding: '4px 10px', fontWeight: 'bold', color: '#1e293b' },
+  yellowAccent: { height: '5px', backgroundColor: '#facc15', width: '100%' }
 };
 
 export default TopNavigation;
