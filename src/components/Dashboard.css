@@ -1,0 +1,80 @@
+/* Dashboard Layout */
+.dashboard-wrapper {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.dashboard-content {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Personnel Registry Card */
+.registry-card {
+  margin-top: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+}
+
+.registry-header {
+  border-bottom: 2px solid #1e3a8a;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+}
+
+.registry-header h3 {
+  color: #1e3a8a;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.registry-header p {
+  color: #64748b;
+  margin: 5px 0 0 0;
+  font-size: 0.9rem;
+}
+
+/* Teacher Grid */
+.teacher-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.teacher-item {
+  padding: 12px 16px;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  color: #334155;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  border-left: 4px solid #3b82f6;
+  transition: transform 0.2s ease;
+}
+
+.teacher-item:hover {
+  transform: translateX(5px);
+  background-color: #e2e8f0;
+}
+
+.teacher-number {
+  font-weight: 800;
+  margin-right: 12px;
+  color: #1e3a8a;
+  min-width: 25px;
+}
+
+.empty-state {
+  color: #94a3b8;
+  font-style: italic;
+  padding: 20px;
+  text-align: center;
+}

@@ -1,68 +1,63 @@
 import React, { useState, useEffect } from "react";
 import TopNavigation from "./TopNavigation";
 import StatCards from "./StatCards";
+import "./Dashboard.css"; // Import the new CSS file
 
 const Dashboard = () => {
   const [allData, setAllData] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Change this URL to your deployed backend when moving to Vercel
-        const response = await fetch("http://localhost:5000/api/data");
-        if (!response.ok) throw new Error("Failed to fetch data");
-        const data = await response.json();
+    // Fetches the processed data from your backend
+    fetch('http://localhost:5000/api/data')
+      .then(res => res.json())
+      .then(data => {
         setAllData(data);
-        setSelectedCity(data[0]); 
-      } catch (err) {
-        setError("Could not connect to backend. Ensure server.js is running locally.");
-        console.error(err);
-      }
-    };
-    fetchData();
+        if (data.length > 0) setSelectedCity(data[0]);
+      })
+      .catch(err => console.log("Waiting for backend...", err));
   }, []);
 
   const handleCityChange = (cityName) => {
-    const city = allData.find(d => 
-      (d.Division || "").toUpperCase() === cityName.toUpperCase()
-    );
+    const city = allData.find(d => d.Division === cityName);
     if (city) setSelectedCity(city);
   };
 
-  if (error) return <div style={styles.error}>{error}</div>;
-  if (!selectedCity) return <div style={styles.loading}>Loading Dashboard...</div>;
+  if (!selectedCity) {
+    return <div className="empty-state">Loading ALS NCR Data...</div>;
+  }
 
   return (
-    <div style={styles.pageContainer}>
-      <TopNavigation 
-        divisions={allData} 
-        onCitySelect={handleCityChange} 
-      />
+    <div className="dashboard-wrapper">
+      <TopNavigation divisions={allData} onCitySelect={handleCityChange} />
       
-      <main style={styles.mainContent}>
-        {/* Restored Global Dashboard Header */}
-        <div style={styles.dashboardHeader}>
-          <h2 style={styles.mainTitle}>ALS Global Dashboard</h2>
-          <p style={styles.subTitleText}>NCR Region | System Statistics</p>
-        </div>
-
-        {/* Updated Cards: No Charts */}
+      <main className="dashboard-content">
+        {/* Statistics Section */}
         <StatCards cityData={selectedCity} />
+
+        {/* Personnel Registry Section */}
+        <div className="registry-card">
+          <div className="registry-header">
+            <h3>Personnel Registry: {selectedCity.Division}</h3>
+            <p>Active Alternative Learning System (ALS) Implementers</p>
+          </div>
+
+          <div className="teacher-grid">
+            {selectedCity.TeacherList && selectedCity.TeacherList.length > 0 ? (
+              selectedCity.TeacherList.map((name, index) => (
+                <div key={index} className="teacher-item">
+                  <span className="teacher-number">{index + 1}</span>
+                  {name}
+                </div>
+              ))
+            ) : (
+              <div className="empty-state">No personnel records found for this division.</div>
+            )}
+          </div>
+        </div>
       </main>
     </div>
   );
-};
-
-const styles = {
-  pageContainer: { backgroundColor: "#f1f5f9", minHeight: "100vh" },
-  mainContent: { maxWidth: "1200px", margin: "0 auto", padding: "40px 20px" },
-  dashboardHeader: { marginBottom: "30px" },
-  mainTitle: { fontSize: "28px", color: "#1e293b", fontWeight: "bold", margin: "0 0 5px 0" },
-  subTitleText: { color: "#64748b", fontSize: "14px", margin: 0 },
-  loading: { display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" },
-  error: { color: "red", textAlign: "center", marginTop: "50px" }
 };
 
 export default Dashboard;

@@ -1,37 +1,84 @@
-// server.js
 const express = require('express');
 const xlsx = require('xlsx');
+const fs = require('fs');
+const path = require('path');
 const cors = require('cors');
 const app = express();
 
 app.use(cors());
 
-app.get('/api/data', (req, res) => {
-  const workbook = xlsx.readFile('data.xlsx');
-  const sheet = workbook.Sheets[workbook.SheetNames[0]];
-  const rawData = xlsx.utils.sheet_to_json(sheet);
+// --- 1. CONVERT ROUTE (READS ALL SHEETS) ---
+app.get('/api/convert', (req, res) => {
+  try {
+    const excelPath = path.join(__dirname, '..', 'data.xlsx');
+    const outputFolder = path.join(__dirname, '..', 'frontend', 'src', 'components');
+    const outputPath = path.join(outputFolder, 'data.json');
 
-  const summary = rawData.reduce((acc, row) => {
-    const divId = row.division_id;
-    if (!divId) return acc;
+    const workbook = xlsx.readFile(excelPath);
 
-    if (!acc[divId]) {
-      const divNames = { 1: "CALOOCAN", 2: "LAS PIÑAS", 3: "MAKATI" }; // Map IDs to Names
-      acc[divId] = { 
-        Division: divNames[divId] || `Division ${divId}`,
-        "Total Schools": 0, // You can count unique IDs or CLCs here
+    // 1. Explicitly pull from the 'divisions' sheet
+    const divisionsData = xlsx.utils.sheet_to_json(workbook.Sheets['divisions']);
+    const teachersData = xlsx.utils.sheet_to_json(workbook.Sheets['teachers']);
+    const schoolsData = xlsx.utils.sheet_to_json(workbook.Sheets['schools']);
+
+    // 2. Map IDs to Names
+    const summary = {};
+    divisionsData.forEach(row => {
+      summary[row.id] = {
+        Division: row.name.toUpperCase(),
+        "Total Schools": 0,
         "Total Implementers": 0,
-        "Active Divisions": 1 
+        "Active Divisions": 1
       };
-    }
+    });
 
-    // Every row in your Excel represents an "Implementer" (Teacher)
-    acc[divId]["Total Implementers"] += 1;
+    // 3. Count Implementers from the 'teachers' sheet
+    teachersData.forEach(t => {
+  const divId = t.division_id;
+  if (summary[divId]) {
+    summary[divId]["Total Implementers"] += 1;
     
-    return acc;
-  }, {});
-
-  res.json(Object.values(summary));
+   
+    if (!summary[divId].TeacherList) {
+      summary[divId].TeacherList = [];
+    }
+    summary[divId].TeacherList.push(t.name); 
+  }
 });
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+    
+    schoolsData.forEach(s => {
+      if (summary[s.division_id]) {
+        summary[s.division_id]["Total Schools"] += 1;
+      }
+    });
+
+    const finalData = Object.values(summary);
+
+    // Ensure directory exists and save
+    if (!fs.existsSync(outputFolder)) fs.mkdirSync(outputFolder, { recursive: true });
+    fs.writeFileSync(outputPath, JSON.stringify(finalData, null, 2));
+
+    res.json({ message: "Success! Data processed from all sheets.", data: finalData });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// --- 2. DATA ROUTE ---
+app.get('/api/data', (req, res) => {
+    const jsonPath = path.join(__dirname, '..', 'frontend', 'src', 'components', 'data.json');
+    if (fs.existsSync(jsonPath)) {
+        res.sendFile(jsonPath);
+    } else {
+        res.status(404).json({ error: "No data.json found yet." });
+    }
+});
+
+const PORT = 5000;
+app.listen(PORT, () => {
+    console.log(`=================================`);
+    console.log(`SERVER IS ACTIVE ON PORT ${PORT}`);
+    console.log(`Visit: http://localhost:5000/api/convert`);
+    console.log(`=================================`);
+});
