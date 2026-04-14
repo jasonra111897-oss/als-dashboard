@@ -7,7 +7,7 @@ const app = express();
 
 app.use(cors());
 
-// --- 1. CONVERT ROUTE (READS ALL SHEETS) ---
+
 app.get('/api/convert', (req, res) => {
   try {
     const excelPath = path.join(__dirname, '..', 'data.xlsx');
@@ -16,12 +16,12 @@ app.get('/api/convert', (req, res) => {
 
     const workbook = xlsx.readFile(excelPath);
 
-    // 1. Explicitly pull from the 'divisions' sheet
+    
     const divisionsData = xlsx.utils.sheet_to_json(workbook.Sheets['divisions']);
     const teachersData = xlsx.utils.sheet_to_json(workbook.Sheets['teachers']);
     const schoolsData = xlsx.utils.sheet_to_json(workbook.Sheets['schools']);
 
-    // 2. Map IDs to Names
+    
     const summary = {};
     divisionsData.forEach(row => {
       summary[row.id] = {
@@ -32,7 +32,7 @@ app.get('/api/convert', (req, res) => {
       };
     });
 
-    // 3. Count Implementers from the 'teachers' sheet
+    
     teachersData.forEach(t => {
   const divId = t.division_id;
   if (summary[divId]) {
@@ -42,7 +42,11 @@ app.get('/api/convert', (req, res) => {
     if (!summary[divId].TeacherList) {
       summary[divId].TeacherList = [];
     }
-    summary[divId].TeacherList.push(t.name); 
+    summary[divId].TeacherList.push({
+      name: t.name,
+      position: t.position || "N/A",
+      id: t.id
+    });
   }
 });
 
@@ -55,7 +59,7 @@ app.get('/api/convert', (req, res) => {
 
     const finalData = Object.values(summary);
 
-    // Ensure directory exists and save
+    
     if (!fs.existsSync(outputFolder)) fs.mkdirSync(outputFolder, { recursive: true });
     fs.writeFileSync(outputPath, JSON.stringify(finalData, null, 2));
 
@@ -65,7 +69,7 @@ app.get('/api/convert', (req, res) => {
   }
 });
 
-// --- 2. DATA ROUTE ---
+
 app.get('/api/data', (req, res) => {
     const jsonPath = path.join(__dirname, '..', 'frontend', 'src', 'components', 'data.json');
     if (fs.existsSync(jsonPath)) {

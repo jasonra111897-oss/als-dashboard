@@ -1,4 +1,3 @@
-/* Dashboard Layout */
 .dashboard-wrapper {
   background-color: #f8fafc;
   min-height: 100vh;
@@ -11,70 +10,218 @@
   margin: 0 auto;
 }
 
-/* Personnel Registry Card */
+
 .registry-card {
-  margin-top: 30px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
 }
 
 .registry-header {
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 2px solid #1e3a8a;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
 }
 
 .registry-header h3 {
   color: #1e3a8a;
   margin: 0;
   font-size: 1.5rem;
-  font-weight: 700;
-  text-transform: uppercase;
+  font-weight: 800;
 }
 
-.registry-header p {
-  color: #64748b;
-  margin: 5px 0 0 0;
-  font-size: 0.9rem;
+
+.search-input {
+  padding: 12px 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  width: 280px;
+  background-color: #f8fafc;
+  transition: all 0.3s ease;
 }
 
-/* Teacher Grid */
+.search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  width: 340px;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+
 .teacher-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
+  gap: 15px;
 }
 
 .teacher-item {
-  padding: 12px 16px;
+  padding: 15px 20px;
   background-color: #f1f5f9;
-  border-radius: 8px;
+  border-radius: 12px;
   color: #334155;
-  font-size: 0.9rem;
   display: flex;
   align-items: center;
-  border-left: 4px solid #3b82f6;
-  transition: transform 0.2s ease;
+  border-left: 5px solid #3b82f6;
+  transition: transform 0.2s ease, background-color 0.2s;
+  cursor: pointer;
+}
+
+.teacher-item.clickable:hover{
+  background: #f8fafc;
+  transform: translateX(5px);
+  border-color: #3b82f6;
+  cursor: pointer;
+}
+
+.teacher-avatar {
+  width: 35px;
+  height: 35px;
+  background: #0038a8;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  font-weight: bold;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.teacher-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.teacher-name {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.teacher-badge {
+  font-size: 11px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .teacher-item:hover {
-  transform: translateX(5px);
+  transform: translateY(-5px); /* Responsive hover state */
   background-color: #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .teacher-number {
   font-weight: 800;
-  margin-right: 12px;
+  margin-right: 15px;
   color: #1e3a8a;
-  min-width: 25px;
 }
 
+
 .empty-state {
-  color: #94a3b8;
-  font-style: italic;
-  padding: 20px;
+  grid-column: 1 / -1;
   text-align: center;
+  padding: 60px;
+  color: #94a3b8;
+  border: 2px dashed #e2e8f0;
+  border-radius: 15px;
+  font-style: italic;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.profile-modal {
+  background: white;
+  width: 420px;
+  border-radius: 24px;
+  padding: 40px;
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 80px; height: 80px; background: #3b82f6; color: white;
+  font-size: 32px; border-radius: 50%; display: flex; 
+  align-items: center; justify-content: center; margin: 0 auto 20px;
+}
+
+.status-badge {
+  background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; font-weight: bold;
+}
+
+.ncr-overview-container {
+  background-image: radial-gradient(#e2e9f0 0.5px, transparent 0.5px);
+  background-size: 20px 20px;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.welcome-banner h2 {
+  color: #1e3a8a;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.ncr-stats-summary {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 40px 0;
+}
+
+.ncr-stat-item {
+  background: rgba (255, 255, 255, o.9);
+  backdrop-filter: blur (10px);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba (225, 225, 225, 0.4);
+  box-shadow: 0 10px 30px, -5px rgba (0, 56, 168, 0.15);
+  transition: all 0.3s ease-in-out;
+}
+
+.ncr-stat-item:hover {
+  transform: translateY (-8px);
+  box-shadow: 0 20px 40px -10px rgba (0, 56, 168, 0.2); 
+}
+
+.stat-label {
+  display: block;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #1e3a8a;
+  display: block;
+  text-shadow: 2px 2px 0px rgba (59, 130, 246, 0.1);  
+
+}
+
+.selection-instruction {
+  display: inline-flex;
+  align-items: center;
+  background: #fff9db;
+  padding: 15px 25px;
+  border-radius: 10px;
+  color: #856404;
 }
