@@ -1,68 +1,148 @@
 import React, { useState, useEffect } from "react";
 import TopNavigation from "./TopNavigation";
 import StatCards from "./StatCards";
+import LearningStrandsChart from "./LearningStrandsChart";
+import NCROverview from "./NCROverview";
+import PersonnelModal from "./PersonnelModal";
+import "./Dashboard.css";
+import "./TopNavigation.css";
+import "./StatCards.css";
+ 
 
 const Dashboard = () => {
   const [allData, setAllData] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
-  const [error, setError] = useState(null);
+  const [selectedTeacher, setSelectedTeacher] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Change this URL to your deployed backend when moving to Vercel
-        const response = await fetch("http://localhost:5000/api/data");
-        if (!response.ok) throw new Error("Failed to fetch data");
-        const data = await response.json();
+    fetch('http://localhost:5000/api/data')
+      .then(res => res.json())
+      .then(data => {
         setAllData(data);
-        setSelectedCity(data[0]); 
-      } catch (err) {
-        setError("Could not connect to backend. Ensure server.js is running locally.");
-        console.error(err);
-      }
-    };
-    fetchData();
+        
+      })
+      .catch(err => console.error("Error fetching data:", err));
   }, []);
 
   const handleCityChange = (cityName) => {
-    const city = allData.find(d => 
-      (d.Division || "").toUpperCase() === cityName.toUpperCase()
-    );
-    if (city) setSelectedCity(city);
+    if (cityName === "") {
+      resetToHome();
+      return;
+    }
+    const city = allData.find(d => d.Division === cityName);
+    if (city) {
+      setSelectedCity(city);
+      setSelectedTeacher(null);
+      setSearchTerm("");
+    }
   };
 
-  if (error) return <div style={styles.error}>{error}</div>;
-  if (!selectedCity) return <div style={styles.loading}>Loading Dashboard...</div>;
+  const resetToHome = () => {
+    setSelectedCity(null);
+    setSearchTerm("");
+    setSelectedTeacher(null);
+  };
+
+  const filteredTeachers = (selectedCity?.TeacherList || []).filter(teacher => {
+    if (!teacher) return false;
+    const nameToSearch = typeof teacher === 'object' ? teacher.name : teacher;
+    return String(nameToSearch).toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
+  if (allData.length === 0) {
+    return <div className="loading-screen">Loading ALS NCR Dashboard...</div>;
+  }
 
   return (
-    <div style={styles.pageContainer}>
+    <div className="dashboard-wrapper">
       <TopNavigation 
         divisions={allData} 
         onCitySelect={handleCityChange} 
+        onHomeClick={resetToHome} 
+        currentSelection={selectedCity?.Division || ""}
       />
       
-      <main style={styles.mainContent}>
-        {/* Restored Global Dashboard Header */}
-        <div style={styles.dashboardHeader}>
-          <h2 style={styles.mainTitle}>ALS Global Dashboard</h2>
-          <p style={styles.subTitleText}>NCR Region | System Statistics</p>
-        </div>
+      <main className="dashboard-content">
+        {selectedCity ? (
+          <>
+            <StatCards cityData={selectedCity} />
+            <LearningStrandsChart />
 
-        {/* Updated Cards: No Charts */}
-        <StatCards cityData={selectedCity} />
+            <div className="registry-card">
+              <div className="registry-header">
+                <div className="header-text">
+                  <h3>PERSONNEL REGISTRY: {selectedCity.Division}</h3>
+                  <p>Active Alternative Learning System (ALS) Implementers</p>
+                </div>
+                
+                <div className="search-box">
+                  <input 
+                    type="text" 
+                    placeholder="Search personnel name..." 
+                    className="search-input"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="teacher-grid">
+                {filteredTeachers.length > 0 ? (
+                  filteredTeachers.map((teacher, index) => {
+                    const displayName = typeof teacher === 'object' ? teacher.name : teacher;
+                    return (
+                      <div 
+                        key={index} 
+                        className="teacher-item clickable" 
+                        onClick={() => setSelectedTeacher({ 
+                          name: displayName, 
+                          division: selectedCity.Division,
+                          position: teacher.position || "ALS Implementer"
+                        })}
+                      >
+                        <div className="teacher-info">
+                          <span className="teacher-name">{displayName}</span>
+                          <span className="teacher-badge">ALS Implementer</span>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="empty-state">
+                    <p>No personnel records found</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        ) : (
+          <NCROverview allData={allData} />
+        )}
+
+        {/* Profile Modal Overlay */}
+        {selectedTeacher && (
+          <div className="modal-overlay" onClick={() => setSelectedTeacher(null)}>
+            <div className="profile-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h2>Personnel Profile</h2>
+                <button className="close-btn" onClick={() => setSelectedTeacher(null)}>&times;</button>
+              </div>
+              <div className="modal-body">
+                <div className="profile-avatar">{String(selectedTeacher.name).charAt(0)}</div>
+                <h1 className="profile-name">{selectedTeacher.name}</h1>
+                <p className="profile-division">{selectedTeacher.division}</p>
+                <div className="profile-details">
+                   <div className="detail-row"><strong>Position:</strong> <span>{selectedTeacher.position}</span></div>
+                   <div className="detail-row"><strong>Status:</strong> <span className="status-badge">Active</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
-};
-
-const styles = {
-  pageContainer: { backgroundColor: "#f1f5f9", minHeight: "100vh" },
-  mainContent: { maxWidth: "1200px", margin: "0 auto", padding: "40px 20px" },
-  dashboardHeader: { marginBottom: "30px" },
-  mainTitle: { fontSize: "28px", color: "#1e293b", fontWeight: "bold", margin: "0 0 5px 0" },
-  subTitleText: { color: "#64748b", fontSize: "14px", margin: 0 },
-  loading: { display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" },
-  error: { color: "red", textAlign: "center", marginTop: "50px" }
 };
 
 export default Dashboard;

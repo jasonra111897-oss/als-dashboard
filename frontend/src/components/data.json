@@ -1,0 +1,2070 @@
+[
+  {
+    "Division": "CALOOCAN",
+    "Total Schools": 1,
+    "Total Implementers": 23,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "AVILA, JUNEL, AGUINALDO",
+        "position": "Teacher I",
+        "id": 1
+      },
+      {
+        "name": "BELLESON, GLENDA, REBUTIACO",
+        "position": "Teacher I",
+        "id": 2
+      },
+      {
+        "name": "DE LEON, NATHANIEL, NUÑEZ",
+        "position": "Teacher II",
+        "id": 3
+      },
+      {
+        "name": "ELPEDES, MARIBEL",
+        "position": "Teacher I",
+        "id": 4
+      },
+      {
+        "name": "EVANGELISTA, RASSEL, ORIJUELA",
+        "position": "Teacher I",
+        "id": 5
+      },
+      {
+        "name": "GALANG, JHOSA MERYL, VERONA",
+        "position": "Teacher I",
+        "id": 6
+      },
+      {
+        "name": "HASPELA, RIZZA, PORDICIMO",
+        "position": "Teacher I",
+        "id": 7
+      },
+      {
+        "name": "HULAR, CYRINECRIS, MANALO",
+        "position": "Teacher I",
+        "id": 8
+      },
+      {
+        "name": "INSON, ARCY, BAZAR",
+        "position": "Teacher I",
+        "id": 9
+      },
+      {
+        "name": "JONG, JUANNA. BUSA",
+        "position": "Teacher I",
+        "id": 10
+      },
+      {
+        "name": "LIMON,DIANE,TURADO",
+        "position": "Teacher I",
+        "id": 11
+      },
+      {
+        "name": "MACABARE, RONNIE",
+        "position": "Teacher I",
+        "id": 12
+      },
+      {
+        "name": "MARTINEZ, MELVIN, CHAVEZ",
+        "position": "Teacher I",
+        "id": 13
+      },
+      {
+        "name": "NAVA, ROSALINA, DE VERA",
+        "position": "Teacher II",
+        "id": 14
+      },
+      {
+        "name": "OLFINO, CHARMY ANN, AGBUYA",
+        "position": "Teacher I",
+        "id": 15
+      },
+      {
+        "name": "QUESADA, Ma. CHRISTINA, B",
+        "position": "Teacher I",
+        "id": 16
+      },
+      {
+        "name": "RAMOS, ROMELLA, ANDUTAN",
+        "position": "Teacher I",
+        "id": 17
+      },
+      {
+        "name": "RODRIGUEZ RIZ ANN,CONCEPCION",
+        "position": "Teacher I",
+        "id": 18
+      },
+      {
+        "name": "RODRIGUEZ, MARIA AVELINA C.",
+        "position": "Teacher I",
+        "id": 19
+      },
+      {
+        "name": "ROSARIO, LITO, DEVIO,",
+        "position": "Teacher III",
+        "id": 20
+      },
+      {
+        "name": "SALOMON, ARIES, VERAL",
+        "position": "Teacher I",
+        "id": 21
+      },
+      {
+        "name": "SARI, JACKIELOU, JAMPIT",
+        "position": "Teacher I",
+        "id": 22
+      },
+      {
+        "name": "TOLIBAS, GERONIMO, AGUADA, JR.",
+        "position": "Teacher I",
+        "id": 23
+      }
+    ]
+  },
+  {
+    "Division": "LAS PIÑAS",
+    "Total Schools": 1,
+    "Total Implementers": 15,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "AMANTE, JOSE TENDAN JR.",
+        "position": "Teacher I",
+        "id": 24
+      },
+      {
+        "name": "ANGOAY, JOHN, ANZURES,JR",
+        "position": "N/A",
+        "id": 25
+      },
+      {
+        "name": "BAUTISTA, LEAH, ARROFO",
+        "position": "Teacher III",
+        "id": 26
+      },
+      {
+        "name": "BULUSAN, JAYNEL CORPUZ",
+        "position": "Teacher I",
+        "id": 27
+      },
+      {
+        "name": "FAMA, RAY FELMAR BORRA",
+        "position": "Teacher I",
+        "id": 28
+      },
+      {
+        "name": "GUINTO, BRIANNE AMADOR",
+        "position": "Teacher I",
+        "id": 29
+      },
+      {
+        "name": "MANRISA, CHERRY, L",
+        "position": "Teacher I",
+        "id": 30
+      },
+      {
+        "name": "MARTE, RUEL REUMA",
+        "position": "Teacher II",
+        "id": 31
+      },
+      {
+        "name": "MERIZ, JAYLEN, JAUOD",
+        "position": "Teacher II",
+        "id": 32
+      },
+      {
+        "name": "MOSTAJO, REGINA RED PURUGGANAN",
+        "position": "Teacher I",
+        "id": 33
+      },
+      {
+        "name": "NAVARRO, RONNEL, T.",
+        "position": "Teacher I",
+        "id": 34
+      },
+      {
+        "name": "QUICOSA, MARY, V",
+        "position": "Teacher III",
+        "id": 35
+      },
+      {
+        "name": "RAMA, DARYL LUCHING",
+        "position": "Teacher I",
+        "id": 36
+      },
+      {
+        "name": "ROGACION, JENNIFER GEPIGA",
+        "position": "Teacher I",
+        "id": 37
+      },
+      {
+        "name": "MARY ANNE VENTURA",
+        "position": "Teacher III",
+        "id": 38
+      }
+    ]
+  },
+  {
+    "Division": "MAKATI",
+    "Total Schools": 1,
+    "Total Implementers": 5,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "ARORONG, SHIELA, D,",
+        "position": "Teacher I",
+        "id": 39
+      },
+      {
+        "name": "CORPUZ, SOFIA, MONTES",
+        "position": "Teacher III",
+        "id": 40
+      },
+      {
+        "name": "DELA CRUZ, CYRIL, CATORCE",
+        "position": "Teacher III",
+        "id": 41
+      },
+      {
+        "name": "PALON, NERISSA, YAP",
+        "position": "Teacher II",
+        "id": 42
+      },
+      {
+        "name": "RICO, NERISSA, PALON",
+        "position": "Teacher I",
+        "id": 43
+      }
+    ]
+  },
+  {
+    "Division": "MALABON",
+    "Total Schools": 1,
+    "Total Implementers": 10,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "BASOBAS, JARVIN LOIS, VIVIT",
+        "position": "Teacher I",
+        "id": 44
+      },
+      {
+        "name": "BONIFACIO, DIVINA, LANDICHO",
+        "position": "Teacher I",
+        "id": 45
+      },
+      {
+        "name": "CASTRO, JOICE, BINAY",
+        "position": "Teacher I",
+        "id": 46
+      },
+      {
+        "name": "DACASIN, ELMER, VENTURA",
+        "position": "Teacher III",
+        "id": 47
+      },
+      {
+        "name": "DELFIN, VINA, ROCIO",
+        "position": "Teacher I",
+        "id": 48
+      },
+      {
+        "name": "MADOLID, EVIE, GUBALLO",
+        "position": "Master Teacher I",
+        "id": 49
+      },
+      {
+        "name": "PIMENTEL, CRISTINA, BUSTAMANTE",
+        "position": "Teacher III",
+        "id": 50
+      },
+      {
+        "name": "SEBASTIAN, MARILOU, MELGAREJO",
+        "position": "Teacher III",
+        "id": 51
+      },
+      {
+        "name": "SOLIDOR, MYLENE, FLORES",
+        "position": "Teacher III",
+        "id": 52
+      },
+      {
+        "name": "OBISPO, RUBY RIZZA JAIME",
+        "position": "Teacher I",
+        "id": 53
+      }
+    ]
+  },
+  {
+    "Division": "MANDALUYONG",
+    "Total Schools": 1,
+    "Total Implementers": 8,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "BARNEDO, JOYCE MAE, BUENAVISTA",
+        "position": "Teacher II",
+        "id": 54
+      },
+      {
+        "name": "ABALOYAN, ANDRES ANGELO, CABCABIN",
+        "position": "Teacher I",
+        "id": 55
+      },
+      {
+        "name": "CORTES, MART KEVIN, DELA CRUZ",
+        "position": "Teacher I",
+        "id": 56
+      },
+      {
+        "name": "HECTO, JERRY, ARIAS",
+        "position": "Teacher I",
+        "id": 57
+      },
+      {
+        "name": "JERVOSO, IMELDA, ALTEJAR",
+        "position": "Teacher III",
+        "id": 58
+      },
+      {
+        "name": "LONGNO, JANELYN, PEREZ",
+        "position": "Teacher II",
+        "id": 59
+      },
+      {
+        "name": "TAGUINOD, CARINA, UGADAN",
+        "position": "Master Teacher I",
+        "id": 60
+      },
+      {
+        "name": "VENTURA, ROJINE, PANIGUA",
+        "position": "Teacher III",
+        "id": 61
+      }
+    ]
+  },
+  {
+    "Division": "MANILA",
+    "Total Schools": 1,
+    "Total Implementers": 127,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "ABALOS, AIDA, SUMAYA",
+        "position": "Teacher II",
+        "id": 62
+      },
+      {
+        "name": "ACUT, ROBERT, OSIP",
+        "position": "N/A",
+        "id": 63
+      },
+      {
+        "name": "ADRIANO, GERLYN MARIE",
+        "position": "N/A",
+        "id": 64
+      },
+      {
+        "name": "AGUILAR, MARIE JEAN, JORNALES",
+        "position": "Teacher II",
+        "id": 65
+      },
+      {
+        "name": "ALAPIDE, MARIA XENIA",
+        "position": "Teacher II",
+        "id": 66
+      },
+      {
+        "name": "ALCANTARA, DANICA, SALONGA",
+        "position": "Teacher II",
+        "id": 67
+      },
+      {
+        "name": "ALMARIO, JOSPEH AGAPITO",
+        "position": "Teacher II",
+        "id": 68
+      },
+      {
+        "name": "ALMOGUERA, IVORY, ROMERO",
+        "position": "N/A",
+        "id": 69
+      },
+      {
+        "name": "ANDINO, ELEANOR, JAMAQUIO",
+        "position": "Teacher III",
+        "id": 70
+      },
+      {
+        "name": "ARAQUIN, CHARITO, LABRO",
+        "position": "Teacher III",
+        "id": 71
+      },
+      {
+        "name": "AROT, DEVINE GRACE, BAGAY",
+        "position": "Teacher I",
+        "id": 72
+      },
+      {
+        "name": "ARAO JONALYN BELTRAN",
+        "position": "Teacher III",
+        "id": 73
+      },
+      {
+        "name": "ARTIZO, MARIAN, CACHERO",
+        "position": "Teacher III",
+        "id": 74
+      },
+      {
+        "name": "ATIENZA, GILLIAN FATIMA",
+        "position": "Teacher III",
+        "id": 75
+      },
+      {
+        "name": "BATALLA, JEAN, NANQUIL",
+        "position": "Teacher II",
+        "id": 76
+      },
+      {
+        "name": "BERANGO, ELVIE, ZORCA",
+        "position": "Teacher III",
+        "id": 77
+      },
+      {
+        "name": "BACQUILLER, LUZVIMINDA, FLORANDE",
+        "position": "Teacher II",
+        "id": 78
+      },
+      {
+        "name": "BALIDOY, JERSON, SALAZAR",
+        "position": "Teacher I",
+        "id": 79
+      },
+      {
+        "name": "BAÑA, JOY, SOROÑGON",
+        "position": "Teacher II",
+        "id": 80
+      },
+      {
+        "name": "BAQUIRAN, NINA, LABRADOR",
+        "position": "Teacher III",
+        "id": 81
+      },
+      {
+        "name": "BARCELITA, ARISTOTLE, MATA",
+        "position": "Teacher III",
+        "id": 82
+      },
+      {
+        "name": "BARREDO, MARY JAY, PACLEB",
+        "position": "Teacher III",
+        "id": 83
+      },
+      {
+        "name": "BENIPAYO, EDWARD JOHN, MALLARI",
+        "position": "Teacher I",
+        "id": 84
+      },
+      {
+        "name": "BENJAMIN, BENJAMIN D.",
+        "position": "Teacher II",
+        "id": 85
+      },
+      {
+        "name": "BIACO, EVENER, DELA CRUZ",
+        "position": "Teacher I",
+        "id": 86
+      },
+      {
+        "name": "BORJAL, CRISTINA, TAGUILID",
+        "position": "Teacher I",
+        "id": 87
+      },
+      {
+        "name": "BERANGO, ELVIE, ZORCA",
+        "position": "Teacher III",
+        "id": 88
+      },
+      {
+        "name": "BRAVO, JUNASH, CAYABYAB",
+        "position": "Teacher II",
+        "id": 89
+      },
+      {
+        "name": "BRUNO, ABIGAIL, DE VERA",
+        "position": "Teacher I",
+        "id": 90
+      },
+      {
+        "name": "CABANGGANGAN, ALBERT, OCASLA",
+        "position": "Teacher I",
+        "id": 91
+      },
+      {
+        "name": "CANO, MARY LOURENCE, FLORES",
+        "position": "Teacher II",
+        "id": 92
+      },
+      {
+        "name": "CABRALES, MORENA, BASCAL",
+        "position": "Teacher III",
+        "id": 93
+      },
+      {
+        "name": "CAJILES, ROMANO, DOMINGO",
+        "position": "Teacher II",
+        "id": 94
+      },
+      {
+        "name": "CAMARA, PETER JAMES, ESTRADA",
+        "position": "Teacher I",
+        "id": 95
+      },
+      {
+        "name": "CAMARA, JOSRAEL JAMES, ESTRADA",
+        "position": "Teacher I",
+        "id": 96
+      },
+      {
+        "name": "CARPIZO, KEZIA KEIGH, DALAGUIT",
+        "position": "Teacher I",
+        "id": 97
+      },
+      {
+        "name": "CASTRO, RAFAEL, SANTOS",
+        "position": "Teacher I",
+        "id": 98
+      },
+      {
+        "name": "CLAUDIO, JHOANNE, DEOGRACIAS",
+        "position": "Teacher III",
+        "id": 99
+      },
+      {
+        "name": "COLASAN, CATHERINE, PAVIA",
+        "position": "Teacher III",
+        "id": 100
+      },
+      {
+        "name": "CRUELDAD, MYRA, SANCADA",
+        "position": "Teacher II",
+        "id": 101
+      },
+      {
+        "name": "CRUZ, KATHERINE, CABALLERO",
+        "position": "Teacher I",
+        "id": 102
+      },
+      {
+        "name": "DALMACIO, RUDZKING, TUMACA",
+        "position": "Teacher I",
+        "id": 103
+      },
+      {
+        "name": "DE ASIS, MARIECHU, DEROSAS",
+        "position": "N/A",
+        "id": 104
+      },
+      {
+        "name": "DE GUZMAN, RAYMUNDO, LLARINAS",
+        "position": "Teacher I",
+        "id": 105
+      },
+      {
+        "name": "DE GUZMAN, TIMOTHYJOEL, ROQUE",
+        "position": "Teacher I",
+        "id": 106
+      },
+      {
+        "name": "DE LEON, RAQUEL, SERRANO",
+        "position": "Teacher II",
+        "id": 107
+      },
+      {
+        "name": "DELA CRUZ, MARILOU, LASAR",
+        "position": "Teacher III",
+        "id": 108
+      },
+      {
+        "name": "DOLOSO, ERLYN, BANTAD",
+        "position": "Teacher I",
+        "id": 109
+      },
+      {
+        "name": "ENRIQUEZ, KAY-CEE, DE BELEN",
+        "position": "N/A",
+        "id": 110
+      },
+      {
+        "name": "ERPELO, SUSAN, TENORIO",
+        "position": "Teacher II",
+        "id": 111
+      },
+      {
+        "name": "ESPERANZA, CARMELITA, M.",
+        "position": "Master Teacher II",
+        "id": 112
+      },
+      {
+        "name": "ESTABILLO, MA. RIKA, R.",
+        "position": "Teacher I",
+        "id": 113
+      },
+      {
+        "name": "ESTILLORE, SUSAN, MAGNAYE",
+        "position": "N/A",
+        "id": 114
+      },
+      {
+        "name": "ETRATA, JEAN BATALLA",
+        "position": "Teacher II",
+        "id": 115
+      },
+      {
+        "name": "FALQUEZA, CECILLE, GAL",
+        "position": "Teacher II",
+        "id": 116
+      },
+      {
+        "name": "FAMINI, EDITHA, FORTU",
+        "position": "Teacher III",
+        "id": 117
+      },
+      {
+        "name": "FERNANDEZ, MARLITA, AGUSTIN",
+        "position": "Teacher III",
+        "id": 118
+      },
+      {
+        "name": "FLORES, MARY LOURENCE, BUTONG",
+        "position": "N/A",
+        "id": 119
+      },
+      {
+        "name": "FRANCIA, GERALDINE, DE VERA",
+        "position": "Teacher I",
+        "id": 120
+      },
+      {
+        "name": "FULAY, LETICIA, ALBUTRA",
+        "position": "Master Teacher II",
+        "id": 121
+      },
+      {
+        "name": "GALENO, HILDA, CASTRO",
+        "position": "Teacher III",
+        "id": 122
+      },
+      {
+        "name": "GIBAGA, MARVI ANN, MAGO",
+        "position": "Teacher II",
+        "id": 123
+      },
+      {
+        "name": "GARCIA, MARILYN",
+        "position": "Teacher II",
+        "id": 124
+      },
+      {
+        "name": "GLORIA, CARMEN, PENA",
+        "position": "Teacher II",
+        "id": 125
+      },
+      {
+        "name": "GLORIA, NYSSA DENICE, GUZMAN",
+        "position": "Teacher II",
+        "id": 126
+      },
+      {
+        "name": "HADLOCON, ALICIA, LAROZA",
+        "position": "Teacher III",
+        "id": 127
+      },
+      {
+        "name": "ICAYAN, HARGIE, DELGADO",
+        "position": "Teacher I",
+        "id": 128
+      },
+      {
+        "name": "IGLESIAS, JAY, NAVARRO",
+        "position": "Teacher II",
+        "id": 129
+      },
+      {
+        "name": "ISAGUNDE, ELJOHN, ARCILLA",
+        "position": "Teacher I",
+        "id": 130
+      },
+      {
+        "name": "JESALVE, MABEL, LASALA",
+        "position": "Teacher I",
+        "id": 131
+      },
+      {
+        "name": "LABRADOR, MERFIAM, SALENGUA",
+        "position": "N/A",
+        "id": 132
+      },
+      {
+        "name": "LABRADOR, NINA, NUGAL",
+        "position": "N/A",
+        "id": 133
+      },
+      {
+        "name": "LANGREO, ROSALYN, LATINAZO",
+        "position": "Teacher III",
+        "id": 134
+      },
+      {
+        "name": "LAPORE, SHERLENE JOY, LAVENDIA",
+        "position": "Teacher II",
+        "id": 135
+      },
+      {
+        "name": "LAROZA, ALICIA, PADUA",
+        "position": "N/A",
+        "id": 136
+      },
+      {
+        "name": "LAYOSO, ALMA, DORIA",
+        "position": "Teacher II",
+        "id": 137
+      },
+      {
+        "name": "LEGANTO, ANGELICA, RAMIREZ",
+        "position": "N/A",
+        "id": 138
+      },
+      {
+        "name": "LORBES, RAYMOND, LOPEZ",
+        "position": "Teacher I",
+        "id": 139
+      },
+      {
+        "name": "LUCENA, CRISSA MAY, SORIANO",
+        "position": "Teacher II",
+        "id": 140
+      },
+      {
+        "name": "MACADAG-UM, ISAAC, ESPINOSA",
+        "position": "Teacher III",
+        "id": 141
+      },
+      {
+        "name": "MACAHIPAY, AILEEN, BALICAS",
+        "position": "Teacher I",
+        "id": 142
+      },
+      {
+        "name": "MADLANGBAYAN, ERIC, DE JESUS",
+        "position": "Teacher III",
+        "id": 143
+      },
+      {
+        "name": "MAGNAYE, SUSANA, ESTILLORE",
+        "position": "Teacher II",
+        "id": 144
+      },
+      {
+        "name": "MAGO, MARVI ANNE, GIBAGA",
+        "position": "N/A",
+        "id": 145
+      },
+      {
+        "name": "MALASAN, RICHELEL, MOVILLA",
+        "position": "Teacher II",
+        "id": 146
+      },
+      {
+        "name": "MAMORA, SUSAN, ANG-ESPINA",
+        "position": "Teacher III",
+        "id": 147
+      },
+      {
+        "name": "MANANGAN, ESTHER MAE, AGAPAY",
+        "position": "Teacher II",
+        "id": 148
+      },
+      {
+        "name": "MASMELA, RANDY, BECHACHINO",
+        "position": "Teacher I",
+        "id": 149
+      },
+      {
+        "name": "MEJIA, MARIVEL, CASTILLO",
+        "position": "Teacher II",
+        "id": 150
+      },
+      {
+        "name": "MENDOZA, JOCELYN, GERONIMO",
+        "position": "Teacher II",
+        "id": 151
+      },
+      {
+        "name": "MORALES, JEFFREY, SUBIA",
+        "position": "Teacher I",
+        "id": 152
+      },
+      {
+        "name": "MORON, RACHELLE, GULLEN",
+        "position": "Teacher II",
+        "id": 153
+      },
+      {
+        "name": "NAPOLES, KAREN, GUMAL",
+        "position": "N/A",
+        "id": 154
+      },
+      {
+        "name": "PALQUIRAN, CARMELA, GILERA",
+        "position": "N/A",
+        "id": 155
+      },
+      {
+        "name": "PANGANIBAN, ALFEA, MARIANO",
+        "position": "Teacher III",
+        "id": 156
+      },
+      {
+        "name": "PANGILINAN, LAIDA, VENTURA",
+        "position": "Teacher II",
+        "id": 157
+      },
+      {
+        "name": "PANTILO, TERESITA, CUAYCONG",
+        "position": "Teacher I",
+        "id": 158
+      },
+      {
+        "name": "PASILAN, DONNA, NOLASCO",
+        "position": "Teacher II",
+        "id": 159
+      },
+      {
+        "name": "PAUS, ALICIA, SALAMAT",
+        "position": "Teacher I",
+        "id": 160
+      },
+      {
+        "name": "PEREZ, HEURISKEIN, VALONES",
+        "position": "Teacher II",
+        "id": 161
+      },
+      {
+        "name": "RETIZA, CHARIVIE, CALIMBO",
+        "position": "Teacher I",
+        "id": 162
+      },
+      {
+        "name": "RELLEVE, CONRADO, OBANA",
+        "position": "Teacher II",
+        "id": 163
+      },
+      {
+        "name": "ROBIATO, MELVIN, NAPAL",
+        "position": "Teacher I",
+        "id": 164
+      },
+      {
+        "name": "ROBLES, RAINMIEL, REGALA",
+        "position": "Teacher III",
+        "id": 165
+      },
+      {
+        "name": "ROMERO, IVORY, ALMOGUERA,",
+        "position": "Teacher II",
+        "id": 166
+      },
+      {
+        "name": "ROSETE, HELEN, TUGADE",
+        "position": "Teacher III",
+        "id": 167
+      },
+      {
+        "name": "SAGUID, ALLAN, CASTILLO",
+        "position": "Teacher III",
+        "id": 168
+      },
+      {
+        "name": "SANTOS, VILMA, VILLAREY",
+        "position": "N/A",
+        "id": 169
+      },
+      {
+        "name": "SERVANES, SHEENA GONZALES",
+        "position": "Teacher II",
+        "id": 170
+      },
+      {
+        "name": "SUELA, MELANIE, CABRIANA",
+        "position": "Teacher I",
+        "id": 171
+      },
+      {
+        "name": "SUING, MARIANNE, RENA",
+        "position": "Teacher",
+        "id": 172
+      },
+      {
+        "name": "SUSAN, ERPELO, TENORIO",
+        "position": "N/A",
+        "id": 173
+      },
+      {
+        "name": "TAGONGTONG, ANNIELYN, CRISPINO",
+        "position": "Teacher III",
+        "id": 174
+      },
+      {
+        "name": "TARAMPI, LILIAN, NATAMA",
+        "position": "Teacher II",
+        "id": 175
+      },
+      {
+        "name": "TELAN, JOCELYN, GUINGAB",
+        "position": "Teacher III",
+        "id": 176
+      },
+      {
+        "name": "TRINIDAD, JOSEPH, GATUS",
+        "position": "Teacher",
+        "id": 177
+      },
+      {
+        "name": "TUGADE, HELEN, ROSETE",
+        "position": "N/A",
+        "id": 178
+      },
+      {
+        "name": "VALES, MARIA CECILIA, ESPEJO",
+        "position": "Teacher II",
+        "id": 179
+      },
+      {
+        "name": "VERTUDEZ, KRIZALYN, BARROGA",
+        "position": "Teacher I",
+        "id": 180
+      },
+      {
+        "name": "VILLAFLOR, EDELYN, DUCANES",
+        "position": "N/A",
+        "id": 181
+      },
+      {
+        "name": "VILLAFLOR, FLORINDA, ASTORGA",
+        "position": "Teacher III",
+        "id": 182
+      },
+      {
+        "name": "VILLAMOR, NAOMI IRENE, GIANGO",
+        "position": "Teacher",
+        "id": 183
+      },
+      {
+        "name": "VILLAMOR, MA. PAMELA, DONCERAS",
+        "position": "Teacher",
+        "id": 184
+      },
+      {
+        "name": "VILLAS, EMMALYN ABAD, NENENG",
+        "position": "Teacher III",
+        "id": 185
+      },
+      {
+        "name": "YAON, MAY ANN, BACTOL",
+        "position": "Teacher III",
+        "id": 186
+      },
+      {
+        "name": "YECLA, CLAIRE, ARJONA",
+        "position": "Teacher III",
+        "id": 187
+      },
+      {
+        "name": "SANTIAGO, ALILI, OCFEMIA",
+        "position": "Teacher I",
+        "id": 188
+      }
+    ]
+  },
+  {
+    "Division": "MARIKINA",
+    "Total Schools": 1,
+    "Total Implementers": 9,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "BONINA, ANTHONETTE, RANERA",
+        "position": "Teacher I",
+        "id": 189
+      },
+      {
+        "name": "CORTES, MERLITA, MARTIN",
+        "position": "Teacher I",
+        "id": 190
+      },
+      {
+        "name": "DE JESUS, JOCELYN, LABITAG",
+        "position": "Teacher I",
+        "id": 191
+      },
+      {
+        "name": "DELA CRUZ, JAYZEL, CAMUS",
+        "position": "Teacher I",
+        "id": 192
+      },
+      {
+        "name": "LIBUTON, ANGELO, EBON",
+        "position": "Master Teacher I",
+        "id": 193
+      },
+      {
+        "name": "NONESA, ANA MARIE, MAGLANQUE",
+        "position": "Teacher I",
+        "id": 194
+      },
+      {
+        "name": "PASICOLAN, MARILOU, ADDATU",
+        "position": "Teacher I",
+        "id": 195
+      },
+      {
+        "name": "SILVESTRE, MA ERICA CHEVES CHINE, MORALES",
+        "position": "Teacher II",
+        "id": 196
+      },
+      {
+        "name": "VINARAO, MARILOU, TAGAPAN",
+        "position": "Master Teacher I",
+        "id": 197
+      }
+    ]
+  },
+  {
+    "Division": "MUNTINLUPA",
+    "Total Schools": 1,
+    "Total Implementers": 21,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "ALMEDIA, SUZETTE, CASTILLANO",
+        "position": "Teacher II",
+        "id": 198
+      },
+      {
+        "name": "ALORO, REMIGIO, SUSTIGUER",
+        "position": "Teacher III",
+        "id": 199
+      },
+      {
+        "name": "ARGOTE, CHRISTINE MAY, DAIRO",
+        "position": "Teacher I",
+        "id": 200
+      },
+      {
+        "name": "ESCOSIO, CHARLEN BARBECHO",
+        "position": "Teacher I",
+        "id": 201
+      },
+      {
+        "name": "FELIPE, JOHN JOESHWIE, DIOKNO",
+        "position": "Teacher I",
+        "id": 202
+      },
+      {
+        "name": "GALENZOGA, CHERRYLYN, LEMETARES",
+        "position": "Teacher I",
+        "id": 203
+      },
+      {
+        "name": "MEDILO, RECHEE, GALLEGOS",
+        "position": "Teacher II",
+        "id": 204
+      },
+      {
+        "name": "MOLINA, EDMARLYN. ALDAVE",
+        "position": "Teacher I",
+        "id": 205
+      },
+      {
+        "name": "ORTEGA, ANALIE, SIBONGA",
+        "position": "Teacher I",
+        "id": 206
+      },
+      {
+        "name": "PERTES, UNICA, GANADOS",
+        "position": "Teacher I",
+        "id": 207
+      },
+      {
+        "name": "ROSOPA, SHERVIN",
+        "position": "Teacher I",
+        "id": 208
+      },
+      {
+        "name": "SAMONTE, GLADYS, VILLALOBOS",
+        "position": "Teacher I",
+        "id": 209
+      },
+      {
+        "name": "SILPEDES, GIRL KRISTINE ANGELA, SAÑO",
+        "position": "Teacher II",
+        "id": 210
+      },
+      {
+        "name": "BALERO, MELECIO, SALGADO",
+        "position": "Master Teacher I",
+        "id": 211
+      },
+      {
+        "name": "BALLESTEROS, JOHN LLOYD SAY",
+        "position": "Teacher I",
+        "id": 212
+      },
+      {
+        "name": "BANDULA, JANICE VEGA",
+        "position": "Teacher I",
+        "id": 213
+      },
+      {
+        "name": "EGLIPA, APRIL LYN SIAZON",
+        "position": "Teacher I",
+        "id": 214
+      },
+      {
+        "name": "GUHIL, JANESA EHADA",
+        "position": "Teacher I",
+        "id": 215
+      },
+      {
+        "name": "LAVIDEZ, CHRISTINE, SALMORIN",
+        "position": "Teacher I",
+        "id": 216
+      },
+      {
+        "name": "MEDINA, ALYSSA, MANZO",
+        "position": "Teacher I",
+        "id": 217
+      },
+      {
+        "name": "ORIJUELA, BENEDICK, DELFIN",
+        "position": "Teacher II",
+        "id": 218
+      }
+    ]
+  },
+  {
+    "Division": "NAVOTAS",
+    "Total Schools": 1,
+    "Total Implementers": 8,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "GASPE, JOVELL JOY, CARDANA",
+        "position": "Teacher I",
+        "id": 219
+      },
+      {
+        "name": "MARCELINO, STEVE, LABAQUIS",
+        "position": "Teacher I",
+        "id": 220
+      },
+      {
+        "name": "PINGOL, JOHN BRYAN, ADINO",
+        "position": "Teacher I",
+        "id": 221
+      },
+      {
+        "name": "SANTIAGO, APRIL ROSE, MATUNOG",
+        "position": "Teacher I",
+        "id": 222
+      },
+      {
+        "name": "YANG, BERNADETH, DOMINGO",
+        "position": "Teacher I",
+        "id": 223
+      },
+      {
+        "name": "MACASA, RENATO P.",
+        "position": "Teacher I",
+        "id": 224
+      },
+      {
+        "name": "MILLER, CLAUDIA ANN C.",
+        "position": "Teacher I",
+        "id": 225
+      },
+      {
+        "name": "ASIGURADO, TRISTAN LEMUEL P.",
+        "position": "Teacher I",
+        "id": 226
+      }
+    ]
+  },
+  {
+    "Division": "PARAÑAQUE",
+    "Total Schools": 1,
+    "Total Implementers": 17,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "ADO, NAIZA, LANZAROTE,",
+        "position": "Teacher I",
+        "id": 227
+      },
+      {
+        "name": "ALCANTARA, JEROME, BERMAS",
+        "position": "Teacher I",
+        "id": 228
+      },
+      {
+        "name": "ALINDAY, JOY, BERNABE",
+        "position": "Teacher I",
+        "id": 229
+      },
+      {
+        "name": "ARIZALA, SHYRINE NALING",
+        "position": "Teacher I",
+        "id": 230
+      },
+      {
+        "name": "BARIS, CINDY, LOSTE",
+        "position": "Teacher I",
+        "id": 231
+      },
+      {
+        "name": "CALIBOSO, JOANNE MARIE, CAGUIOA",
+        "position": "Teacher I",
+        "id": 232
+      },
+      {
+        "name": "DELA RIVA, RAUL WENDELL, CINCO",
+        "position": "Teacher II",
+        "id": 233
+      },
+      {
+        "name": "DOLIYON, JOMAR, SARIO",
+        "position": "Teacher I",
+        "id": 234
+      },
+      {
+        "name": "EMBESTRO, NILO MICHAEL, LOZADA",
+        "position": "Teacher I",
+        "id": 235
+      },
+      {
+        "name": "FAJARDA, FERDINAND, VISPERAS",
+        "position": "Teacher II",
+        "id": 236
+      },
+      {
+        "name": "FALQUERABAO, REALYN FAIGMANE",
+        "position": "Teacher I",
+        "id": 237
+      },
+      {
+        "name": "OJACASTRO, RYAN, JEREZA",
+        "position": "Teacher I",
+        "id": 238
+      },
+      {
+        "name": "PARAGAS, MARY ANN, ILUSTRISIMO",
+        "position": "Teacher I",
+        "id": 239
+      },
+      {
+        "name": "RECTO, RHEA RAE ROBISO",
+        "position": "Teacher I",
+        "id": 240
+      },
+      {
+        "name": "TRESVALLES, ROSELLE, REBOLLEDO",
+        "position": "N/A",
+        "id": 241
+      },
+      {
+        "name": "TRINIDAD, JOYCE ANN, DELA PEÑA",
+        "position": "Teacher I",
+        "id": 242
+      },
+      {
+        "name": "VILLARUEL, MARITES, CANDELARIO",
+        "position": "Teacher II",
+        "id": 243
+      }
+    ]
+  },
+  {
+    "Division": "PASAY",
+    "Total Schools": 1,
+    "Total Implementers": 21,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "AGCAOILI, MAE, CUNTAPAY",
+        "position": "Teacher I",
+        "id": 244
+      },
+      {
+        "name": "ANDRADE, MONICA, MATUGUINA",
+        "position": "N/A",
+        "id": 245
+      },
+      {
+        "name": "ANTANG, JOCELYN, FRANCISCO",
+        "position": "Teacher I",
+        "id": 246
+      },
+      {
+        "name": "ARELLANO, VANEE DANE, DOMINGO",
+        "position": "Teacher I",
+        "id": 247
+      },
+      {
+        "name": "BAES, MARY LAURENCE, GILDO",
+        "position": "teacher III",
+        "id": 248
+      },
+      {
+        "name": "CANDA, EMMARY ADELAIDE, ILAGAN",
+        "position": "Teacher I",
+        "id": 249
+      },
+      {
+        "name": "COBILLA, JOSHUA, LINGLING",
+        "position": "Teacher I",
+        "id": 250
+      },
+      {
+        "name": "CUSTODIO, JENIFER, PAUIG",
+        "position": "Teacher III",
+        "id": 251
+      },
+      {
+        "name": "DELA CRUZ, ROBEL, SAMSON",
+        "position": "Teacher I",
+        "id": 252
+      },
+      {
+        "name": "FORALAN, JAEL, MABBORANG",
+        "position": "Teacher I",
+        "id": 253
+      },
+      {
+        "name": "GARIN, HONORATO JR. TORREJOS",
+        "position": "Teacher I",
+        "id": 254
+      },
+      {
+        "name": "GOGOLA, CARLO, GIPIT",
+        "position": "Teacher I",
+        "id": 255
+      },
+      {
+        "name": "HAWOD, SHANE TRIXCIA, CORTEZ",
+        "position": "Teacher I",
+        "id": 256
+      },
+      {
+        "name": "LAGO, MELISSA, BINAG",
+        "position": "Teacher I",
+        "id": 257
+      },
+      {
+        "name": "MARAVILLA, MARY SHAIRALYN",
+        "position": "Teacher I",
+        "id": 258
+      },
+      {
+        "name": "PAGBA, MARY ANN, SOCAO",
+        "position": "Teacher I",
+        "id": 259
+      },
+      {
+        "name": "RIVERA, MA MONICA, ANDRADE",
+        "position": "Teacher I",
+        "id": 260
+      },
+      {
+        "name": "SAMSON, SHALMEERA, BATIQUIN",
+        "position": "Teacher I",
+        "id": 261
+      },
+      {
+        "name": "TAPIA, ANNE, MANALAYSAY",
+        "position": "Master Teacher I",
+        "id": 262
+      },
+      {
+        "name": "TUMALIUAN, JESUSA, ABAN",
+        "position": "Teacher 1",
+        "id": 263
+      },
+      {
+        "name": "TUNGCUL, RONALYN, ADOLFO",
+        "position": "Teacher 1",
+        "id": 264
+      }
+    ]
+  },
+  {
+    "Division": "PASIG",
+    "Total Schools": 1,
+    "Total Implementers": 15,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "ABALA, TEODORO, CORTEZ",
+        "position": "Teacher I",
+        "id": 265
+      },
+      {
+        "name": "BANZUELA, CHRISTINE, BALEDA",
+        "position": "Master Teacher I",
+        "id": 266
+      },
+      {
+        "name": "DE VERA, CATHERINE, PENETRANTE",
+        "position": "Teacher I",
+        "id": 267
+      },
+      {
+        "name": "DE VERA, DANILO, AQUINO",
+        "position": "Teacher I",
+        "id": 268
+      },
+      {
+        "name": "JUSTO, POL, IGLESIAS",
+        "position": "Teacher I",
+        "id": 269
+      },
+      {
+        "name": "MANITO, MELODY, HERNANDEZ",
+        "position": "Teacher I",
+        "id": 270
+      },
+      {
+        "name": "OCAMPO, MARY JANE, SERRANO",
+        "position": "Teacher II",
+        "id": 271
+      },
+      {
+        "name": "SABEQUIL, MHERYLL, PADILLA",
+        "position": "Teacher I",
+        "id": 272
+      },
+      {
+        "name": "ARELLANO, KIMBERLY, PALER",
+        "position": "Teacher I",
+        "id": 273
+      },
+      {
+        "name": "BELSA, JULIE ANN, PAYOT",
+        "position": "Teacher I",
+        "id": 274
+      },
+      {
+        "name": "DANDAN, HELEN, GONZAGA",
+        "position": "Teacher I",
+        "id": 275
+      },
+      {
+        "name": "GANIGA, GLENN HAZEL, FALCUTILA",
+        "position": "Teacher I",
+        "id": 276
+      },
+      {
+        "name": "MAGLINTE, MARISTELLA, ORTEGA",
+        "position": "Teacher I",
+        "id": 277
+      },
+      {
+        "name": "PAUSTE, JANELLE, RAMOS",
+        "position": "Teacher I",
+        "id": 278
+      },
+      {
+        "name": "VARGAS, LORINA, ARANAS",
+        "position": "Master Teacher II",
+        "id": 279
+      }
+    ]
+  },
+  {
+    "Division": "QUEZON CITY",
+    "Total Schools": 1,
+    "Total Implementers": 65,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "AGUILAR, RICKY, CABALLES",
+        "position": "Teacher I",
+        "id": 280
+      },
+      {
+        "name": "AQUINO, FERDINAND, M.",
+        "position": "Teacher I",
+        "id": 281
+      },
+      {
+        "name": "ATUN, MA BELLA, B",
+        "position": "Teacher I",
+        "id": 282
+      },
+      {
+        "name": "BACLAYON, EMMA, LABONG",
+        "position": "Teacher I",
+        "id": 283
+      },
+      {
+        "name": "BAMBE, MARIA DIVINA, NECOR",
+        "position": "Teacher II",
+        "id": 284
+      },
+      {
+        "name": "BASTE, RECEL, A",
+        "position": "Teacher II",
+        "id": 285
+      },
+      {
+        "name": "BATOON, JULIUS RIC, CORDERIA",
+        "position": "Teacher I",
+        "id": 286
+      },
+      {
+        "name": "BELIRAN, GENNALIE, VENIA",
+        "position": "Teacher I",
+        "id": 287
+      },
+      {
+        "name": "BONUEL, RAYMOND, PURCIA",
+        "position": "Teacher I",
+        "id": 288
+      },
+      {
+        "name": "BULAN, JOHN DARYL LOUZ, CAYETANO",
+        "position": "Teacher I",
+        "id": 289
+      },
+      {
+        "name": "BUSA, JUDE, BALBUENA",
+        "position": "Teacher I",
+        "id": 290
+      },
+      {
+        "name": "CABAYU, ROSE ANNE, PALATTAO,",
+        "position": "Teacher I",
+        "id": 291
+      },
+      {
+        "name": "CANARIA, MARGIE, LUNAS,",
+        "position": "Teacher III",
+        "id": 292
+      },
+      {
+        "name": "CLEMENCIO, GEMALYN, SORIANO",
+        "position": "Teacher I",
+        "id": 293
+      },
+      {
+        "name": "DALIMIT, CARLO, PACANZA,",
+        "position": "Teacher I",
+        "id": 294
+      },
+      {
+        "name": "DICATANONGAN, ABAY, SIDIC,",
+        "position": "Teacher I",
+        "id": 295
+      },
+      {
+        "name": "DORICO, MARIFE, CORAMBAO",
+        "position": "Teacher I",
+        "id": 296
+      },
+      {
+        "name": "ESTOPER, MYLENE, EXEVA",
+        "position": "Teacher II",
+        "id": 297
+      },
+      {
+        "name": "ESTRADA, MARK EL-JAY, MARCELINO",
+        "position": "Teacher I",
+        "id": 298
+      },
+      {
+        "name": "FAJARDO, JAYLOR, G",
+        "position": "Teacher I",
+        "id": 299
+      },
+      {
+        "name": "FERNANDEZ, KRISTIAN, BILLONES",
+        "position": "Teacher I",
+        "id": 300
+      },
+      {
+        "name": "FERRER, MARDIEL, REMEGIO",
+        "position": "Teacher I",
+        "id": 301
+      },
+      {
+        "name": "FILLADO, KRISCEL, R",
+        "position": "Teacher I",
+        "id": 302
+      },
+      {
+        "name": "GALANG, ENRICO, C. JR.",
+        "position": "Teacher I",
+        "id": 303
+      },
+      {
+        "name": "GAN, MARIA VERONICA, VALDEZ",
+        "position": "Teacher I",
+        "id": 304
+      },
+      {
+        "name": "GARCIA, JULIET, LASTICA",
+        "position": "Teacher I",
+        "id": 305
+      },
+      {
+        "name": "GOLPEO, MARY ANN MAE, CARREON",
+        "position": "Teacher I",
+        "id": 306
+      },
+      {
+        "name": "GRANADO, GERALDINE, OLIVERIO",
+        "position": "Teacher I",
+        "id": 307
+      },
+      {
+        "name": "GUMILA, JAYSON ROY, CADALSO",
+        "position": "Teacher III",
+        "id": 308
+      },
+      {
+        "name": "JABAT, RONIBIE E.",
+        "position": "Teacher I",
+        "id": 309
+      },
+      {
+        "name": "LIGNES, Jr. EDWIN, ESCALDERON",
+        "position": "Teacher I",
+        "id": 310
+      },
+      {
+        "name": "LUEGO, SUZETTE, EPINOSA",
+        "position": "Teacher I",
+        "id": 311
+      },
+      {
+        "name": "LUIB, RUFINO, PAHINAG JR.",
+        "position": "Teacher I",
+        "id": 312
+      },
+      {
+        "name": "MANRIQUE, SHELLA, NACIONAL",
+        "position": "Teacher I",
+        "id": 313
+      },
+      {
+        "name": "MATIENZO, JENINE, CUENCA",
+        "position": "Teacher I",
+        "id": 314
+      },
+      {
+        "name": "MINA, CHRISTIOAN, CAYABYAB",
+        "position": "Teacher I",
+        "id": 315
+      },
+      {
+        "name": "MONTANO, GERLIE, ABELLAR",
+        "position": "Teacher II",
+        "id": 316
+      },
+      {
+        "name": "NATAVIO, SHARA MAE, RELATOR",
+        "position": "Teacher I",
+        "id": 317
+      },
+      {
+        "name": "OJACASTRO, JAMAICA KRISTEL, BARBOSA",
+        "position": "Teacher II",
+        "id": 318
+      },
+      {
+        "name": "OMBION, JAN MICHAEL , B",
+        "position": "Teacher III",
+        "id": 319
+      },
+      {
+        "name": "PAGALA, RODERICK, BAGUAN",
+        "position": "Master Teacher I",
+        "id": 320
+      },
+      {
+        "name": "PANGANIBAN, RIO ANN C.",
+        "position": "Teacher I",
+        "id": 321
+      },
+      {
+        "name": "PARANE, GEORGIE, IRINCO",
+        "position": "Teacher I",
+        "id": 322
+      },
+      {
+        "name": "PETALIO, ADRIANO, V, III",
+        "position": "Teacher III",
+        "id": 323
+      },
+      {
+        "name": "PLACIDO, ADIN, MARCELO",
+        "position": "Teacher I",
+        "id": 324
+      },
+      {
+        "name": "POPELO, EDNA, GUTIERREZ",
+        "position": "Teacher I",
+        "id": 325
+      },
+      {
+        "name": "RABINO, GINALYN, RIVERA",
+        "position": "Teacher I",
+        "id": 326
+      },
+      {
+        "name": "RAMOS, MARY ANN, ACOLI",
+        "position": "Teacher I",
+        "id": 327
+      },
+      {
+        "name": "RONDERA, ALE-ANN, MARAYAG",
+        "position": "Teacher I",
+        "id": 328
+      },
+      {
+        "name": "RUFIN, JEFFREY, O",
+        "position": "Teacher I",
+        "id": 329
+      },
+      {
+        "name": "SERRANO, ROZGELYN, LACORTE",
+        "position": "Teacher I",
+        "id": 330
+      },
+      {
+        "name": "SOLIVEN, MARIA CECILLE, FELIPE",
+        "position": "Teacher I",
+        "id": 331
+      },
+      {
+        "name": "TAGUD, REYLENE, PAHUYO",
+        "position": "Teacher I",
+        "id": 332
+      },
+      {
+        "name": "TALACTAC, ELLEN, SUMIL",
+        "position": "Teacher III",
+        "id": 333
+      },
+      {
+        "name": "TELIN, MICHELLE, MAVALALAD",
+        "position": "Teacher I",
+        "id": 334
+      },
+      {
+        "name": "TOMENO, ELSA, ELARDO",
+        "position": "Teacher I",
+        "id": 335
+      },
+      {
+        "name": "VERGARA, MARILYN, SUELA",
+        "position": "Teacher I",
+        "id": 336
+      },
+      {
+        "name": "VICTOR, REJEAN, SORIANO",
+        "position": "Teacher I",
+        "id": 337
+      },
+      {
+        "name": "VILLACILLO, MARIETA, SOLANCHO",
+        "position": "Teacher I",
+        "id": 338
+      },
+      {
+        "name": "VILLENA, JAMES, ARCILLA",
+        "position": "Teacher I",
+        "id": 339
+      },
+      {
+        "name": "WATAMAMA, NORHANA, ROMUROS",
+        "position": "Teacher I",
+        "id": 340
+      },
+      {
+        "name": "ZOLETA, GIRL, MANLANGIT",
+        "position": "Teacher I",
+        "id": 341
+      },
+      {
+        "name": "FALUCHO, CHARMAINE B.",
+        "position": "Teacher I",
+        "id": 342
+      },
+      {
+        "name": "PARCO, JANINE I.",
+        "position": "Teacher I",
+        "id": 343
+      },
+      {
+        "name": "ONDRADA, CHERYLE B.",
+        "position": "Teacher I",
+        "id": 344
+      }
+    ]
+  },
+  {
+    "Division": "SAN JUAN",
+    "Total Schools": 1,
+    "Total Implementers": 4,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "CABORNAY, ELIOT ISAAC",
+        "position": "Teacher I",
+        "id": 345
+      },
+      {
+        "name": "CERRODO, HERGIELYN, GACA",
+        "position": "Teacher II",
+        "id": 346
+      },
+      {
+        "name": "ECLEO, MIKO",
+        "position": "Teacher I",
+        "id": 347
+      },
+      {
+        "name": "VELASCO, MICHELLE FAYE, BICCAY",
+        "position": "Teacher III",
+        "id": 348
+      }
+    ]
+  },
+  {
+    "Division": "TAGUIG CITY & PATEROS",
+    "Total Schools": 1,
+    "Total Implementers": 26,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "ANDRADA, ANGEL GRACE ALAVA",
+        "position": "Teacher I",
+        "id": 349
+      },
+      {
+        "name": "ARCEGA, FRANCISCO, FAVON, JR",
+        "position": "Teacher I",
+        "id": 350
+      },
+      {
+        "name": "BALONA, MARY ANN, RAGA,",
+        "position": "Teacher I",
+        "id": 351
+      },
+      {
+        "name": "BEJER, MARY GRACE LEANO",
+        "position": "Teacher I",
+        "id": 352
+      },
+      {
+        "name": "BERUNIO, JOAN MITAS",
+        "position": "Teacher I",
+        "id": 353
+      },
+      {
+        "name": "BILBAO, JANETH DAEL",
+        "position": "Teacher I",
+        "id": 354
+      },
+      {
+        "name": "CABASAN, LYNETTE GRACE, CAYANAN",
+        "position": "Teacher I",
+        "id": 355
+      },
+      {
+        "name": "CASTILLO, IMELDA, MANGABAT",
+        "position": "N/A",
+        "id": 356
+      },
+      {
+        "name": "DE JUAN, CELINE IGNACIO",
+        "position": "Teacher I",
+        "id": 357
+      },
+      {
+        "name": "DE LOS SANTOS, MONICA PINEDA",
+        "position": "Teacher I",
+        "id": 358
+      },
+      {
+        "name": "DELA CRUZ, BRENALI JULIANO",
+        "position": "Teacher I",
+        "id": 359
+      },
+      {
+        "name": "DELA CRUZ, CRISTINA FERMANES",
+        "position": "N/A",
+        "id": 360
+      },
+      {
+        "name": "DUQUE, MARIETTA, ARGUEZA",
+        "position": "Teacher III",
+        "id": 361
+      },
+      {
+        "name": "GACHE, REYNALDO, BAÑAGO, JR",
+        "position": "Teacher III",
+        "id": 362
+      },
+      {
+        "name": "GARO, MARILOU, DE GUZMAN",
+        "position": "N/A",
+        "id": 363
+      },
+      {
+        "name": "HIPOLITO, LEILA, AQUISAY",
+        "position": "Teacher III",
+        "id": 364
+      },
+      {
+        "name": "JINGCO, SHARON BELLEZA",
+        "position": "N/A",
+        "id": 365
+      },
+      {
+        "name": "MANABAT, RACHEL LAYO",
+        "position": "Teacher I",
+        "id": 366
+      },
+      {
+        "name": "PALINGCOD, RESSEL, MANDIN",
+        "position": "Teacher I",
+        "id": 367
+      },
+      {
+        "name": "SALES, CARMEN, MOTOL",
+        "position": "Teacher I",
+        "id": 368
+      },
+      {
+        "name": "SAMPINIT, REYMARK, ORANTE",
+        "position": "Teacher I",
+        "id": 369
+      },
+      {
+        "name": "TALADHAY, JEM KERSTEIN VILA",
+        "position": "Teacher I",
+        "id": 370
+      },
+      {
+        "name": "TUGADE, MARIA LUZ GESULGA",
+        "position": "Teacher I",
+        "id": 371
+      },
+      {
+        "name": "ALOTA, JOY",
+        "position": "Teacher I",
+        "id": 372
+      },
+      {
+        "name": "SALON, DANICA ALMA",
+        "position": "Teacher I",
+        "id": 373
+      },
+      {
+        "name": "MEJARES, ROSEMARIE",
+        "position": "Teacher I",
+        "id": 374
+      }
+    ]
+  },
+  {
+    "Division": "VALENZUELA",
+    "Total Schools": 1,
+    "Total Implementers": 14,
+    "Active Divisions": 1,
+    "TeacherList": [
+      {
+        "name": "CARPIO, EDELYN, CASTILLO",
+        "position": "Teacher I",
+        "id": 375
+      },
+      {
+        "name": "DE GULA, MARIA FE GULAPA",
+        "position": "Teacher I",
+        "id": 376
+      },
+      {
+        "name": "DELOS REYES, COLEEN IRINA, CALIXTO",
+        "position": "Teacher I",
+        "id": 377
+      },
+      {
+        "name": "DOMONDON, RAZELLE, M",
+        "position": "Teacher I",
+        "id": 378
+      },
+      {
+        "name": "ELIANG, LEONARDO, MAMARIL",
+        "position": "Teacher III",
+        "id": 379
+      },
+      {
+        "name": "ESPONGA, JOHN MARK, RAMOS",
+        "position": "Teacher I",
+        "id": 380
+      },
+      {
+        "name": "FAJARDO, PRINSELIZA, DE LEON",
+        "position": "Teacher I",
+        "id": 381
+      },
+      {
+        "name": "ILAGAN, HENRY, PORCIUNCULA",
+        "position": "Teacher III",
+        "id": 382
+      },
+      {
+        "name": "LOPEZ, RAPHAEL ALGARNE",
+        "position": "Teacher I",
+        "id": 383
+      },
+      {
+        "name": "LOPEZ, REYNALDO EROY",
+        "position": "Teacher I",
+        "id": 384
+      },
+      {
+        "name": "MARQUEZ, JASMIN, BALNEG",
+        "position": "Teacher III",
+        "id": 385
+      },
+      {
+        "name": "MENDOZA, MANUEL CRISANTO",
+        "position": "Teacher I",
+        "id": 386
+      },
+      {
+        "name": "OCAMPO, ROME NIKEY, PARAGAS",
+        "position": "Teacher II",
+        "id": 387
+      },
+      {
+        "name": "ABINION, JAMEL ",
+        "position": "Teacher I",
+        "id": 388
+      }
+    ]
+  }
+]

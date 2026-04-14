@@ -13,7 +13,142 @@
   background-color: #fff;
   border-bottom: 1px solid #f1f5f9;
 }
+/* Container for the entire header */
+.top-nav-container {
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+/* Small utility bar at the very top */
+.utility-bar {
+  background-color: #f8fafc;
+  padding: 8px 5%;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.utility-links {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.clickable-link {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.clickable-link:hover {
+  color: #1e3a8a;
+  text-decoration: underline;
+}
+
+/* Main Blue Banner */
+.main-banner {
+  background-color: #0038a8; /* Official DepEd Blue */
+  color: white;
+  padding: 15px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.banner-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* LOGO FIX: Standardizing the DepEd Logo size */
+.deped-logo-img {
+  height: 60px; /* Constrains the height */
+  width: auto;  /* Maintains aspect ratio */
+  object-fit: contain;
+}
+
+.banner-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.republic-text {
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.dept-text {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 2px 0;
+}
+
+.region-text {
+  font-size: 14px;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* LOGO FIX: Standardizing the ALS Logo size */
+.als-logo-img {
+  height: 70px; /* Slightly larger than DepEd logo for balance */
+  width: auto;
+  background: white; /* Adds white padding if needed */
+  padding: 5px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+/* Breadcrumb and Dropdown Bar */
+.selection-bar {
+  background-color: white;
+  padding: 12px 5%;
+  border-bottom: 4px solid #facc15; /* Yellow accent line */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.breadcrumb-active {
+  color: #1e3a8a;
+}
+
+.dropdown-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown-section label {
+  font-size: 14px;
+  font-weight: 800;
+  color: #1e3a8a;
+}
+
+.city-dropdown {
+  padding: 6px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #334155;
+  outline: none;
+  cursor: pointer;
+}
+
+.city-dropdown:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
 .blue-bar {
   background-color: #0038a8; /* DepEd Blue */
   color: #fff;

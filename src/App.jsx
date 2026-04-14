@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
-// Do NOT import TopNavigation here to avoid the duplicated header
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+
+  const handleLogin = (email) => {
+    setIsAuthenticated(true);
+    setUserEmail(email);
+  };
+
   return (
     <div className="App">
-      {/* The Dashboard now acts as the 'Parent'. 
-        It will load the Excel data and pass it to the Navigation.
-      */}
-      <Dashboard />
+      {isAuthenticated ? (
+        <Dashboard userEmail={userEmail} />
+      ) : (
+        <Login onLogin={handleLogin} />
+      )}
     </div>
   );
 }
