@@ -6,6 +6,7 @@ const TopNavigation = ({
   onCitySelect,
   onHomeClick,
   onEnrolmentClick,
+  onMapClick,
   currentSelection,
 }) => {
   return (
@@ -20,6 +21,9 @@ const TopNavigation = ({
           </button>
           <button type="button" className="utility-button" onClick={onEnrolmentClick}>
             ALS Enrolment 2025-2026
+          </button>
+          <button type="button" className="utility-button" onClick={onMapClick}>
+            NCR Division Map
           </button>
           {currentSelection ? (
             <button type="button" className="utility-button utility-button-current">

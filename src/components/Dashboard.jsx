@@ -4,6 +4,7 @@ import StatCards from "./StatCards";
 import LearningStrandsChart from "./LearningStrandsChart";
 import NCROverview from "./NCROverview";
 import EnrollmentModal from "./EnrollmentModal";
+import NCRMapModal from "./NCRMapModal";
 import { fetchDashboardData, fetchEnrolmentData } from "../services/dataService";
 import "./Dashboard.css";
 import "./TopNavigation.css";
@@ -18,6 +19,7 @@ const Dashboard = () => {
   const [sortOrder, setSortOrder] = useState("name-asc");
   const [registryView, setRegistryView] = useState("grid");
   const [showEnrolmentModal, setShowEnrolmentModal] = useState(false);
+  const [showMapModal, setShowMapModal] = useState(false);
   const [enrolmentData, setEnrolmentData] = useState(null);
   const [isEnrolmentLoading, setIsEnrolmentLoading] = useState(false);
   const [enrolmentError, setEnrolmentError] = useState("");
@@ -170,6 +172,7 @@ const Dashboard = () => {
         onCitySelect={handleCityChange}
         onHomeClick={resetToHome}
         onEnrolmentClick={handleOpenEnrolment}
+        onMapClick={() => setShowMapModal(true)}
         currentSelection={selectedDivision}
       />
 
@@ -194,6 +197,13 @@ const Dashboard = () => {
                     onClick={handleOpenEnrolment}
                   >
                     ALS Enrolment 2025-2026
+                  </button>
+                  <button
+                    type="button"
+                    className="hero-button hero-button-secondary"
+                    onClick={() => setShowMapModal(true)}
+                  >
+                    NCR Division Map
                   </button>
                   <button
                     type="button"
@@ -393,11 +403,29 @@ const Dashboard = () => {
         ) : null}
 
         <EnrollmentModal
+          key={`${showEnrolmentModal}-${selectedDivision || "regional-home"}`}
           isOpen={showEnrolmentModal}
           onClose={() => setShowEnrolmentModal(false)}
+          onHomeClick={() => {
+            setShowEnrolmentModal(false);
+            resetToHome();
+          }}
           enrolmentData={enrolmentData}
           isLoading={isEnrolmentLoading}
           error={enrolmentError}
+          currentDivision={selectedDivision}
+        />
+
+        <NCRMapModal
+          isOpen={showMapModal}
+          onClose={() => setShowMapModal(false)}
+          divisions={allData}
+          currentDivision={selectedDivision}
+          onSelectDivision={handleCityChange}
+          onHomeClick={() => {
+            setShowMapModal(false);
+            resetToHome();
+          }}
         />
       </main>
     </div>
