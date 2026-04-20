@@ -1,52 +1,64 @@
-/* StatCards Layout */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
-
 .stat-card {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  border-top: 4px solid #3b82f6;
-  transition: transform 0.2s ease;
+  padding: 28px 24px;
+  border: 1px solid rgba(206, 219, 235, 0.8);
+  border-top: 5px solid #173b78;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(241, 246, 252, 0.94));
+  box-shadow: 0 18px 36px rgba(16, 33, 61, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .stat-card:hover {
-  transform: scale (1.02);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 40px rgba(16, 33, 61, 0.12);
 }
 
-/* Card Content */
 .stat-title {
+  margin-bottom: 18px;
   color: #64748b;
   font-size: 13px;
-  font-weight: bold;
-  letter-spacing: 0.05em;
-  margin-bottom: 20px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .stat-number {
-  font-size: 56px;
+  margin: 10px 0 6px;
+  color: #10213d;
+  font-size: clamp(2.6rem, 4vw, 3.5rem);
   font-weight: 800;
-  color: #1e293b;
-  margin: 10px 0;
 }
 
 .stat-subtext {
-  color: #94a3b8;
+  color: #69809d;
   font-size: 12px;
   font-weight: 500;
 }
 
-/* Specific Card Borders */
-.border-blue { border-top: 5px solid #3b82f6; }
-.border-green { border-top: 5px solid #10b981; }
-.border-orange { border-top: 5px solid #f59e0b; }
+.border-blue {
+  border-top: 5px solid #173b78;
+}
+
+.border-green {
+  border-top: 5px solid #16a34a;
+}
+
+.border-orange {
+  border-top: 5px solid #f59e0b;
+}
+
+@media (max-width: 900px) {
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+}

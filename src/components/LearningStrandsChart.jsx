@@ -8,36 +8,37 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
+} from "chart.js";
 import "./LearningStrandsChart.css";
 
-// 1. Register components first
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const LearningStrandsChart = () => {
-  // 2. Define strandData INSIDE the component so it is "defined"
-  const strandData = {
-    labels: [
-      "LS1: Communication", 
-      "LS2: Science", 
-      "LS3: Math", 
-      "LS4: Life & Career", 
-      "LS5: Self & Society", 
-      "LS6: Digital Literacy"
-    ],
+const LearningStrandsChart = ({ cityData }) => {
+  const positionCounts = (cityData?.teacherList || []).reduce((counts, teacher) => {
+    const position = teacher?.position || "Unassigned";
+    counts[position] = (counts[position] || 0) + 1;
+    return counts;
+  }, {});
+
+  const positionEntries = Object.entries(positionCounts).sort(
+    (left, right) => right[1] - left[1] || left[0].localeCompare(right[0])
+  );
+
+  const chartData = {
+    labels: positionEntries.map(([position]) => position),
     datasets: [
       {
-        label: 'Elementary Learners',
-        data: [65, 59, 80, 81, 56, 55],
-        backgroundColor: 'rgba(59, 130, 246, 0.7)',
-        borderRadius: 8,
+        label: "Implementers",
+        data: positionEntries.map(([, count]) => count),
+        backgroundColor: [
+          "rgba(24, 58, 117, 0.92)",
+          "rgba(33, 98, 190, 0.84)",
+          "rgba(52, 130, 214, 0.78)",
+          "rgba(104, 161, 227, 0.72)",
+          "rgba(248, 185, 63, 0.84)",
+        ],
+        borderRadius: 10,
       },
-      {
-        label: 'Secondary Learners',
-        data: [75, 82, 70, 91, 76, 88],
-        backgroundColor: 'rgba(16, 185, 129, 0.7)',
-        borderRadius: 8,
-      }
     ],
   };
 
@@ -45,26 +46,31 @@ const LearningStrandsChart = () => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: 'bottom' },
+      legend: { display: false },
     },
     scales: {
-      y: { beginAtZero: true, max: 100 },
-      x: { grid: { display: false } }
-    }
+      y: {
+        beginAtZero: true,
+        ticks: { precision: 0 },
+        grid: { color: "rgba(15, 23, 42, 0.08)" },
+      },
+      x: { grid: { display: false } },
+    },
   };
 
   return (
     <div className="chart-container">
       <div className="chart-header">
-        <h3 className="chart-title">Learning Strand Performance</h3>
-        <p className="chart-subtitle">Competency levels for Elementary and Secondary levels</p>
+        <h3 className="chart-title">Division Position Distribution</h3>
+        <p className="chart-subtitle">
+          Live personnel mix for {cityData?.division || "the selected division"}
+        </p>
       </div>
-      <div className="chart-wrapper" style={{ height: "400px" }}>
-        <Bar data={strandData} options={chartOptions} />
+      <div className="chart-wrapper">
+        <Bar data={chartData} options={chartOptions} />
       </div>
     </div>
   );
 };
 
-// 3. Ensure the default export is present at the bottom!
 export default LearningStrandsChart;

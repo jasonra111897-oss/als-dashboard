@@ -1,10 +1,10 @@
 .chart-container {
-  background-color: #ffffff;
-  border-radius: 20px;
+  margin-top: 0;
   padding: 30px;
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-  border: 1px solid #e2e8f0;
-  margin-top: 40px;
+  border: 1px solid rgba(199, 213, 231, 0.84);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 36px rgba(16, 33, 61, 0.08);
 }
 
 .chart-header {
@@ -13,15 +13,15 @@
 
 .chart-title {
   margin: 0;
+  color: #10213d;
   font-size: 20px;
   font-weight: 800;
-  color: #1e293b;
 }
 
 .chart-subtitle {
-  margin: 5px 0 0 0;
-  font-size: 14px;
+  margin: 6px 0 0;
   color: #64748b;
+  font-size: 14px;
 }
 
 .chart-wrapper {

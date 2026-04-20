@@ -1,71 +1,82 @@
-/* TopNavigation.css */
-.header-wrapper {
-  width: 100%;
-  font-family: 'Arial', sans-serif;
-}
-
-.mini-nav {
-  display: flex;
-  justify-content: space-around;
-  padding: 5px 15%;
-  font-size: 10px;
-  color: #64748b;
-  background-color: #fff;
-  border-bottom: 1px solid #f1f5f9;
-}
-/* Container for the entire header */
 .top-nav-container {
   width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
 }
 
-/* Small utility bar at the very top */
 .utility-bar {
-  background-color: #f8fafc;
-  padding: 8px 5%;
-  border-bottom: 1px solid #e2e8f0;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.utility-links {
-  display: flex;
-  gap: 20px;
-  font-size: 13px;
-  color: #64748b;
-}
-
-.clickable-link {
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.clickable-link:hover {
-  color: #1e3a8a;
-  text-decoration: underline;
-}
-
-/* Main Blue Banner */
-.main-banner {
-  background-color: #0038a8; /* Official DepEd Blue */
-  color: white;
-  padding: 15px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
+  padding: 12px 5%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(90deg, #0c1f42, #112a58);
+}
+
+.utility-links,
+.utility-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.utility-button,
+.utility-pill {
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.utility-button {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #edf4ff;
+}
+
+.utility-button.active,
+.utility-button-current {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.utility-button-current {
+  color: #ffd682;
+}
+
+.utility-pill {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 0.82rem;
+}
+
+.utility-pill-highlight {
+  color: #ffd682;
+}
+
+.main-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 5%;
+  color: #fff;
+  background:
+    radial-gradient(circle at left top, rgba(77, 140, 228, 0.24), transparent 28%),
+    linear-gradient(135deg, #132f63 0%, #0b1d41 72%);
 }
 
 .banner-left {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
 }
 
-/* LOGO FIX: Standardizing the DepEd Logo size */
 .deped-logo-img {
-  height: 60px; /* Constrains the height */
-  width: auto;  /* Maintains aspect ratio */
+  width: auto;
+  height: 64px;
   object-fit: contain;
+  filter: drop-shadow(0 12px 24px rgba(6, 14, 30, 0.24));
 }
 
 .banner-text {
@@ -74,136 +85,118 @@
 }
 
 .republic-text {
-  font-size: 12px;
-  letter-spacing: 1px;
   margin: 0;
   opacity: 0.9;
+  font-size: 12px;
+  letter-spacing: 1px;
 }
 
 .dept-text {
-  font-size: 24px;
-  font-weight: 800;
   margin: 2px 0;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-weight: 800;
 }
 
 .region-text {
-  font-size: 14px;
   margin: 0;
+  font-size: 14px;
   font-weight: 600;
 }
 
-/* LOGO FIX: Standardizing the ALS Logo size */
 .als-logo-img {
-  height: 70px; /* Slightly larger than DepEd logo for balance */
   width: auto;
-  background: white; /* Adds white padding if needed */
-  padding: 5px;
-  border-radius: 8px;
+  height: 74px;
+  padding: 8px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.95);
   object-fit: contain;
 }
 
-/* Breadcrumb and Dropdown Bar */
 .selection-bar {
-  background-color: white;
-  padding: 12px 5%;
-  border-bottom: 4px solid #facc15; /* Yellow accent line */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  gap: 24px;
+  padding: 18px 5%;
+  background: linear-gradient(180deg, #173b78 0%, #102a58 100%);
+  box-shadow: 0 16px 36px rgba(16, 33, 61, 0.18);
+}
+
+.selection-copy {
+  flex: 1;
 }
 
 .breadcrumb {
-  font-size: 13px;
-  color: #94a3b8;
+  color: rgba(221, 232, 248, 0.72);
+  font-size: 12px;
   font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 .breadcrumb-active {
-  color: #1e3a8a;
+  color: #ffffff;
 }
 
 .dropdown-section {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .dropdown-section label {
-  font-size: 14px;
+  color: rgba(221, 232, 248, 0.8);
+  font-size: 12px;
   font-weight: 800;
-  color: #1e3a8a;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .city-dropdown {
-  padding: 6px 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
+  min-width: 240px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fbff;
   font-size: 14px;
-  color: #334155;
+  font-weight: 700;
   outline: none;
   cursor: pointer;
+  appearance: auto;
 }
 
 .city-dropdown:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-}
-.blue-bar {
-  background-color: #0038a8; /* DepEd Blue */
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px 5%;
+  border-color: rgba(255, 214, 130, 0.7);
+  box-shadow: 0 0 0 3px rgba(255, 214, 130, 0.18);
 }
 
-.logo-group {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+.city-dropdown option {
+  color: #102a58;
+  background: #ffffff;
 }
 
-.main-logo { height: 70px; }
+@media (max-width: 900px) {
+  .utility-bar,
+  .main-banner,
+  .selection-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-.side-logo {
-  height: 60px;
-  background-color: #fff;
-  padding: 5px;
-  border-radius: 4px;
+  .selection-copy,
+  .dropdown-section,
+  .city-dropdown {
+    width: 100%;
+  }
 }
 
-.brand-text { text-align: left; }
+@media (max-width: 640px) {
+  .banner-left {
+    gap: 12px;
+  }
 
-.brand-text p:first-child { font-size: 12px; margin: 0; letter-spacing: 1px; }
-.brand-text h1 { font-size: 24px; font-weight: bold; margin: 2px 0; }
-.brand-text p:last-child { font-size: 12px; margin: 0; opacity: 0.8; }
-
-.white-bar {
-  background-color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 5%;
-  font-size: 12px;
-}
-
-.view-label {
-  color: #0038a8;
-  font-weight: bold;
-  margin-right: 10px;
-}
-
-.dropdown {
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-  padding: 4px 10px;
-  font-weight: bold;
-  color: #1e293b;
-}
-
-.yellow-accent {
-  height: 5px;
-  background-color: #facc15; /* Yellow border */
-  width: 100%;
+  .dept-text {
+    font-size: 18px;
+  }
 }

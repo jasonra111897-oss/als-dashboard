@@ -1,16 +1,38 @@
-import { db } from "./firebase";
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+const DASHBOARD_DATA_URL = `${API_BASE_URL}/api/data`;
+const ENROLMENT_DATA_URL = `${API_BASE_URL}/api/enrolment`;
 
-// Reference to your 'divisions' collection in Firestore
-const divisionsCollection = collection(db, "divisions");
-
-export const fetchAllData = async () => {
-  const snapshot = await getDocs(divisionsCollection);
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+const parseErrorMessage = async (response) => {
+  try {
+    const payload = await response.json();
+    return payload.error || `Request failed with status ${response.status}.`;
+  } catch {
+    return `Request failed with status ${response.status}.`;
+  }
 };
 
-export const addPersonnel = async (divisionId, newTeacher) => {
-  // Logic to add a teacher to a specific division document
-  const divisionRef = doc(db, "divisions", divisionId);
-  // Implementation depends on how you structure your Firestore docs
+export const fetchDashboardData = async () => {
+  const response = await fetch(DASHBOARD_DATA_URL);
+
+  if (!response.ok) {
+    throw new Error(await parseErrorMessage(response));
+  }
+
+  const payload = await response.json();
+
+  if (!Array.isArray(payload)) {
+    throw new Error("Dashboard API returned an unexpected response shape.");
+  }
+
+  return payload;
+};
+
+export const fetchEnrolmentData = async () => {
+  const response = await fetch(ENROLMENT_DATA_URL);
+
+  if (!response.ok) {
+    throw new Error(await parseErrorMessage(response));
+  }
+
+  return response.json();
 };

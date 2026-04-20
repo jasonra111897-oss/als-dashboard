@@ -12,7 +12,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="app-shell">
       {isAuthenticated ? (
         <Dashboard userEmail={userEmail} />
       ) : (
