@@ -154,9 +154,6 @@ const EnrollmentModal = ({
         <div className="enrolment-modal enrolment-modal-state" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header enrolment-modal-header">
             <h2>ALS Enrolment 2025-2026</h2>
-            <button className="close-btn" onClick={onClose}>
-              &times;
-            </button>
           </div>
           <p className="enrolment-state-text">Loading enrolment data...</p>
         </div>
@@ -170,9 +167,6 @@ const EnrollmentModal = ({
         <div className="enrolment-modal enrolment-modal-state" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header enrolment-modal-header">
             <h2>ALS Enrolment 2025-2026</h2>
-            <button className="close-btn" onClick={onClose}>
-              &times;
-            </button>
           </div>
           <p className="enrolment-state-text enrolment-state-error">{error}</p>
         </div>

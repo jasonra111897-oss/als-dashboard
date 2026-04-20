@@ -10,6 +10,56 @@ import "./Dashboard.css";
 import "./TopNavigation.css";
 import "./StatCards.css";
 
+const getDivisionLogoSrc = (divisionName) => {
+  const normalized = String(divisionName || "").trim();
+
+  const logoMap = {
+    CALOOCAN: "/caloocan.png",
+    "LAS PI\u00d1AS": encodeURI("/las pi\u00f1as.png"),
+    MAKATI: "/makati.png",
+    MALABON: "/malabon.png",
+    MANDALUYONG: "/mandaluyong.png",
+    MANILA: "/manila.png",
+    MARIKINA: "/marikina.png",
+    MUNTINLUPA: "/muntinlupa.png",
+    NAVOTAS: "/navotas.png",
+    PARA\u00d1AQUE: encodeURI("/para\u00f1aque.png"),
+    PASAY: "/pasay.png",
+    PASIG: "/pasig.png",
+    "QUEZON CITY": encodeURI("/quezon city.jpg"),
+    "SAN JUAN": encodeURI("/san juan.png"),
+    "TAGUIG CITY & PATEROS": encodeURI("/taguig&pateros.png"),
+    VALENZUELA: "/valenzuela.png",
+  };
+
+  return logoMap[normalized] || "";
+};
+
+const getDivisionOfficeTitle = (divisionName) => {
+  const normalized = String(divisionName || "").trim();
+
+  const displayNames = {
+    CALOOCAN: "Schools Division Office - Caloocan City",
+    "LAS PI\u00d1AS": "Schools Division Office - Las Pi\u00f1as City",
+    MAKATI: "Schools Division Office - Makati City",
+    MALABON: "Schools Division Office - Malabon City",
+    MANDALUYONG: "Schools Division Office - Mandaluyong City",
+    MANILA: "Schools Division Office - Manila",
+    MARIKINA: "Schools Division Office - Marikina City",
+    MUNTINLUPA: "Schools Division Office - Muntinlupa City",
+    NAVOTAS: "Schools Division Office - Navotas City",
+    PARA\u00d1AQUE: "Schools Division Office - Para\u00f1aque City",
+    PASAY: "Schools Division Office - Pasay City",
+    PASIG: "Schools Division Office - Pasig City",
+    "QUEZON CITY": "Schools Division Office - Quezon City",
+    "SAN JUAN": "Schools Division Office - San Juan City",
+    "TAGUIG CITY & PATEROS": "Schools Division Office - Taguig City and Pateros",
+    VALENZUELA: "Schools Division Office - Valenzuela City",
+  };
+
+  return displayNames[normalized] || `Schools Division Office - ${normalized}`;
+};
+
 const Dashboard = () => {
   const [allData, setAllData] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState("");
@@ -58,6 +108,10 @@ const Dashboard = () => {
 
   const selectedCity =
     allData.find((division) => division.division === selectedDivision) || null;
+  const selectedDivisionLogo = selectedCity ? getDivisionLogoSrc(selectedCity.division) : "";
+  const selectedDivisionOfficeTitle = selectedCity
+    ? getDivisionOfficeTitle(selectedCity.division)
+    : "";
 
   const handleOpenEnrolment = async () => {
     setShowEnrolmentModal(true);
@@ -181,12 +235,33 @@ const Dashboard = () => {
           <>
             <section className="division-hero">
               <div className="division-hero-copy">
-                <span className="section-kicker">Division Command View</span>
-                <h2>{selectedCity.division}</h2>
-                <p>
-                  Monitor personnel coverage, inspect position mix, and move through
-                  the registry using faster filters and navigation controls.
-                </p>
+                <div className="division-office-header">
+                  <div className="division-office-logo-shell">
+                    {selectedDivisionLogo ? (
+                      <img
+                        src={selectedDivisionLogo}
+                        alt={`${selectedCity.division} division logo`}
+                        className="division-office-logo"
+                      />
+                    ) : (
+                      <span className="division-office-logo-fallback">
+                        {String(selectedCity.division || "").charAt(0)}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="division-office-copy">
+                    <p className="division-office-kicker">Republic of the Philippines</p>
+                    <div className="division-office-rule" />
+                    <h2>{selectedDivisionOfficeTitle}</h2>
+                    <p className="division-office-subtitle">Department of Education</p>
+                    <p className="division-office-description">
+                      Monitor personnel coverage, inspect position mix, and move through
+                      the registry using faster filters and navigation controls.
+                    </p>
+                  </div>
+                </div>
+
                 <div className="hero-actions">
                   <button type="button" className="hero-button hero-button-primary" onClick={resetToHome}>
                     Home
@@ -417,6 +492,7 @@ const Dashboard = () => {
         />
 
         <NCRMapModal
+          key={`${showMapModal}-${selectedDivision || "regional-home"}`}
           isOpen={showMapModal}
           onClose={() => setShowMapModal(false)}
           divisions={allData}

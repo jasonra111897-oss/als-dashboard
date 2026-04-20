@@ -3,7 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "node scripts/dev-runner.mjs",
+    "dev:client": "vite",
+    "dev:server": "node backend/server.js",
     "server": "node backend/server.js",
     "build": "vite build",
     "lint": "eslint .",
