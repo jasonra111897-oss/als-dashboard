@@ -1,17 +1,69 @@
 import { spawn } from "node:child_process";
 
-const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 const children = [];
+let shuttingDown = false;
+
+const createCommand = (scriptName) => {
+  if (process.platform === "win32") {
+    return {
+      command: "cmd.exe",
+      args: ["/d", "/s", "/c", "npm", "run", scriptName],
+    };
+  }
+
+  return {
+    command: "npm",
+    args: ["run", scriptName],
+  };
+};
+
+const stopChild = (child) => {
+  if (!child || child.killed) {
+    return;
+  }
+
+  try {
+    child.kill();
+  } catch {
+    // Ignore shutdown errors from already-exiting child processes.
+  }
+};
+
+const shutdown = (exitCode = 0) => {
+  if (shuttingDown) {
+    return;
+  }
+
+  shuttingDown = true;
+
+  for (const child of children) {
+    stopChild(child);
+  }
+
+  setTimeout(() => {
+    for (const child of children) {
+      stopChild(child);
+    }
+
+    process.exit(exitCode);
+  }, 300);
+};
 
 const spawnProcess = (label, scriptName) => {
-  const child = spawn(npmCommand, ["run", scriptName], {
+  const { command, args } = createCommand(scriptName);
+  const child = spawn(command, args, {
     stdio: "inherit",
     shell: false,
   });
 
   child.on("exit", (code, signal) => {
+    if (shuttingDown) {
+      return;
+    }
+
     if (signal) {
       console.log(`[${label}] stopped by signal ${signal}`);
+      shutdown(0);
       return;
     }
 
@@ -27,32 +79,6 @@ const spawnProcess = (label, scriptName) => {
   });
 
   children.push(child);
-  return child;
-};
-
-let shuttingDown = false;
-
-const shutdown = (exitCode = 0) => {
-  if (shuttingDown) {
-    return;
-  }
-
-  shuttingDown = true;
-
-  for (const child of children) {
-    if (!child.killed) {
-      child.kill("SIGTERM");
-    }
-  }
-
-  setTimeout(() => {
-    for (const child of children) {
-      if (!child.killed) {
-        child.kill("SIGKILL");
-      }
-    }
-    process.exit(exitCode);
-  }, 300);
 };
 
 process.on("SIGINT", () => shutdown(0));
