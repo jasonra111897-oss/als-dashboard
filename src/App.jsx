@@ -1,23 +1,10 @@
-import React, { useState } from "react";
-import Login from "./components/Login";
+import React from "react";
 import Dashboard from "./components/Dashboard";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
-
-  const handleLogin = (email) => {
-    setIsAuthenticated(true);
-    setUserEmail(email);
-  };
-
   return (
-    <div className="App">
-      {isAuthenticated ? (
-        <Dashboard userEmail={userEmail} />
-      ) : (
-        <Login onLogin={handleLogin} />
-      )}
+    <div className="app-shell">
+      <Dashboard />
     </div>
   );
 }

@@ -1,34 +1,37 @@
 import React from "react";
-import CountUp from 'react-countup'; // Ensure you ran 'npm install react-countup'
+import CountUp from "react-countup";
 
-const NCROverview = ({ allData }) => {
-  // Check if data exists before calculating
+const NCROverview = ({ allData, onSelectDivision }) => {
   const hasData = allData && allData.length > 0;
 
-  // Calculate totals for the entire National Capital Region
   const ncrTotals = {
-    schools: hasData 
-      ? allData.reduce((sum, city) => sum + parseInt(city.TotalSchools || 0), 0) 
+    schools: hasData
+      ? allData.reduce((sum, city) => sum + Number(city.totalSchools || 0), 0)
       : 0,
-    teachers: hasData 
-      ? allData.reduce((sum, city) => sum + parseInt(city.TotalImplementers || 0), 0) 
-      : 0
+    teachers: hasData
+      ? allData.reduce((sum, city) => sum + Number(city.totalImplementers || 0), 0)
+      : 0,
   };
+
+  const featuredDivisions = hasData
+    ? [...allData]
+        .sort((left, right) => right.totalImplementers - left.totalImplementers)
+        .slice(0, 6)
+    : [];
 
   return (
     <div className="ncr-overview-container">
-      {/* Welcome Section with subtle entry animation */}
       <div className="welcome-banner">
         <h1 className="main-welcome-title">Welcome to the ALS NCR Dashboard</h1>
-        <p className="sub-welcome-text">National Capital Region Operations & Personnel Registry</p>
+        <p className="sub-welcome-text">
+          National Capital Region operations, personnel coverage, and division-level access in one place.
+        </p>
       </div>
 
-      {/* Stunning Stat Cards with Animated Counters */}
       <div className="ncr-stats-summary">
         <div className="ncr-stat-item shadow-hover">
           <span className="stat-label">Total Regional Schools</span>
           <span className="stat-value">
-            {/* Animated Counter for Schools */}
             <CountUp end={ncrTotals.schools} duration={2.5} separator="," />
           </span>
         </div>
@@ -36,21 +39,40 @@ const NCROverview = ({ allData }) => {
         <div className="ncr-stat-item shadow-hover">
           <span className="stat-label">Total Regional Personnel</span>
           <span className="stat-value">
-            {/* Animated Counter for Personnel */}
             <CountUp end={ncrTotals.teachers} duration={2.5} separator="," />
           </span>
         </div>
       </div>
 
-      {/* Contextual Instruction Box */}
       <div className="selection-instruction-card">
-        <div className="info-icon-wrapper">
-          <span className="info-icon">i</span>
-        </div>
         <p className="instruction-text">
-          Please select a specific <strong>Division</strong> from the dropdown menu above 
-          to view localized data and personnel registries.
+          Select a <strong>Division</strong> from the top navigation or jump into one of the busiest NCR divisions below.
         </p>
+      </div>
+
+      <div className="overview-explorer">
+        <div className="overview-explorer-header">
+          <span className="section-kicker">Division Explorer</span>
+          <h2>Jump straight into the busiest divisions</h2>
+        </div>
+
+        <div className="overview-division-grid">
+          {featuredDivisions.map((division) => (
+            <button
+              key={division.divisionId || division.division}
+              type="button"
+              className="overview-division-card shadow-hover"
+              onClick={() => onSelectDivision(division.division)}
+            >
+              <span className="overview-division-name">{division.division}</span>
+              <div className="overview-division-metrics">
+                <span>{division.totalImplementers} implementers</span>
+                <span>{division.totalSchools} schools</span>
+              </div>
+              <span className="overview-division-link">Open division</span>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
