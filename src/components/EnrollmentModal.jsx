@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -52,6 +52,23 @@ const EnrollmentModal = ({
   currentDivision,
 }) => {
   const [selectedDivisionName, setSelectedDivisionName] = useState(currentDivision || "");
+
+  useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+    };
+  }, [isOpen]);
 
   const selectedDivision =
     enrolmentData?.divisions?.find(
@@ -242,6 +259,12 @@ const EnrollmentModal = ({
 
         <div className="enrolment-table-shell">
           <table className="enrolment-table">
+            <colgroup>
+              <col className="enrolment-col-division" />
+              {Array.from({ length: 15 }).map((_, index) => (
+                <col key={`enrolment-col-${index}`} className="enrolment-col-metric" />
+              ))}
+            </colgroup>
             <thead>
               <tr>
                 <th rowSpan="2">Division</th>

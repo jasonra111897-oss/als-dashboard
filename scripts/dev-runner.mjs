@@ -1,9 +1,10 @@
 import { spawn } from "node:child_process";
+import net from "node:net";
 
 const children = [];
 let shuttingDown = false;
 
-const createCommand = (scriptName) => {
+const getScriptCommand = (scriptName) => {
   if (process.platform === "win32") {
     return {
       command: "cmd.exe",
@@ -15,6 +16,34 @@ const createCommand = (scriptName) => {
     command: "npm",
     args: ["run", scriptName],
   };
+};
+
+const isPortAvailable = (port) =>
+  new Promise((resolve) => {
+    const server = net.createServer();
+
+    server.once("error", () => {
+      resolve(false);
+    });
+
+    server.once("listening", () => {
+      server.close(() => resolve(true));
+    });
+
+    server.listen(port, "127.0.0.1");
+  });
+
+const findAvailablePort = async (preferredPort, attempts = 20) => {
+  for (let offset = 0; offset < attempts; offset += 1) {
+    const candidatePort = preferredPort + offset;
+    const available = await isPortAvailable(candidatePort);
+
+    if (available) {
+      return candidatePort;
+    }
+  }
+
+  throw new Error(`No available port found starting from ${preferredPort}.`);
 };
 
 const stopChild = (child) => {
@@ -49,11 +78,15 @@ const shutdown = (exitCode = 0) => {
   }, 300);
 };
 
-const spawnProcess = (label, scriptName) => {
-  const { command, args } = createCommand(scriptName);
+const spawnProcess = (label, scriptName, extraEnv = {}) => {
+  const { command, args } = getScriptCommand(scriptName);
   const child = spawn(command, args, {
     stdio: "inherit",
     shell: false,
+    env: {
+      ...process.env,
+      ...extraEnv,
+    },
   });
 
   child.on("exit", (code, signal) => {
@@ -81,8 +114,40 @@ const spawnProcess = (label, scriptName) => {
   children.push(child);
 };
 
+const startDev = async () => {
+  const backendPort = await findAvailablePort(5000);
+  const clientPort = await findAvailablePort(5174);
+  const apiBaseUrl = `http://localhost:${backendPort}`;
+
+  if (backendPort !== 5000) {
+    console.log(
+      `[dev-runner] Port 5000 is busy. Starting the backend on ${backendPort} instead.`
+    );
+  }
+
+  if (clientPort !== 5174) {
+    console.log(
+      `[dev-runner] Port 5174 is busy. Starting the frontend on ${clientPort} instead.`
+    );
+  }
+
+  console.log(`[dev-runner] API base URL: ${apiBaseUrl}`);
+
+  spawnProcess("backend", "dev:server", {
+    PORT: String(backendPort),
+  });
+
+  spawnProcess("frontend", "dev:client", {
+    PORT: String(clientPort),
+    VITE_API_BASE_URL: apiBaseUrl,
+    VITE_BACKEND_PORT: String(backendPort),
+  });
+};
+
 process.on("SIGINT", () => shutdown(0));
 process.on("SIGTERM", () => shutdown(0));
 
-spawnProcess("backend", "dev:server");
-spawnProcess("frontend", "dev:client");
+startDev().catch((error) => {
+  console.error(`[dev-runner] ${error.message}`);
+  shutdown(1);
+});

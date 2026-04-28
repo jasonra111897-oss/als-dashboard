@@ -1,4 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import TopNavigation from "./TopNavigation";
 import StatCards from "./StatCards";
 import LearningStrandsChart from "./LearningStrandsChart";
@@ -9,6 +19,27 @@ import { fetchDashboardData, fetchEnrolmentData } from "../services/dataService"
 import "./Dashboard.css";
 import "./TopNavigation.css";
 import "./StatCards.css";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const DIVISION_COLOR_RAMP = [
+  "rgba(23, 59, 120, 0.9)",
+  "rgba(28, 76, 149, 0.88)",
+  "rgba(35, 87, 159, 0.86)",
+  "rgba(41, 101, 178, 0.84)",
+  "rgba(47, 115, 197, 0.82)",
+  "rgba(59, 143, 225, 0.82)",
+  "rgba(76, 154, 229, 0.8)",
+  "rgba(96, 166, 232, 0.78)",
+  "rgba(116, 178, 235, 0.76)",
+  "rgba(136, 190, 238, 0.74)",
+  "rgba(156, 201, 241, 0.74)",
+  "rgba(176, 213, 244, 0.72)",
+  "rgba(196, 224, 247, 0.72)",
+  "rgba(216, 236, 250, 0.7)",
+  "rgba(202, 223, 248, 0.72)",
+  "rgba(184, 209, 242, 0.74)",
+];
 
 const getDivisionLogoSrc = (divisionName) => {
   const normalized = String(divisionName || "").trim();
@@ -60,6 +91,58 @@ const getDivisionOfficeTitle = (divisionName) => {
   return displayNames[normalized] || `Schools Division Office - ${normalized}`;
 };
 
+const formatWorkbookDate = (value) => {
+  if (value === null || value === undefined || value === "") {
+    return "";
+  }
+
+  if (typeof value === "number" && Number.isFinite(value)) {
+    const utcMillis = Math.round((value - 25569) * 86400 * 1000);
+    const date = new Date(utcMillis);
+
+    if (!Number.isNaN(date.getTime())) {
+      return new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }).format(date);
+    }
+  }
+
+  const parsedDate = new Date(value);
+
+  if (!Number.isNaN(parsedDate.getTime()) && /\d/.test(String(value))) {
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }).format(parsedDate);
+  }
+
+  return String(value).replace(/\s+/g, " ").trim();
+};
+
+const getServiceWindowLabel = (serviceFrom, serviceTo) => {
+  const fromLabel = formatWorkbookDate(serviceFrom);
+  const toLabel = String(serviceTo || "").trim();
+
+  if (fromLabel && toLabel) {
+    return `${fromLabel} to ${toLabel}`;
+  }
+
+  if (fromLabel) {
+    return `Since ${fromLabel}`;
+  }
+
+  if (toLabel) {
+    return `Until ${toLabel}`;
+  }
+
+  return "Service dates not provided";
+};
+
+const formatNumber = (value) => Number(value || 0).toLocaleString();
+
 const Dashboard = () => {
   const [allData, setAllData] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState("");
@@ -73,6 +156,8 @@ const Dashboard = () => {
   const [enrolmentData, setEnrolmentData] = useState(null);
   const [isEnrolmentLoading, setIsEnrolmentLoading] = useState(false);
   const [enrolmentError, setEnrolmentError] = useState("");
+  const [isDashboardEnrolmentLoading, setIsDashboardEnrolmentLoading] = useState(false);
+  const [dashboardEnrolmentError, setDashboardEnrolmentError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [dashboardError, setDashboardError] = useState("");
 
@@ -108,10 +193,46 @@ const Dashboard = () => {
 
   const selectedCity =
     allData.find((division) => division.division === selectedDivision) || null;
+  const selectedDivisionEnrolment =
+    enrolmentData?.divisions?.find((division) => division.division === selectedDivision) || null;
   const selectedDivisionLogo = selectedCity ? getDivisionLogoSrc(selectedCity.division) : "";
   const selectedDivisionOfficeTitle = selectedCity
     ? getDivisionOfficeTitle(selectedCity.division)
     : "";
+
+  useEffect(() => {
+    let ignore = false;
+
+    if (!selectedDivision || enrolmentData) {
+      return undefined;
+    }
+
+    const prefetchEnrolment = async () => {
+      try {
+        setIsDashboardEnrolmentLoading(true);
+        setDashboardEnrolmentError("");
+        const data = await fetchEnrolmentData();
+
+        if (!ignore) {
+          setEnrolmentData(data);
+        }
+      } catch (err) {
+        if (!ignore) {
+          setDashboardEnrolmentError(err.message || "Unable to load enrolment data.");
+        }
+      } finally {
+        if (!ignore) {
+          setIsDashboardEnrolmentLoading(false);
+        }
+      }
+    };
+
+    prefetchEnrolment();
+
+    return () => {
+      ignore = true;
+    };
+  }, [selectedDivision, enrolmentData]);
 
   const handleOpenEnrolment = async () => {
     setShowEnrolmentModal(true);
@@ -210,6 +331,91 @@ const Dashboard = () => {
         Math.round(selectedCity.totalImplementers / Math.max(selectedCity.totalSchools, 1))
       )
     : 0;
+
+  const regionalEnrolmentChartData = useMemo(() => {
+    if (!enrolmentData?.divisions?.length) {
+      return null;
+    }
+
+    return {
+      labels: enrolmentData.divisions.map((division) => division.division),
+      datasets: [
+        {
+          label: "Total Enrollees",
+          data: enrolmentData.divisions.map((division) => division.grandTotal.total),
+          backgroundColor: enrolmentData.divisions.map((division, index) =>
+            division.division === selectedDivision
+              ? "rgba(244, 180, 56, 0.96)"
+              : DIVISION_COLOR_RAMP[index % DIVISION_COLOR_RAMP.length]
+          ),
+          borderColor: enrolmentData.divisions.map((division) =>
+            division.division === selectedDivision ? "rgba(180, 120, 9, 1)" : "rgba(23, 59, 120, 0)"
+          ),
+          borderWidth: enrolmentData.divisions.map((division) =>
+            division.division === selectedDivision ? 2 : 0
+          ),
+          borderRadius: 12,
+          maxBarThickness: 34,
+        },
+      ],
+    };
+  }, [enrolmentData, selectedDivision]);
+
+  const regionalEnrolmentChartOptions = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+        title: {
+          display: true,
+          text: "Regional Enrolment Across 16 Divisions",
+          color: "#10213d",
+          font: {
+            size: 18,
+            weight: "700",
+          },
+          padding: {
+            bottom: 14,
+          },
+        },
+        tooltip: {
+          callbacks: {
+            label: (context) => `${formatNumber(context.parsed.y)} total enrollees`,
+          },
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0,
+            callback: (value) => formatNumber(value),
+          },
+          grid: {
+            color: "rgba(15, 23, 42, 0.08)",
+          },
+        },
+        x: {
+          ticks: {
+            maxRotation: 40,
+            minRotation: 40,
+            color: "#5b6f88",
+            font: {
+              size: 11,
+              weight: "600",
+            },
+          },
+          grid: {
+            display: false,
+          },
+        },
+      },
+    }),
+    []
+  );
 
   if (isLoading) {
     return <div className="loading-screen">Loading ALS NCR Dashboard...</div>;
@@ -311,6 +517,53 @@ const Dashboard = () => {
             </section>
 
             <StatCards cityData={selectedCity} />
+
+            <section className="dashboard-enrolment-band">
+              <div className="dashboard-enrolment-copy">
+                <span className="section-kicker">Regional Enrolment View</span>
+                <h3>All 16 divisions in one comparison</h3>
+                <p>
+                  This chart compares the total ALS enrolment across NCR for school year{" "}
+                  <strong>{enrolmentData?.schoolYear || "2025-2026"}</strong>. The current division
+                  is highlighted so you can compare its enrolment volume against the rest of the region.
+                </p>
+
+                <div className="dashboard-enrolment-metrics">
+                  <div className="dashboard-enrolment-metric">
+                    <span>Selected Division</span>
+                    <strong>{selectedCity.division}</strong>
+                    <small>
+                      {selectedDivisionEnrolment
+                        ? `${formatNumber(selectedDivisionEnrolment.grandTotal.total)} learners`
+                        : "Waiting for enrolment data"}
+                    </small>
+                  </div>
+                  <div className="dashboard-enrolment-metric">
+                    <span>Coverage</span>
+                    <strong>{formatNumber(enrolmentData?.divisions?.length || 16)}</strong>
+                    <small>NCR divisions included</small>
+                  </div>
+                </div>
+              </div>
+
+              <div className="dashboard-enrolment-visual">
+                {regionalEnrolmentChartData ? (
+                  <div className="dashboard-enrolment-chart-shell">
+                    <Bar data={regionalEnrolmentChartData} options={regionalEnrolmentChartOptions} />
+                  </div>
+                ) : isDashboardEnrolmentLoading ? (
+                  <p className="dashboard-enrolment-state">Loading regional enrolment chart...</p>
+                ) : dashboardEnrolmentError ? (
+                  <p className="dashboard-enrolment-state dashboard-enrolment-state-error">
+                    {dashboardEnrolmentError}
+                  </p>
+                ) : (
+                  <p className="dashboard-enrolment-state">
+                    Regional enrolment data is not available yet.
+                  </p>
+                )}
+              </div>
+            </section>
 
             <div className="insight-layout">
               <LearningStrandsChart cityData={selectedCity} />
@@ -425,6 +678,9 @@ const Dashboard = () => {
                             name: displayName,
                             division: selectedCity.division,
                             position,
+                            serviceFrom: teacher?.serviceFrom || "",
+                            serviceTo: teacher?.serviceTo || "",
+                            currentEnrollees: teacher?.currentEnrollees || 0,
                           })
                         }
                       >
@@ -432,6 +688,23 @@ const Dashboard = () => {
                         <div className="teacher-info">
                           <span className="teacher-name">{displayName}</span>
                           <span className="teacher-badge">{position}</span>
+                          <div className="teacher-detail-list">
+                            <span className="teacher-detail-line">
+                              <strong>Service:</strong>{" "}
+                              {getServiceWindowLabel(teacher?.serviceFrom, teacher?.serviceTo)}
+                            </span>
+                            <span className="teacher-detail-line">
+                              <strong>Current Enrollees:</strong> {teacher?.currentEnrollees || 0}
+                            </span>
+                          </div>
+                          <div className="teacher-meta-row">
+                            <span className="teacher-meta-pill">
+                              {teacher?.currentEnrollees || 0} learners
+                            </span>
+                            <span className="teacher-meta-pill teacher-meta-pill-secondary">
+                              {getServiceWindowLabel(teacher?.serviceFrom, teacher?.serviceTo)}
+                            </span>
+                          </div>
                         </div>
                         <span className="teacher-action">View</span>
                       </button>
@@ -462,10 +735,36 @@ const Dashboard = () => {
                 <div className="profile-avatar">{String(selectedTeacher.name).charAt(0)}</div>
                 <h1 className="profile-name">{selectedTeacher.name}</h1>
                 <p className="profile-division">{selectedTeacher.division}</p>
+                <div className="profile-highlights">
+                  <div className="profile-highlight-card">
+                    <span>Position</span>
+                    <strong>{selectedTeacher.position}</strong>
+                  </div>
+                  <div className="profile-highlight-card">
+                    <span>Current Enrollees</span>
+                    <strong>{selectedTeacher.currentEnrollees || 0}</strong>
+                  </div>
+                  <div className="profile-highlight-card">
+                    <span>Service Window</span>
+                    <strong>{getServiceWindowLabel(selectedTeacher.serviceFrom, selectedTeacher.serviceTo)}</strong>
+                  </div>
+                </div>
                 <div className="profile-details">
                   <div className="detail-row">
                     <strong>Position:</strong>
                     <span>{selectedTeacher.position}</span>
+                  </div>
+                  <div className="detail-row">
+                    <strong>Service From:</strong>
+                    <span>{formatWorkbookDate(selectedTeacher.serviceFrom) || "Not provided"}</span>
+                  </div>
+                  <div className="detail-row">
+                    <strong>Service To:</strong>
+                    <span>{selectedTeacher.serviceTo || "Not provided"}</span>
+                  </div>
+                  <div className="detail-row">
+                    <strong>Current Enrollees:</strong>
+                    <span>{selectedTeacher.currentEnrollees || 0}</span>
                   </div>
                   <div className="detail-row">
                     <strong>Status:</strong>
@@ -478,7 +777,7 @@ const Dashboard = () => {
         ) : null}
 
         <EnrollmentModal
-          key={`${showEnrolmentModal}-${selectedDivision || "regional-home"}`}
+          key={`enrolment-${showEnrolmentModal}-${selectedDivision || "regional-home"}`}
           isOpen={showEnrolmentModal}
           onClose={() => setShowEnrolmentModal(false)}
           onHomeClick={() => {
@@ -492,7 +791,7 @@ const Dashboard = () => {
         />
 
         <NCRMapModal
-          key={`${showMapModal}-${selectedDivision || "regional-home"}`}
+          key={`map-${showMapModal}-${selectedDivision || "regional-home"}`}
           isOpen={showMapModal}
           onClose={() => setShowMapModal(false)}
           divisions={allData}
