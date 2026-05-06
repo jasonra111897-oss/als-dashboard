@@ -58,13 +58,31 @@ const LearningStrandsChart = ({ cityData }) => {
     },
   };
 
+  const topPosition = positionEntries[0];
+  const secondPosition = positionEntries[1];
+
   return (
     <div className="chart-container">
       <div className="chart-header">
-        <h3 className="chart-title">Division Position Distribution</h3>
-        <p className="chart-subtitle">
-          Live personnel mix for {cityData?.division || "the selected division"}
-        </p>
+        <div>
+          <span className="chart-kicker">Division Insight</span>
+          <h3 className="chart-title">Division Position Distribution</h3>
+          <p className="chart-subtitle">
+            Live personnel mix for {cityData?.division || "the selected division"}
+          </p>
+        </div>
+        <div className="chart-snapshot">
+          <div className="chart-snapshot-card">
+            <span>Top Role</span>
+            <strong>{topPosition?.[0] || "No data"}</strong>
+            <small>{topPosition ? `${topPosition[1]} implementers` : "Awaiting data"}</small>
+          </div>
+          <div className="chart-snapshot-card">
+            <span>Second Largest</span>
+            <strong>{secondPosition?.[0] || "No data"}</strong>
+            <small>{secondPosition ? `${secondPosition[1]} implementers` : "Awaiting data"}</small>
+          </div>
+        </div>
       </div>
       <div className="chart-wrapper">
         <Bar data={chartData} options={chartOptions} />

@@ -42,7 +42,7 @@ const getDivisionLogoSrc = (divisionName) => {
     MAKATI: "/makati.png",
     MALABON: "/malabon.png",
     MANDALUYONG: "/mandaluyong.png",
-    MANILA: "/manila.png",
+    MANILA: "/manila.jpeg",
     MARIKINA: "/marikina.png",
     MUNTINLUPA: "/muntinlupa.png",
     NAVOTAS: "/navotas.png",
@@ -51,7 +51,7 @@ const getDivisionLogoSrc = (divisionName) => {
     PASIG: "/pasig.png",
     "QUEZON CITY": encodeURI("/quezon city.jpg"),
     "SAN JUAN": encodeURI("/san juan.png"),
-    "TAGUIG CITY & PATEROS": encodeURI("/taguig&pateros.png"),
+    "TAGUIG CITY & PATEROS": encodeURI("/taguig&pateros.jpg"),
     VALENZUELA: "/valenzuela.png",
   };
 
@@ -83,12 +83,24 @@ const getDivisionDisplayName = (divisionName) => {
   return displayNames[normalized] || normalized;
 };
 
+const getDivisionLogoClassName = (divisionName) => {
+  const normalized = String(divisionName || "").trim();
+
+  const logoClasses = {
+    MANILA: "division-logo-image-manila",
+    "TAGUIG CITY & PATEROS": "division-logo-image-taguig-pateros",
+  };
+
+  return logoClasses[normalized] || "";
+};
+
 const TopNavigation = ({
   divisions,
   onCitySelect,
   onHomeClick,
   onEnrolmentClick,
   onMapClick,
+  onShsMapClick,
   currentSelection,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -136,10 +148,13 @@ const TopNavigation = ({
               Regional Overview
             </button>
             <button type="button" className="utility-button" onClick={onEnrolmentClick}>
-              ALS Enrolment 2025-2026
+              Enrolment 2025-2026
             </button>
             <button type="button" className="utility-button" onClick={onMapClick}>
               NCR Division Map
+            </button>
+            <button type="button" className="utility-button" onClick={onShsMapClick}>
+              ALS Schools Map
             </button>
             {currentSelection ? (
               <button type="button" className="utility-button utility-button-current">
@@ -180,6 +195,7 @@ const TopNavigation = ({
 
           {divisions.map((division) => {
             const logoSrc = getDivisionLogoSrc(division.division);
+            const logoClassName = getDivisionLogoClassName(division.division);
 
             return (
               <button
@@ -195,7 +211,7 @@ const TopNavigation = ({
                     <img
                       src={logoSrc}
                       alt={`${division.division} logo`}
-                      className="division-logo-image"
+                      className={`division-logo-image ${logoClassName}`.trim()}
                     />
                   ) : (
                     <span className="division-logo-mark">{getDivisionBadge(division.division)}</span>

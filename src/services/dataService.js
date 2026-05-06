@@ -1,6 +1,7 @@
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 const DASHBOARD_DATA_URL = `${API_BASE_URL}/api/data`;
 const ENROLMENT_DATA_URL = `${API_BASE_URL}/api/enrolment`;
+const SCHOOLS_DATA_URL = `${API_BASE_URL}/api/schools`;
 
 const parseErrorMessage = async (response) => {
   try {
@@ -29,6 +30,16 @@ export const fetchDashboardData = async () => {
 
 export const fetchEnrolmentData = async () => {
   const response = await fetch(ENROLMENT_DATA_URL);
+
+  if (!response.ok) {
+    throw new Error(await parseErrorMessage(response));
+  }
+
+  return response.json();
+};
+
+export const fetchSchoolsData = async () => {
+  const response = await fetch(SCHOOLS_DATA_URL);
 
   if (!response.ok) {
     throw new Error(await parseErrorMessage(response));

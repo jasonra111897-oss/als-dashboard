@@ -237,11 +237,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   border-radius: 50%;
-  border: 2px solid transparent;
-  background: linear-gradient(180deg, #ffffff, #f5f8fc);
-  box-shadow: 0 12px 24px rgba(16, 33, 61, 0.08);
-  overflow: hidden;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
   transition:
     transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.24s cubic-bezier(0.22, 1, 0.36, 1),
@@ -252,26 +253,40 @@
 
 .division-logo-card:hover .division-logo-image-shell {
   transform: translateY(-2px);
-  box-shadow: 0 16px 28px rgba(16, 33, 61, 0.12);
+  box-shadow: none;
 }
 
 .division-logo-card.active .division-logo-image-shell {
-  border-color: rgba(23, 59, 120, 0.28);
-  box-shadow: 0 18px 30px rgba(23, 59, 120, 0.14);
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .division-logo-image-shell-home {
-  border-color: rgba(206, 134, 18, 0.24);
+  border-color: transparent;
 }
 
 .division-logo-image {
   width: 88px;
   height: 88px;
   object-fit: contain;
+  object-position: center;
+  display: block;
   transition:
     width 0.34s cubic-bezier(0.22, 1, 0.36, 1),
     height 0.34s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.division-logo-image-manila {
+  width: 84px;
+  height: 84px;
+  transform: scale(1.04) translateY(1px);
+}
+
+.division-logo-image-taguig-pateros {
+  width: 86px;
+  height: 86px;
+  transform: scale(1.08) translateY(0);
 }
 
 .division-logo-mark {
@@ -381,6 +396,16 @@
   .division-logo-image {
     width: 74px;
     height: 74px;
+  }
+
+  .division-logo-image-manila {
+    width: 70px;
+    height: 70px;
+  }
+
+  .division-logo-image-taguig-pateros {
+    width: 72px;
+    height: 72px;
   }
 }
 

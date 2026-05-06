@@ -214,7 +214,7 @@ const EnrollmentModal = ({
         </div>
 
         <div className="enrolment-division-strip" role="tablist" aria-label="NCR divisions">
-          {enrolmentData.divisions.map((division) => (
+          {enrolmentData.divisions.map((division, index) => (
             <button
               key={division.division}
               type="button"
@@ -222,6 +222,7 @@ const EnrollmentModal = ({
                 selectedDivision.division === division.division ? "active" : ""
               }`}
               onClick={() => setSelectedDivisionName(division.division)}
+              style={{ "--chip-index": index }}
             >
               {division.division}
             </button>
