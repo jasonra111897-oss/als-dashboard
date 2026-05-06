@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -15,7 +15,8 @@ import LearningStrandsChart from "./LearningStrandsChart";
 import NCROverview from "./NCROverview";
 import EnrollmentModal from "./EnrollmentModal";
 import NCRMapModal from "./NCRMapModal";
-import { fetchDashboardData, fetchEnrolmentData } from "../services/dataService";
+import ALSShsMapModal from "./ALSShsMapModal";
+import { fetchDashboardData, fetchEnrolmentData, fetchSchoolsData } from "../services/dataService";
 import "./Dashboard.css";
 import "./TopNavigation.css";
 import "./StatCards.css";
@@ -50,7 +51,7 @@ const getDivisionLogoSrc = (divisionName) => {
     MAKATI: "/makati.png",
     MALABON: "/malabon.png",
     MANDALUYONG: "/mandaluyong.png",
-    MANILA: "/manila.png",
+    MANILA: "/manila.jpeg",
     MARIKINA: "/marikina.png",
     MUNTINLUPA: "/muntinlupa.png",
     NAVOTAS: "/navotas.png",
@@ -59,7 +60,7 @@ const getDivisionLogoSrc = (divisionName) => {
     PASIG: "/pasig.png",
     "QUEZON CITY": encodeURI("/quezon city.jpg"),
     "SAN JUAN": encodeURI("/san juan.png"),
-    "TAGUIG CITY & PATEROS": encodeURI("/taguig&pateros.png"),
+    "TAGUIG CITY & PATEROS": encodeURI("/taguig&pateros.jpg"),
     VALENZUELA: "/valenzuela.png",
   };
 
@@ -122,6 +123,21 @@ const formatWorkbookDate = (value) => {
   return String(value).replace(/\s+/g, " ").trim();
 };
 
+const toDateValue = (value) => {
+  if (value === null || value === undefined || value === "") {
+    return null;
+  }
+
+  if (typeof value === "number" && Number.isFinite(value)) {
+    const utcMillis = Math.round((value - 25569) * 86400 * 1000);
+    const date = new Date(utcMillis);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  const parsedDate = new Date(value);
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+};
+
 const getServiceWindowLabel = (serviceFrom, serviceTo) => {
   const fromLabel = formatWorkbookDate(serviceFrom);
   const toLabel = String(serviceTo || "").trim();
@@ -150,16 +166,20 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [positionFilter, setPositionFilter] = useState("All Positions");
   const [sortOrder, setSortOrder] = useState("name-asc");
-  const [registryView, setRegistryView] = useState("grid");
   const [showEnrolmentModal, setShowEnrolmentModal] = useState(false);
   const [showMapModal, setShowMapModal] = useState(false);
+  const [showShsMapModal, setShowShsMapModal] = useState(false);
   const [enrolmentData, setEnrolmentData] = useState(null);
+  const [schoolsData, setSchoolsData] = useState(null);
   const [isEnrolmentLoading, setIsEnrolmentLoading] = useState(false);
+  const [isSchoolsLoading, setIsSchoolsLoading] = useState(false);
   const [enrolmentError, setEnrolmentError] = useState("");
+  const [schoolsError, setSchoolsError] = useState("");
   const [isDashboardEnrolmentLoading, setIsDashboardEnrolmentLoading] = useState(false);
   const [dashboardEnrolmentError, setDashboardEnrolmentError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [dashboardError, setDashboardError] = useState("");
+  const regionalChartRef = useRef(null);
 
   useEffect(() => {
     let ignore = false;
@@ -332,6 +352,74 @@ const Dashboard = () => {
       )
     : 0;
 
+  const regionalEnrolmentEntries = useMemo(() => enrolmentData?.divisions || [], [enrolmentData]);
+  const regionalEnrolmentTotals = useMemo(() => {
+    if (!regionalEnrolmentEntries.length) {
+      return [];
+    }
+
+    return [...regionalEnrolmentEntries].sort(
+      (left, right) => right.grandTotal.total - left.grandTotal.total
+    );
+  }, [regionalEnrolmentEntries]);
+
+  const regionalHighestEnrolment = regionalEnrolmentTotals[0] || null;
+  const regionalLowestEnrolment =
+    regionalEnrolmentTotals.length > 0 ? regionalEnrolmentTotals[regionalEnrolmentTotals.length - 1] : null;
+  const regionalAverageEnrolment = regionalEnrolmentEntries.length
+    ? Math.round(
+        regionalEnrolmentEntries.reduce((sum, division) => sum + division.grandTotal.total, 0) /
+          regionalEnrolmentEntries.length
+      )
+    : 0;
+
+  const divisionTeacherInsights = useMemo(() => {
+    if (!selectedCity) {
+      return null;
+    }
+
+    const teacherList = selectedCity.teacherList || [];
+    const learnerLoads = teacherList.map((teacher) => Number(teacher.currentEnrollees || 0));
+    const datedTeachers = teacherList
+      .map((teacher) => ({
+        name: teacher.name,
+        date: toDateValue(teacher.serviceFrom),
+      }))
+      .filter((teacher) => teacher.date);
+
+    const newestTeacher = datedTeachers.sort((left, right) => right.date - left.date)[0] || null;
+    const selectedRankIndex = regionalEnrolmentTotals.findIndex(
+      (division) => division.division === selectedCity.division
+    );
+
+    return {
+      averageEnrolleesPerTeacher: teacherList.length
+        ? Math.round(learnerLoads.reduce((sum, value) => sum + value, 0) / teacherList.length)
+        : 0,
+      highestTeacherLoad: learnerLoads.length ? Math.max(...learnerLoads) : 0,
+      newestTeacherLabel: newestTeacher
+        ? `${newestTeacher.name.split(",")[0]} • ${formatWorkbookDate(newestTeacher.date)}`
+        : "No service history recorded",
+      leadingRole,
+      selectedRoleCount: topRoles[0]?.[1] || 0,
+      rankLabel:
+        selectedRankIndex >= 0
+          ? `Rank #${selectedRankIndex + 1} by enrolment in NCR`
+          : "Regional rank unavailable",
+      regionalGap:
+        selectedDivisionEnrolment && regionalAverageEnrolment
+          ? selectedDivisionEnrolment.grandTotal.total - regionalAverageEnrolment
+          : 0,
+    };
+  }, [
+    leadingRole,
+    regionalAverageEnrolment,
+    regionalEnrolmentTotals,
+    selectedCity,
+    selectedDivisionEnrolment,
+    topRoles,
+  ]);
+
   const regionalEnrolmentChartData = useMemo(() => {
     if (!enrolmentData?.divisions?.length) {
       return null;
@@ -384,6 +472,10 @@ const Dashboard = () => {
         tooltip: {
           callbacks: {
             label: (context) => `${formatNumber(context.parsed.y)} total enrollees`,
+            afterLabel: (context) =>
+              regionalEnrolmentEntries[context.dataIndex]?.division === selectedDivision
+                ? "Currently selected division"
+                : "Click to open this division",
           },
         },
       },
@@ -414,15 +506,72 @@ const Dashboard = () => {
         },
       },
     }),
-    []
+    [regionalEnrolmentEntries, selectedDivision]
   );
 
+  const handleRegionalChartClick = (event) => {
+    const chart = regionalChartRef.current;
+    if (!chart || !regionalEnrolmentEntries.length) {
+      return;
+    }
+
+    const points = chart.getElementsAtEventForMode(
+      event,
+      "nearest",
+      { intersect: true },
+      true
+    );
+
+    if (!points.length) {
+      return;
+    }
+
+    const clickedDivision = regionalEnrolmentEntries[points[0].index];
+    if (clickedDivision?.division) {
+      handleCityChange(clickedDivision.division);
+    }
+  };
+
+  const handleOpenShsMap = async () => {
+    setShowShsMapModal(true);
+
+    try {
+      setIsSchoolsLoading(true);
+      setSchoolsError("");
+
+      if (!schoolsData) {
+        const data = await fetchSchoolsData();
+        setSchoolsData(data);
+      }
+    } catch (err) {
+      setSchoolsError(err.message || "Unable to load ALS SHS schools data.");
+    } finally {
+      setIsSchoolsLoading(false);
+    }
+  };
+
   if (isLoading) {
-    return <div className="loading-screen">Loading ALS NCR Dashboard...</div>;
+    return (
+      <div className="loading-screen">
+        <div className="dashboard-state-card">
+          <span className="section-kicker">Initializing Dashboard</span>
+          <h2>Loading ALS NCR Dashboard...</h2>
+          <p>Preparing the latest regional personnel, enrolment, and division data.</p>
+        </div>
+      </div>
+    );
   }
 
   if (dashboardError) {
-    return <div className="error-screen">Unable to load dashboard data: {dashboardError}</div>;
+    return (
+      <div className="error-screen">
+        <div className="dashboard-state-card dashboard-state-card-error">
+          <span className="section-kicker">Dashboard Unavailable</span>
+          <h2>Unable to load dashboard data</h2>
+          <p>{dashboardError}</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -433,6 +582,7 @@ const Dashboard = () => {
         onHomeClick={resetToHome}
         onEnrolmentClick={handleOpenEnrolment}
         onMapClick={() => setShowMapModal(true)}
+        onShsMapClick={handleOpenShsMap}
         currentSelection={selectedDivision}
       />
 
@@ -489,13 +639,9 @@ const Dashboard = () => {
                   <button
                     type="button"
                     className="hero-button hero-button-secondary"
-                    onClick={() =>
-                      setRegistryView((currentView) =>
-                        currentView === "grid" ? "compact" : "grid"
-                      )
-                    }
+                    onClick={handleOpenShsMap}
                   >
-                    {registryView === "grid" ? "Compact Registry" : "Card Registry"}
+                    ALS Schools Map
                   </button>
                 </div>
               </div>
@@ -516,7 +662,59 @@ const Dashboard = () => {
               </div>
             </section>
 
-            <StatCards cityData={selectedCity} />
+            <section className="executive-summary-band">
+              <div className="executive-summary-copy">
+                <span className="section-kicker">Executive Summary</span>
+                <h3>Regional command view for {selectedCity.division}</h3>
+                <p>
+                  Compare the selected division against NCR-wide enrolment performance, surface
+                  the strongest personnel signal, and move directly into the busiest divisions.
+                </p>
+              </div>
+
+              <div className="executive-summary-grid">
+                <div className="executive-summary-card">
+                  <span>Total NCR Enrollees</span>
+                  <strong>{formatNumber(enrolmentData?.totals?.grandTotal?.total || 0)}</strong>
+                  <small>Across all NCR divisions</small>
+                </div>
+                <div className="executive-summary-card">
+                  <span>Highest Enrolment</span>
+                  <strong>{regionalHighestEnrolment?.division || "Waiting for data"}</strong>
+                  <small>
+                    {regionalHighestEnrolment
+                      ? `${formatNumber(regionalHighestEnrolment.grandTotal.total)} learners`
+                      : "Regional data loading"}
+                  </small>
+                </div>
+                <div className="executive-summary-card">
+                  <span>Lowest Enrolment</span>
+                  <strong>{regionalLowestEnrolment?.division || "Waiting for data"}</strong>
+                  <small>
+                    {regionalLowestEnrolment
+                      ? `${formatNumber(regionalLowestEnrolment.grandTotal.total)} learners`
+                      : "Regional data loading"}
+                  </small>
+                </div>
+                <div className="executive-summary-card">
+                  <span>Division Standing</span>
+                  <strong>{divisionTeacherInsights?.rankLabel || "Ranking soon"}</strong>
+                  <small>
+                    {divisionTeacherInsights
+                      ? `${divisionTeacherInsights.regionalGap >= 0 ? "+" : ""}${formatNumber(
+                          divisionTeacherInsights.regionalGap
+                        )} vs NCR average`
+                      : "Awaiting enrolment comparison"}
+                  </small>
+                </div>
+              </div>
+            </section>
+
+            <StatCards
+              cityData={selectedCity}
+              divisionEnrolment={selectedDivisionEnrolment}
+              divisionInsights={divisionTeacherInsights}
+            />
 
             <section className="dashboard-enrolment-band">
               <div className="dashboard-enrolment-copy">
@@ -543,13 +741,55 @@ const Dashboard = () => {
                     <strong>{formatNumber(enrolmentData?.divisions?.length || 16)}</strong>
                     <small>NCR divisions included</small>
                   </div>
+                  <div className="dashboard-enrolment-metric">
+                    <span>Average Division Load</span>
+                    <strong>{formatNumber(regionalAverageEnrolment)}</strong>
+                    <small>Regional average enrolment</small>
+                  </div>
+                  <div className="dashboard-enrolment-metric">
+                    <span>Top Role Signal</span>
+                    <strong>{divisionTeacherInsights?.leadingRole || "Awaiting data"}</strong>
+                    <small>
+                      {divisionTeacherInsights
+                        ? `${formatNumber(divisionTeacherInsights.selectedRoleCount)} personnel in leading role`
+                        : "Role distribution will appear here"}
+                    </small>
+                  </div>
+                </div>
+
+                <div className="dashboard-leaderboard-card">
+                  <div className="dashboard-leaderboard-header">
+                    <span className="section-kicker">Regional Leaderboard</span>
+                    <p>Click a bar or a row to jump divisions.</p>
+                  </div>
+                  <div className="dashboard-leaderboard-list">
+                    {regionalEnrolmentTotals.slice(0, 5).map((division, index) => (
+                      <button
+                        key={division.division}
+                        type="button"
+                        className={`dashboard-leaderboard-item ${
+                          division.division === selectedDivision ? "active" : ""
+                        }`}
+                        onClick={() => handleCityChange(division.division)}
+                      >
+                        <span className="dashboard-leaderboard-rank">#{index + 1}</span>
+                        <span className="dashboard-leaderboard-division">{division.division}</span>
+                        <strong>{formatNumber(division.grandTotal.total)}</strong>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
               <div className="dashboard-enrolment-visual">
                 {regionalEnrolmentChartData ? (
                   <div className="dashboard-enrolment-chart-shell">
-                    <Bar data={regionalEnrolmentChartData} options={regionalEnrolmentChartOptions} />
+                    <Bar
+                      ref={regionalChartRef}
+                      data={regionalEnrolmentChartData}
+                      options={regionalEnrolmentChartOptions}
+                      onClick={handleRegionalChartClick}
+                    />
                   </div>
                 ) : isDashboardEnrolmentLoading ? (
                   <p className="dashboard-enrolment-state">Loading regional enrolment chart...</p>
@@ -562,6 +802,24 @@ const Dashboard = () => {
                     Regional enrolment data is not available yet.
                   </p>
                 )}
+              </div>
+            </section>
+
+            <section className="division-insight-ribbon">
+              <div className="division-insight-card">
+                <span>Average Learners Per Teacher</span>
+                <strong>{formatNumber(divisionTeacherInsights?.averageEnrolleesPerTeacher || 0)}</strong>
+                <small>Current enrollee load across the division roster</small>
+              </div>
+              <div className="division-insight-card">
+                <span>Highest Teacher Load</span>
+                <strong>{formatNumber(divisionTeacherInsights?.highestTeacherLoad || 0)}</strong>
+                <small>Largest current learner count handled by one teacher</small>
+              </div>
+              <div className="division-insight-card">
+                <span>Newest Service Record</span>
+                <strong>{divisionTeacherInsights?.newestTeacherLabel || "No data yet"}</strong>
+                <small>Most recent ALS teacher service date captured in the workbook</small>
               </div>
             </section>
 
@@ -656,7 +914,7 @@ const Dashboard = () => {
                 ))}
               </div>
 
-              <div className={`teacher-grid ${registryView === "compact" ? "teacher-grid-compact" : ""}`}>
+              <div className="teacher-grid">
                 {filteredTeachers.length > 0 ? (
                   filteredTeachers.map((teacher, index) => {
                     const displayName = teacher?.name || "Unknown Personnel";
@@ -801,6 +1059,22 @@ const Dashboard = () => {
             setShowMapModal(false);
             resetToHome();
           }}
+        />
+
+        <ALSShsMapModal
+          key={`shs-map-${showShsMapModal}-${selectedDivision || "regional-home"}`}
+          isOpen={showShsMapModal}
+          onClose={() => setShowShsMapModal(false)}
+          onHomeClick={() => {
+            setShowShsMapModal(false);
+            resetToHome();
+          }}
+          currentDivision={selectedDivision}
+          divisions={allData}
+          schoolsData={schoolsData}
+          isLoading={isSchoolsLoading}
+          error={schoolsError}
+          onSelectDivision={handleCityChange}
         />
       </main>
     </div>

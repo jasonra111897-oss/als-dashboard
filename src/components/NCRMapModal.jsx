@@ -35,10 +35,23 @@ const NCRMapModal = ({
 }) => {
   const [selectedDivisionName, setSelectedDivisionName] = useState(currentDivision || "");
 
+  const rankedDivisions = useMemo(
+    () =>
+      [...divisions].sort(
+        (left, right) => Number(right.totalImplementers || 0) - Number(left.totalImplementers || 0)
+      ),
+    [divisions]
+  );
+
   const selectedDivision =
     divisions.find((division) => division.division === (selectedDivisionName || currentDivision)) ||
     divisions[0] ||
     null;
+
+  const selectedDivisionRank =
+    selectedDivision
+      ? rankedDivisions.findIndex((division) => division.division === selectedDivision.division) + 1
+      : 0;
 
   const selectedAddress = selectedDivision
     ? DIVISION_ADDRESSES[selectedDivision.division] ||
@@ -111,6 +124,14 @@ const NCRMapModal = ({
                     <span>Implementers</span>
                     <strong>{selectedDivision.totalImplementers}</strong>
                   </div>
+                  <div className="map-detail-stat">
+                    <span>Regional Rank</span>
+                    <strong>#{selectedDivisionRank || "-"}</strong>
+                  </div>
+                  <div className="map-detail-stat">
+                    <span>Status</span>
+                    <strong>Active</strong>
+                  </div>
                 </div>
 
                 <div className="map-detail-actions">
@@ -149,7 +170,7 @@ const NCRMapModal = ({
                   onClick={() => setSelectedDivisionName(division.division)}
                 >
                   <span>{division.division}</span>
-                  <strong>{division.totalImplementers}</strong>
+                  <strong>{division.totalImplementers} staff</strong>
                 </button>
               ))}
             </div>
