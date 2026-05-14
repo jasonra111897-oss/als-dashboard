@@ -1,7 +1,6 @@
 import React from "react";
+import { formatNumber } from "../utils/formatters";
 import "./StatCards.css";
-
-const formatNumber = (value) => Number(value || 0).toLocaleString();
 
 const StatCards = ({ cityData, divisionEnrolment, divisionInsights }) => {
   if (!cityData) return null;

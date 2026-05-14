@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import "./NCRMapModal.css";
 
 const DIVISION_ADDRESSES = {
   CALOOCAN: "10th Ave., Kalookan HS, Caloocan City, Metro Manila, Philippines",
@@ -32,6 +33,7 @@ const NCRMapModal = ({
   currentDivision,
   onSelectDivision,
   onHomeClick,
+  inlineMode = false,
 }) => {
   const [selectedDivisionName, setSelectedDivisionName] = useState(currentDivision || "");
 
@@ -78,9 +80,11 @@ const NCRMapModal = ({
     return null;
   }
 
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="map-modal" onClick={(event) => event.stopPropagation()}>
+  const content = (
+      <div
+        className={`map-modal ${inlineMode ? "map-modal-inline" : ""}`}
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="modal-header map-modal-header">
           <div>
             <h2>NCR Division Office Map</h2>
@@ -97,13 +101,15 @@ const NCRMapModal = ({
             >
               HOME
             </button>
-            <button
-              type="button"
-              className="map-modal-button map-modal-button-primary"
-              onClick={onClose}
-            >
-              Back to Dashboard
-            </button>
+            {!inlineMode ? (
+              <button
+                type="button"
+                className="map-modal-button map-modal-button-primary"
+                onClick={onClose}
+              >
+                Back to Dashboard
+              </button>
+            ) : null}
           </div>
         </div>
 
@@ -191,6 +197,15 @@ const NCRMapModal = ({
           </div>
         </div>
       </div>
+  );
+
+  if (inlineMode) {
+    return content;
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      {content}
     </div>
   );
 };

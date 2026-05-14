@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import "./Dashboard.css";
 import TopNavigation from "./TopNavigation";
 import StatCards from "./StatCards";
 import LearningStrandsChart from "./LearningStrandsChart";
@@ -16,10 +17,16 @@ import NCROverview from "./NCROverview";
 import EnrollmentModal from "./EnrollmentModal";
 import NCRMapModal from "./NCRMapModal";
 import ALSShsMapModal from "./ALSShsMapModal";
+import AboutALSModal from "./AboutALSModal";
+import ClcshaDataPage from "./ClcshaDataPage";
+import { getDivisionLogoSrc, getDivisionOfficeTitle } from "../constants/divisions";
 import { fetchDashboardData, fetchEnrolmentData, fetchSchoolsData } from "../services/dataService";
-import "./Dashboard.css";
-import "./TopNavigation.css";
-import "./StatCards.css";
+import {
+  formatNumber,
+  formatWorkbookDate,
+  getServiceWindowLabel,
+  toDateValue,
+} from "../utils/formatters";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -42,123 +49,6 @@ const DIVISION_COLOR_RAMP = [
   "rgba(184, 209, 242, 0.74)",
 ];
 
-const getDivisionLogoSrc = (divisionName) => {
-  const normalized = String(divisionName || "").trim();
-
-  const logoMap = {
-    CALOOCAN: "/caloocan.png",
-    "LAS PI\u00d1AS": encodeURI("/las pi\u00f1as.png"),
-    MAKATI: "/makati.png",
-    MALABON: "/malabon.png",
-    MANDALUYONG: "/mandaluyong.png",
-    MANILA: "/manila.jpeg",
-    MARIKINA: "/marikina.png",
-    MUNTINLUPA: "/muntinlupa.png",
-    NAVOTAS: "/navotas.png",
-    PARA\u00d1AQUE: encodeURI("/para\u00f1aque.png"),
-    PASAY: "/pasay.png",
-    PASIG: "/pasig.png",
-    "QUEZON CITY": encodeURI("/quezon city.jpg"),
-    "SAN JUAN": encodeURI("/san juan.png"),
-    "TAGUIG CITY & PATEROS": encodeURI("/taguig&pateros.jpg"),
-    VALENZUELA: "/valenzuela.png",
-  };
-
-  return logoMap[normalized] || "";
-};
-
-const getDivisionOfficeTitle = (divisionName) => {
-  const normalized = String(divisionName || "").trim();
-
-  const displayNames = {
-    CALOOCAN: "Schools Division Office - Caloocan City",
-    "LAS PI\u00d1AS": "Schools Division Office - Las Pi\u00f1as City",
-    MAKATI: "Schools Division Office - Makati City",
-    MALABON: "Schools Division Office - Malabon City",
-    MANDALUYONG: "Schools Division Office - Mandaluyong City",
-    MANILA: "Schools Division Office - Manila",
-    MARIKINA: "Schools Division Office - Marikina City",
-    MUNTINLUPA: "Schools Division Office - Muntinlupa City",
-    NAVOTAS: "Schools Division Office - Navotas City",
-    PARA\u00d1AQUE: "Schools Division Office - Para\u00f1aque City",
-    PASAY: "Schools Division Office - Pasay City",
-    PASIG: "Schools Division Office - Pasig City",
-    "QUEZON CITY": "Schools Division Office - Quezon City",
-    "SAN JUAN": "Schools Division Office - San Juan City",
-    "TAGUIG CITY & PATEROS": "Schools Division Office - Taguig City and Pateros",
-    VALENZUELA: "Schools Division Office - Valenzuela City",
-  };
-
-  return displayNames[normalized] || `Schools Division Office - ${normalized}`;
-};
-
-const formatWorkbookDate = (value) => {
-  if (value === null || value === undefined || value === "") {
-    return "";
-  }
-
-  if (typeof value === "number" && Number.isFinite(value)) {
-    const utcMillis = Math.round((value - 25569) * 86400 * 1000);
-    const date = new Date(utcMillis);
-
-    if (!Number.isNaN(date.getTime())) {
-      return new Intl.DateTimeFormat("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      }).format(date);
-    }
-  }
-
-  const parsedDate = new Date(value);
-
-  if (!Number.isNaN(parsedDate.getTime()) && /\d/.test(String(value))) {
-    return new Intl.DateTimeFormat("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    }).format(parsedDate);
-  }
-
-  return String(value).replace(/\s+/g, " ").trim();
-};
-
-const toDateValue = (value) => {
-  if (value === null || value === undefined || value === "") {
-    return null;
-  }
-
-  if (typeof value === "number" && Number.isFinite(value)) {
-    const utcMillis = Math.round((value - 25569) * 86400 * 1000);
-    const date = new Date(utcMillis);
-    return Number.isNaN(date.getTime()) ? null : date;
-  }
-
-  const parsedDate = new Date(value);
-  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
-};
-
-const getServiceWindowLabel = (serviceFrom, serviceTo) => {
-  const fromLabel = formatWorkbookDate(serviceFrom);
-  const toLabel = String(serviceTo || "").trim();
-
-  if (fromLabel && toLabel) {
-    return `${fromLabel} to ${toLabel}`;
-  }
-
-  if (fromLabel) {
-    return `Since ${fromLabel}`;
-  }
-
-  if (toLabel) {
-    return `Until ${toLabel}`;
-  }
-
-  return "Service dates not provided";
-};
-
-const formatNumber = (value) => Number(value || 0).toLocaleString();
-
 const Dashboard = () => {
   const [allData, setAllData] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState("");
@@ -169,6 +59,8 @@ const Dashboard = () => {
   const [showEnrolmentModal, setShowEnrolmentModal] = useState(false);
   const [showMapModal, setShowMapModal] = useState(false);
   const [showShsMapModal, setShowShsMapModal] = useState(false);
+  const [showAboutAlsModal, setShowAboutAlsModal] = useState(false);
+  const [showClcshaDataPage, setShowClcshaDataPage] = useState(false);
   const [enrolmentData, setEnrolmentData] = useState(null);
   const [schoolsData, setSchoolsData] = useState(null);
   const [isEnrolmentLoading, setIsEnrolmentLoading] = useState(false);
@@ -181,14 +73,38 @@ const Dashboard = () => {
   const [dashboardError, setDashboardError] = useState("");
   const regionalChartRef = useRef(null);
 
+  const loadDashboard = useCallback(async () => {
+    return fetchDashboardData();
+  }, []);
+
+  const closeSecondaryViews = () => {
+    setShowAboutAlsModal(false);
+    setShowEnrolmentModal(false);
+    setShowMapModal(false);
+    setShowShsMapModal(false);
+    setShowClcshaDataPage(false);
+  };
+
+  const activeTopNavView = showClcshaDataPage
+    ? "clcsha-data"
+    : showAboutAlsModal
+    ? "about"
+    : showShsMapModal
+      ? "schools-map"
+      : showMapModal
+        ? "division-map"
+        : showEnrolmentModal
+          ? "enrolment"
+          : "regional";
+
   useEffect(() => {
     let ignore = false;
 
-    const loadDashboard = async () => {
+    const hydrateDashboard = async () => {
       try {
         setIsLoading(true);
         setDashboardError("");
-        const data = await fetchDashboardData();
+        const data = await loadDashboard();
 
         if (!ignore) {
           setAllData(data);
@@ -204,12 +120,30 @@ const Dashboard = () => {
       }
     };
 
-    loadDashboard();
+    hydrateDashboard();
 
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [loadDashboard]);
+
+  const handleDataSourcesUpdated = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setDashboardError("");
+      setEnrolmentData(null);
+      setSchoolsData(null);
+      setDashboardEnrolmentError("");
+      setEnrolmentError("");
+      setSchoolsError("");
+      const data = await loadDashboard();
+      setAllData(data);
+    } catch (err) {
+      setDashboardError(err.message || "Unable to refresh dashboard data after workbook upload.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [loadDashboard]);
 
   const selectedCity =
     allData.find((division) => division.division === selectedDivision) || null;
@@ -255,6 +189,7 @@ const Dashboard = () => {
   }, [selectedDivision, enrolmentData]);
 
   const handleOpenEnrolment = async () => {
+    closeSecondaryViews();
     setShowEnrolmentModal(true);
 
     try {
@@ -279,6 +214,7 @@ const Dashboard = () => {
   };
 
   const resetToHome = () => {
+    closeSecondaryViews();
     setSelectedDivision("");
     setSearchTerm("");
     setSelectedTeacher(null);
@@ -297,6 +233,21 @@ const Dashboard = () => {
     setSearchTerm("");
     setPositionFilter("All Positions");
     setSortOrder("name-asc");
+  };
+
+  const handleOpenAboutAls = () => {
+    closeSecondaryViews();
+    setShowAboutAlsModal(true);
+  };
+
+  const handleOpenClcshaData = () => {
+    closeSecondaryViews();
+    setShowClcshaDataPage(true);
+  };
+
+  const handleOpenDivisionMap = () => {
+    closeSecondaryViews();
+    setShowMapModal(true);
   };
 
   const positionCounts = (selectedCity?.teacherList || []).reduce((counts, teacher) => {
@@ -398,7 +349,7 @@ const Dashboard = () => {
         : 0,
       highestTeacherLoad: learnerLoads.length ? Math.max(...learnerLoads) : 0,
       newestTeacherLabel: newestTeacher
-        ? `${newestTeacher.name.split(",")[0]} • ${formatWorkbookDate(newestTeacher.date)}`
+        ? `${newestTeacher.name.split(",")[0]} - ${formatWorkbookDate(newestTeacher.date)}`
         : "No service history recorded",
       leadingRole,
       selectedRoleCount: topRoles[0]?.[1] || 0,
@@ -533,6 +484,7 @@ const Dashboard = () => {
   };
 
   const handleOpenShsMap = async () => {
+    closeSecondaryViews();
     setShowShsMapModal(true);
 
     try {
@@ -580,14 +532,64 @@ const Dashboard = () => {
         divisions={allData}
         onCitySelect={handleCityChange}
         onHomeClick={resetToHome}
+        onAboutClick={handleOpenAboutAls}
         onEnrolmentClick={handleOpenEnrolment}
-        onMapClick={() => setShowMapModal(true)}
+        onMapClick={handleOpenDivisionMap}
         onShsMapClick={handleOpenShsMap}
+        onClcshaDataClick={handleOpenClcshaData}
         currentSelection={selectedDivision}
+        activeView={activeTopNavView}
       />
 
-      <main className="dashboard-content">
-        {selectedCity ? (
+      <main className={`dashboard-content ${showClcshaDataPage ? "dashboard-content-wide" : ""}`.trim()}>
+        {showClcshaDataPage ? (
+          <ClcshaDataPage onSourcesUpdated={handleDataSourcesUpdated} />
+        ) : showAboutAlsModal ? (
+          <AboutALSModal
+            isOpen={showAboutAlsModal}
+            onClose={() => setShowAboutAlsModal(false)}
+            allData={allData}
+            enrolmentData={enrolmentData}
+            inlineMode
+          />
+        ) : showEnrolmentModal ? (
+          <EnrollmentModal
+            key={`enrolment-inline-${selectedDivision || "regional-home"}`}
+            isOpen={showEnrolmentModal}
+            onClose={() => setShowEnrolmentModal(false)}
+            onHomeClick={resetToHome}
+            enrolmentData={enrolmentData}
+            isLoading={isEnrolmentLoading}
+            error={enrolmentError}
+            currentDivision={selectedDivision}
+            inlineMode
+          />
+        ) : showMapModal ? (
+          <NCRMapModal
+            key={`map-inline-${selectedDivision || "regional-home"}`}
+            isOpen={showMapModal}
+            onClose={() => setShowMapModal(false)}
+            divisions={allData}
+            currentDivision={selectedDivision}
+            onSelectDivision={handleCityChange}
+            onHomeClick={resetToHome}
+            inlineMode
+          />
+        ) : showShsMapModal ? (
+          <ALSShsMapModal
+            key={`shs-map-inline-${selectedDivision || "regional-home"}`}
+            isOpen={showShsMapModal}
+            onClose={() => setShowShsMapModal(false)}
+            onHomeClick={resetToHome}
+            currentDivision={selectedDivision}
+            divisions={allData}
+            schoolsData={schoolsData}
+            isLoading={isSchoolsLoading}
+            error={schoolsError}
+            onSelectDivision={handleCityChange}
+            inlineMode
+          />
+        ) : selectedCity ? (
           <>
             <section className="division-hero">
               <div className="division-hero-copy">
@@ -977,10 +979,18 @@ const Dashboard = () => {
             </div>
           </>
         ) : (
-          <NCROverview allData={allData} onSelectDivision={handleCityChange} />
+          <NCROverview
+            allData={allData}
+            onSelectDivision={handleCityChange}
+          />
         )}
 
-        {selectedTeacher ? (
+        {!showAboutAlsModal &&
+        !showEnrolmentModal &&
+        !showMapModal &&
+        !showShsMapModal &&
+        !showClcshaDataPage &&
+        selectedTeacher ? (
           <div className="modal-overlay" onClick={() => setSelectedTeacher(null)}>
             <div className="profile-modal" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
@@ -1033,49 +1043,6 @@ const Dashboard = () => {
             </div>
           </div>
         ) : null}
-
-        <EnrollmentModal
-          key={`enrolment-${showEnrolmentModal}-${selectedDivision || "regional-home"}`}
-          isOpen={showEnrolmentModal}
-          onClose={() => setShowEnrolmentModal(false)}
-          onHomeClick={() => {
-            setShowEnrolmentModal(false);
-            resetToHome();
-          }}
-          enrolmentData={enrolmentData}
-          isLoading={isEnrolmentLoading}
-          error={enrolmentError}
-          currentDivision={selectedDivision}
-        />
-
-        <NCRMapModal
-          key={`map-${showMapModal}-${selectedDivision || "regional-home"}`}
-          isOpen={showMapModal}
-          onClose={() => setShowMapModal(false)}
-          divisions={allData}
-          currentDivision={selectedDivision}
-          onSelectDivision={handleCityChange}
-          onHomeClick={() => {
-            setShowMapModal(false);
-            resetToHome();
-          }}
-        />
-
-        <ALSShsMapModal
-          key={`shs-map-${showShsMapModal}-${selectedDivision || "regional-home"}`}
-          isOpen={showShsMapModal}
-          onClose={() => setShowShsMapModal(false)}
-          onHomeClick={() => {
-            setShowShsMapModal(false);
-            resetToHome();
-          }}
-          currentDivision={selectedDivision}
-          divisions={allData}
-          schoolsData={schoolsData}
-          isLoading={isSchoolsLoading}
-          error={schoolsError}
-          onSelectDivision={handleCityChange}
-        />
       </main>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import CountUp from "react-countup";
+import "./NCROverview.css";
 
 const NCROverview = ({ allData, onSelectDivision }) => {
   const hasData = allData && allData.length > 0;
@@ -17,7 +18,7 @@ const NCROverview = ({ allData, onSelectDivision }) => {
       : 0,
   };
 
-  const featuredDivisions = sortedDivisions.slice(0, 8);
+  const featuredDivisions = sortedDivisions.slice(0, 6);
 
   const highestCoverageDivision = featuredDivisions[0] || null;
   const lowestCoverageDivision = hasData
@@ -40,7 +41,7 @@ const NCROverview = ({ allData, onSelectDivision }) => {
     <div className="ncr-overview-container">
       <div className="welcome-banner">
         <span className="section-kicker section-kicker-light">Regional Command Center</span>
-        <h1 className="main-welcome-title">Welcome to the ALS NCR Dashboard</h1>
+        <h1 className="main-welcome-title">WELCOME TO THE ALS NCR DASHBOARD</h1>
         <p className="sub-welcome-text">
           National Capital Region operations, personnel coverage, and division-level access in one place.
         </p>
@@ -115,7 +116,7 @@ const NCROverview = ({ allData, onSelectDivision }) => {
                     <div className="overview-bar-copy">
                       <strong>{division.division}</strong>
                       <small>
-                        {implementers} implementers • {division.totalSchools} schools
+                        {implementers} implementers | {division.totalSchools} schools
                       </small>
                     </div>
                   </div>

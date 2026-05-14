@@ -9,10 +9,10 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { formatNumber } from "../utils/formatters";
+import "./EnrollmentModal.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-const formatNumber = (value) => Number(value || 0).toLocaleString();
 
 const PROGRAM_ROWS = [
   {
@@ -50,11 +50,12 @@ const EnrollmentModal = ({
   isLoading,
   error,
   currentDivision,
+  inlineMode = false,
 }) => {
   const [selectedDivisionName, setSelectedDivisionName] = useState(currentDivision || "");
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!isOpen || inlineMode) {
       return undefined;
     }
 
@@ -68,7 +69,7 @@ const EnrollmentModal = ({
       document.body.style.overflow = previousBodyOverflow;
       document.documentElement.style.overflow = previousHtmlOverflow;
     };
-  }, [isOpen]);
+  }, [inlineMode, isOpen]);
 
   const selectedDivision =
     enrolmentData?.divisions?.find(
@@ -166,27 +167,53 @@ const EnrollmentModal = ({
   }
 
   if (isLoading) {
+    const loadingContent = (
+      <div
+        className={`enrolment-modal enrolment-modal-state ${
+          inlineMode ? "enrolment-modal-inline" : ""
+        }`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="modal-header enrolment-modal-header">
+          <h2>ALS Enrolment 2025-2026</h2>
+        </div>
+        <p className="enrolment-state-text">Loading enrolment data...</p>
+      </div>
+    );
+
+    if (inlineMode) {
+      return loadingContent;
+    }
+
     return (
       <div className="modal-overlay" onClick={onClose}>
-        <div className="enrolment-modal enrolment-modal-state" onClick={(e) => e.stopPropagation()}>
-          <div className="modal-header enrolment-modal-header">
-            <h2>ALS Enrolment 2025-2026</h2>
-          </div>
-          <p className="enrolment-state-text">Loading enrolment data...</p>
-        </div>
+        {loadingContent}
       </div>
     );
   }
 
   if (error) {
+    const errorContent = (
+      <div
+        className={`enrolment-modal enrolment-modal-state ${
+          inlineMode ? "enrolment-modal-inline" : ""
+        }`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="modal-header enrolment-modal-header">
+          <h2>ALS Enrolment 2025-2026</h2>
+        </div>
+        <p className="enrolment-state-text enrolment-state-error">{error}</p>
+      </div>
+    );
+
+    if (inlineMode) {
+      return errorContent;
+    }
+
     return (
       <div className="modal-overlay" onClick={onClose}>
-        <div className="enrolment-modal enrolment-modal-state" onClick={(e) => e.stopPropagation()}>
-          <div className="modal-header enrolment-modal-header">
-            <h2>ALS Enrolment 2025-2026</h2>
-          </div>
-          <p className="enrolment-state-text enrolment-state-error">{error}</p>
-        </div>
+        {errorContent}
       </div>
     );
   }
@@ -195,9 +222,11 @@ const EnrollmentModal = ({
     return null;
   }
 
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="enrolment-modal" onClick={(e) => e.stopPropagation()}>
+  const content = (
+      <div
+        className={`enrolment-modal ${inlineMode ? "enrolment-modal-inline" : ""}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modal-header enrolment-modal-header">
           <div>
             <h2>ALS Enrolment {enrolmentData.schoolYear}</h2>
@@ -324,6 +353,15 @@ const EnrollmentModal = ({
           </table>
         </div>
       </div>
+  );
+
+  if (inlineMode) {
+    return content;
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      {content}
     </div>
   );
 };

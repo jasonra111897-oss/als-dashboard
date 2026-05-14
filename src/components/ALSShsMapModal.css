@@ -1,0 +1,334 @@
+.shs-map-modal {
+  padding-top: 24px;
+}
+
+.shs-map-modal-inline {
+  padding-top: 8px;
+}
+
+.shs-map-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.86fr) minmax(0, 1.64fr);
+  gap: 18px;
+}
+
+.shs-map-layout > * {
+  min-width: 0;
+}
+
+.shs-map-layout-live {
+  align-items: stretch;
+}
+
+.shs-map-sidebar {
+  padding: 18px;
+}
+
+.shs-map-sidebar-live {
+  gap: 14px;
+}
+
+.shs-browser-header {
+  display: grid;
+  gap: 12px;
+}
+
+.shs-browser-header-live {
+  gap: 10px;
+}
+
+.shs-browser-copy h3 {
+  margin: 10px 0 6px;
+  font-size: clamp(1.55rem, 2.4vw, 2rem);
+  letter-spacing: -0.04em;
+}
+
+.shs-browser-copy p {
+  margin: 0;
+  color: #5b6f88;
+  line-height: 1.55;
+}
+
+.shs-inline-office-header {
+  padding: 8px 2px 4px;
+}
+
+.shs-inline-office-header-primary .division-office-logo-shell {
+  width: 72px;
+  height: 72px;
+}
+
+.shs-inline-office-header-primary .division-office-logo {
+  width: 66px;
+  height: 66px;
+}
+
+.shs-inline-office-header-primary .division-office-logo-fallback {
+  width: 66px;
+  height: 66px;
+  font-size: 1.45rem;
+}
+
+.shs-division-office-copy h2 {
+  margin: 0;
+  color: #000;
+  font-size: clamp(1.1rem, 1.85vw, 1.45rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+
+.shs-map-summary-pills {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.shs-map-summary-pills span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(23, 59, 120, 0.08);
+  color: #173b78;
+  font-weight: 800;
+  text-align: center;
+}
+
+.shs-panel-section {
+  display: grid;
+  gap: 14px;
+  min-height: 0;
+}
+
+.shs-panel-section-schools {
+  flex: 1;
+}
+
+.shs-panel-heading {
+  display: grid;
+  gap: 8px;
+}
+
+.shs-panel-heading p {
+  margin: 0;
+  color: #5b6f88;
+  line-height: 1.48;
+}
+
+.shs-directory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-height: 460px;
+  overflow-y: auto;
+}
+
+.shs-directory-card {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid rgba(199, 213, 231, 0.84);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.86);
+  text-align: left;
+  color: #10213d;
+}
+
+.shs-directory-card.active {
+  border-color: rgba(23, 59, 120, 0.28);
+  background: rgba(23, 59, 120, 0.08);
+}
+
+.shs-directory-card strong {
+  font-size: 0.98rem;
+}
+
+.shs-directory-card span {
+  color: #5b6f88;
+  font-weight: 700;
+}
+
+.shs-switch-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+
+.shs-division-select,
+.shs-category-select,
+.shs-school-search,
+.shs-school-select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cfdbeb;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #173b78;
+  font-size: 0.92rem;
+}
+
+.shs-reset-button {
+  padding-inline: 18px;
+}
+
+.shs-school-list {
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.shs-school-card {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid rgba(199, 213, 231, 0.84);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #10213d;
+  text-align: left;
+}
+
+.shs-school-card.active {
+  border-color: rgba(23, 59, 120, 0.28);
+  background: rgba(23, 59, 120, 0.08);
+}
+
+.shs-school-card strong {
+  font-size: 0.98rem;
+  line-height: 1.35;
+}
+
+.shs-school-category {
+  color: #173b78;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.shs-school-card span,
+.shs-school-card small {
+  color: #5b6f88;
+  line-height: 1.45;
+}
+
+.shs-map-canvas-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.shs-map-canvas-card-live {
+  padding: 18px;
+}
+
+.shs-map-school-header {
+  display: grid;
+  gap: 12px;
+  padding: 8px 4px 0;
+}
+
+.shs-map-school-header h3 {
+  margin: 0;
+  color: #10213d;
+  font-size: clamp(1.7rem, 2.5vw, 2.3rem);
+  letter-spacing: -0.04em;
+}
+
+.shs-map-school-meta {
+  margin: 0;
+  color: #173b78;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.shs-map-school-data {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.shs-map-school-data-card {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgba(199, 213, 231, 0.84);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.shs-map-school-data-card span {
+  display: block;
+  color: #688099;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.shs-map-school-data-card strong {
+  display: block;
+  margin-top: 8px;
+  color: #10213d;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.shs-map-school-header .map-detail-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.shs-map-empty-state {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  min-height: 100%;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.shs-map-empty-state h3 {
+  margin: 12px 0 10px;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  letter-spacing: -0.04em;
+}
+
+.shs-map-empty-state p {
+  margin: 0;
+  max-width: 46ch;
+  color: #5b6f88;
+  line-height: 1.65;
+}
+
+@media (max-width: 900px) {
+  .shs-map-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .shs-map-summary-pills,
+  .shs-directory-grid,
+  .shs-map-school-header .map-detail-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .shs-switch-row {
+    grid-template-columns: 1fr;
+  }
+
+  .shs-map-school-header h3 {
+    font-size: 1.55rem;
+  }
+
+  .shs-map-school-data {
+    grid-template-columns: 1fr;
+  }
+}

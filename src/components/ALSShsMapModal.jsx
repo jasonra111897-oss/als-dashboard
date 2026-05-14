@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import "./ALSShsMapModal.css";
 
 const CATEGORY_ORDER = ["All", "Junior High School", "High School", "Senior High School"];
 
@@ -84,6 +85,13 @@ const buildOpenMapsUrl = (school) => {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 };
 
+const getDivisionInitials = (divisionName) =>
+  String(divisionName || "")
+    .split(/[\s&]+/)
+    .map((word) => word.charAt(0))
+    .join("")
+    .slice(0, 3);
+
 const ALSShsMapModal = ({
   isOpen,
   onClose,
@@ -94,6 +102,7 @@ const ALSShsMapModal = ({
   isLoading,
   error,
   onSelectDivision,
+  inlineMode = false,
 }) => {
   const allSchoolRows = useMemo(
     () =>
@@ -107,7 +116,9 @@ const ALSShsMapModal = ({
 
   const divisionNames = useMemo(() => {
     const names = [
-      ...(Array.isArray(divisions) ? divisions.map((division) => division.division).filter(Boolean) : []),
+      ...(Array.isArray(divisions)
+        ? divisions.map((division) => division.division).filter(Boolean)
+        : []),
       ...allSchoolRows.map((school) => school.division).filter(Boolean),
     ];
 
@@ -129,6 +140,10 @@ const ALSShsMapModal = ({
   const [schoolSearchTerm, setSchoolSearchTerm] = useState("");
   const [selectedSchoolId, setSelectedSchoolId] = useState(null);
 
+  const activeDivisionName =
+    selectedDivisionName ||
+    (currentDivision && divisionNames.includes(currentDivision) ? currentDivision : "");
+
   const filteredSchools = useMemo(
     () =>
       selectedCategory === "All"
@@ -149,8 +164,24 @@ const ALSShsMapModal = ({
   );
 
   const visibleSchools = useMemo(
-    () => filteredSchools.filter((school) => school.division === selectedDivisionName),
-    [filteredSchools, selectedDivisionName]
+    () => filteredSchools.filter((school) => school.division === activeDivisionName),
+    [activeDivisionName, filteredSchools]
+  );
+
+  const categoryCounts = useMemo(
+    () =>
+      availableCategories.reduce((accumulator, category) => {
+        accumulator[category] =
+          category === "All"
+            ? allSchoolRows.filter((school) => school.division === activeDivisionName).length
+            : allSchoolRows.filter(
+                (school) =>
+                  school.division === activeDivisionName &&
+                  String(school.category || "").trim() === category
+              ).length;
+        return accumulator;
+      }, {}),
+    [activeDivisionName, allSchoolRows, availableCategories]
   );
 
   const searchedSchools = useMemo(() => {
@@ -180,205 +211,186 @@ const ALSShsMapModal = ({
     searchedSchools[0] ||
     visibleSchools[0] ||
     null;
-  const selectedDivisionLogo = selectedDivisionName ? getDivisionLogoSrc(selectedDivisionName) : "";
-  const selectedDivisionOfficeTitle = selectedDivisionName
-    ? getDivisionOfficeTitle(selectedDivisionName)
-    : "";
 
+  const selectedDivisionLogo = activeDivisionName ? getDivisionLogoSrc(activeDivisionName) : "";
+  const selectedDivisionOfficeTitle = activeDivisionName
+    ? getDivisionOfficeTitle(activeDivisionName)
+    : "";
   const embeddedMapUrl = selectedSchool ? buildSchoolMapUrl(selectedSchool) : "";
   const googleMapsUrl = selectedSchool ? buildOpenMapsUrl(selectedSchool) : "";
 
-  const openDivisionDetail = (divisionName) => {
+  const selectDivision = (divisionName) => {
     setSelectedDivisionName(divisionName);
-    setSelectedSchoolId(null);
+    setSelectedCategory("All");
     setSchoolSearchTerm("");
+    setSelectedSchoolId(null);
   };
 
-  const resetToDivisionPicker = () => {
+  const clearDivisionSelection = () => {
     setSelectedDivisionName("");
-    setSelectedSchoolId(null);
+    setSelectedCategory("All");
     setSchoolSearchTerm("");
+    setSelectedSchoolId(null);
   };
 
   if (!isOpen) {
     return null;
   }
 
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="map-modal shs-map-modal" onClick={(event) => event.stopPropagation()}>
+  const content = (
+      <div
+        className={`map-modal shs-map-modal ${inlineMode ? "map-modal-inline shs-map-modal-inline" : ""}`}
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="modal-header map-modal-header">
-          <div>
+          <div className="map-modal-header-copy">
+            <span className="section-kicker">Live School Locator</span>
             <h2>ALS Schools Map</h2>
-            <p className="map-modal-subtitle">
-              Select a division first, then open any ALS school to view its location on a live map.
-            </p>
+            <div className="map-modal-header-pills">
+              <span className="map-modal-header-pill">
+                <strong>{divisionNames.length}</strong>
+                <span>Divisions</span>
+              </span>
+              <span className="map-modal-header-pill">
+                <strong>{allSchoolRows.length}</strong>
+                <span>Mapped Schools</span>
+              </span>
+              <span className="map-modal-header-pill">
+                <strong>{activeDivisionName || "Regional"}</strong>
+                <span>{activeDivisionName ? "Active Division" : "Current Scope"}</span>
+              </span>
+            </div>
           </div>
+
           <div className="map-modal-actions">
             <button
               type="button"
-              className="map-modal-button map-modal-button-secondary"
+              className="map-modal-button map-modal-button-secondary map-modal-icon-button"
               onClick={onHomeClick}
+              aria-label="Go to Regional Home"
+              title="Regional Home"
             >
-              HOME
-            </button>
-            <button
-              type="button"
-              className="map-modal-button map-modal-button-primary"
-              onClick={onClose}
-            >
-              Back to Dashboard
+              <img src="/home.webp" alt="" className="map-modal-icon-image" aria-hidden="true" />
             </button>
           </div>
         </div>
 
-        {!selectedDivisionName ? (
-          <div className="shs-map-landing">
-            <div className="map-detail-card shs-map-landing-copy">
-              <span className="section-kicker">Step 1</span>
-              <h3>Choose one of the 16 NCR divisions</h3>
-              <p>
-                After you pick a division, a dedicated school page will open showing the list of ALS
-                schools for that division. Each school is clickable and will show its location on the
-                map.
-              </p>
-              <div className="shs-map-summary-pills">
-                <span>{divisionNames.length} divisions available</span>
-                <span>{allSchoolRows.length} school row(s) loaded</span>
-                <span>{availableCategories.length - 1} school categories available</span>
-              </div>
-            </div>
-
-            <div className="map-detail-card shs-landing-grid-card">
-              <div className="shs-panel-heading">
-                <span className="section-kicker">All Divisions</span>
-                <p>Click any division to open its ALS schools page.</p>
-              </div>
-
-              <div className="shs-landing-grid">
-                {divisionNames.map((divisionName) => (
-                  <button
-                    key={divisionName}
-                    type="button"
-                    className={`shs-landing-card ${
-                      currentDivision === divisionName ? "recommended" : ""
-                    }`}
-                    onClick={() => openDivisionDetail(divisionName)}
-                  >
-                    <span className="shs-landing-card-name">{divisionName}</span>
-                    <span className="shs-landing-card-meta">
-                      {divisionSchoolCounts[divisionName] || 0} school site(s)
-                    </span>
-                    <strong>Open schools list</strong>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="shs-map-layout">
-            <aside className="map-detail-card shs-map-sidebar">
-              <div className="shs-inline-office-header">
-                <div className="division-office-header">
-                  <div className="division-office-logo-shell">
-                    {selectedDivisionLogo ? (
-                      <img
-                        src={selectedDivisionLogo}
-                        alt={`${selectedDivisionName} division logo`}
-                        className="division-office-logo"
-                      />
-                    ) : (
-                      <span className="division-office-logo-fallback">
-                        {String(selectedDivisionName || "")
-                          .split(/[\s&]+/)
-                          .map((word) => word.charAt(0))
-                          .join("")
-                          .slice(0, 3)}
-                      </span>
-                    )}
-                  </div>
-                  <div className="shs-division-office-copy">
-                    <p className="division-office-kicker">Republic of the Philippines</p>
-                    <div className="division-office-rule" />
-                    <h2>{selectedDivisionOfficeTitle}</h2>
-                    <p className="division-office-subtitle">Department of Education</p>
+        <div className="shs-map-layout shs-map-layout-live">
+          <aside className="map-detail-card shs-map-sidebar shs-map-sidebar-live">
+            <div className="shs-browser-header shs-browser-header-live">
+              {activeDivisionName ? (
+                <div className="shs-inline-office-header shs-inline-office-header-primary">
+                  <div className="division-office-header">
+                    <div className="division-office-logo-shell">
+                      {selectedDivisionLogo ? (
+                        <img
+                          src={selectedDivisionLogo}
+                          alt={`${activeDivisionName} division logo`}
+                          className="division-office-logo"
+                        />
+                      ) : (
+                        <span className="division-office-logo-fallback">
+                          {getDivisionInitials(activeDivisionName)}
+                        </span>
+                      )}
+                    </div>
+                    <div className="shs-division-office-copy">
+                      <p className="division-office-kicker">Republic of the Philippines</p>
+                      <div className="division-office-rule" />
+                      <h2>{selectedDivisionOfficeTitle}</h2>
+                      <p className="division-office-subtitle">Department of Education</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="shs-map-summary-pills">
-                <span>{visibleSchools.length} school(s) in this division</span>
-                <span>
-                  {selectedCategory === "All" ? "All categories" : selectedCategory}
-                </span>
-              </div>
-
-              <div className="shs-detail-actions">
-                <button
-                  type="button"
-                  className="map-modal-button map-modal-button-secondary"
-                  onClick={resetToDivisionPicker}
-                >
-                  All 16 Divisions
-                </button>
-                <button
-                  type="button"
-                  className="map-modal-button map-modal-button-primary"
-                  onClick={() => {
-                    onSelectDivision?.(selectedDivisionName);
-                    onClose();
-                  }}
-                >
-                  Open {selectedDivisionName}
-                </button>
-              </div>
-
-              <div className="shs-division-switcher">
-                <label htmlFor="shs-division-switch" className="section-kicker">
-                  Switch Division
-                </label>
-                <select
-                  id="shs-division-switch"
-                  className="shs-division-select"
-                  value={selectedDivisionName}
-                  onChange={(event) => {
-                    openDivisionDetail(event.target.value);
-                    onSelectDivision?.(event.target.value);
-                  }}
-                >
-                  {divisionNames.map((divisionName) => (
-                    <option key={divisionName} value={divisionName}>
-                      {divisionName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="shs-panel-section shs-panel-section-schools">
-                <div className="shs-panel-heading">
-                  <span className="section-kicker">List of Schools</span>
+              ) : (
+                <div className="shs-browser-copy">
+                  <span className="section-kicker">Division Directory</span>
+                  <h3>Choose an NCR division</h3>
                   <p>
-                    {schoolSearchTerm.trim() ? searchedSchools.length : visibleSchools.length} school(s)
-                    shown
+                    Select a division to load its ALS schools and view each site on the live map.
                   </p>
                 </div>
+              )}
 
-                <div className="shs-category-strip">
-                  {availableCategories.map((category) => (
+              <div className="shs-map-summary-pills shs-map-summary-pills-browser">
+                <span>{divisionNames.length} divisions</span>
+                <span>{allSchoolRows.length} mapped school rows</span>
+                <span>
+                  {activeDivisionName
+                    ? `${searchedSchools.length || visibleSchools.length} visible school(s)`
+                    : "Choose a division"}
+                </span>
+              </div>
+            </div>
+
+            {!activeDivisionName ? (
+              <div className="shs-panel-section shs-panel-section-divisions">
+                <div className="shs-panel-heading shs-panel-heading-browser">
+                  <span className="section-kicker">Divisions</span>
+                  <p>Pick a division to load its schools directory and map view.</p>
+                </div>
+
+                <div className="shs-directory-grid">
+                  {divisionNames.map((divisionName) => (
                     <button
-                      key={category}
+                      key={divisionName}
                       type="button"
-                      className={`shs-category-chip ${selectedCategory === category ? "active" : ""}`}
-                      onClick={() => {
-                        setSelectedCategory(category);
-                        setSelectedSchoolId(null);
-                        setSchoolSearchTerm("");
-                      }}
+                      className={`shs-directory-card ${
+                        activeDivisionName === divisionName ? "active" : ""
+                      }`}
+                      onClick={() => selectDivision(divisionName)}
                     >
-                      {category === "All" ? "All Schools" : category}
+                      <strong>{divisionName}</strong>
+                      <span>{divisionSchoolCounts[divisionName] || 0} school site(s)</span>
                     </button>
                   ))}
                 </div>
+              </div>
+            ) : null}
+
+            {activeDivisionName ? (
+              <div className="shs-panel-section shs-panel-section-schools">
+                <div className="shs-switch-row">
+                  <select
+                    id="shs-division-switch"
+                    className="shs-division-select"
+                    value={activeDivisionName}
+                    onChange={(event) => {
+                      selectDivision(event.target.value);
+                      onSelectDivision?.(event.target.value);
+                    }}
+                  >
+                    {divisionNames.map((divisionName) => (
+                      <option key={divisionName} value={divisionName}>
+                        {divisionName}
+                      </option>
+                    ))}
+                  </select>
+
+                  <button
+                    type="button"
+                    className="map-modal-button map-modal-button-secondary shs-reset-button"
+                    onClick={clearDivisionSelection}
+                  >
+                    Show All Divisions
+                  </button>
+                </div>
+
+                <select
+                  className="shs-category-select"
+                  value={selectedCategory}
+                  onChange={(event) => {
+                    setSelectedCategory(event.target.value);
+                    setSelectedSchoolId(null);
+                    setSchoolSearchTerm("");
+                  }}
+                >
+                  {availableCategories.map((category) => (
+                    <option key={category} value={category}>
+                      {category === "All" ? "All Schools" : category} ({categoryCounts[category] || 0})
+                    </option>
+                  ))}
+                </select>
 
                 <input
                   type="text"
@@ -390,6 +402,30 @@ const ALSShsMapModal = ({
                     setSelectedSchoolId(null);
                   }}
                 />
+
+                <select
+                  className="shs-school-select"
+                  value={selectedSchool?.schoolId || ""}
+                  onChange={(event) => setSelectedSchoolId(event.target.value || null)}
+                  disabled={!searchedSchools.length}
+                >
+                  {searchedSchools.length ? (
+                    searchedSchools.map((school) => (
+                      <option key={school.schoolId} value={school.schoolId}>
+                        {school.schoolName}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">No schools available</option>
+                  )}
+                </select>
+
+                <div className="shs-panel-heading shs-panel-heading-browser">
+                  <span className="section-kicker">School List</span>
+                  <p>
+                    {searchedSchools.length} school(s) shown for {activeDivisionName}.
+                  </p>
+                </div>
 
                 <div className="shs-school-list">
                   {isLoading ? (
@@ -420,44 +456,86 @@ const ALSShsMapModal = ({
                   )}
                 </div>
               </div>
-              </aside>
+            ) : null}
+          </aside>
 
-              <div className="map-canvas-card shs-map-canvas-card">
-                {selectedSchool ? (
-                  <>
-                    <div className="shs-map-school-header">
-                      <span className="section-kicker">Selected School</span>
-                      <h3>{selectedSchool.schoolName}</h3>
-                      <p className="shs-map-school-meta">{selectedSchool.category || "Unspecified"}</p>
-                      <p>{selectedSchool.schoolAddress || "Address not yet provided."}</p>
-                      <div className="map-detail-actions">
-                        <a className="map-open-link" href={googleMapsUrl} target="_blank" rel="noreferrer">
-                          Open in Google Maps
-                        </a>
-                      </div>
+          <div className="map-canvas-card shs-map-canvas-card shs-map-canvas-card-live">
+            {activeDivisionName && selectedSchool ? (
+              <>
+                <div className="shs-map-school-header">
+                  <span className="section-kicker">Selected School</span>
+                  <h3>{selectedSchool.schoolName}</h3>
+                  <p className="shs-map-school-meta">{selectedSchool.category || "Unspecified"}</p>
+                  <div className="shs-map-school-data">
+                    <div className="shs-map-school-data-card">
+                      <span>Address</span>
+                      <strong>{selectedSchool.schoolAddress || "Address not yet provided."}</strong>
                     </div>
-
-                    {embeddedMapUrl ? (
-                      <iframe
-                        title={`${selectedSchool.schoolName} map`}
-                        className="map-iframe"
-                        src={embeddedMapUrl}
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                      />
-                    ) : (
-                      <div className="map-iframe-empty">Map preview is unavailable for this school.</div>
-                    )}
-                  </>
-                ) : (
-                  <div className="map-iframe-empty">
-                    Select a school from the list to display its location on the map.
+                    <div className="shs-map-school-data-card">
+                      <span>Contact Number</span>
+                      <strong>{selectedSchool.contactNumber || "No contact number listed"}</strong>
+                    </div>
+                    <div className="shs-map-school-data-card">
+                      <span>Division</span>
+                      <strong>{activeDivisionName}</strong>
+                    </div>
                   </div>
+                  <div className="map-detail-actions">
+                    <a className="map-open-link" href={googleMapsUrl} target="_blank" rel="noreferrer">
+                      Open in Google Maps
+                    </a>
+                    <button
+                      type="button"
+                      className="map-modal-button map-modal-button-primary"
+                      onClick={() => {
+                        onSelectDivision?.(activeDivisionName);
+                        onClose();
+                      }}
+                    >
+                      Open {activeDivisionName}
+                    </button>
+                  </div>
+                </div>
+
+                {embeddedMapUrl ? (
+                  <iframe
+                    title={`${selectedSchool.schoolName} map`}
+                    className="map-iframe"
+                    src={embeddedMapUrl}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                ) : (
+                  <div className="map-iframe-empty">Map preview is unavailable for this school.</div>
                 )}
+              </>
+            ) : (
+              <div className="shs-map-empty-state">
+                <span className="section-kicker">Live Map</span>
+                <h3>
+                  {activeDivisionName
+                    ? `Choose a school in ${activeDivisionName}`
+                    : "Choose a division to begin"}
+                </h3>
+                <p>
+                  {activeDivisionName
+                    ? "The school list is ready on the left. Click any school and its exact map location will appear here."
+                    : "Start with the division directory on the left. Once you pick a division, its school list and live map view will load here."}
+                </p>
               </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
+  );
+
+  if (inlineMode) {
+    return content;
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      {content}
     </div>
   );
 };
