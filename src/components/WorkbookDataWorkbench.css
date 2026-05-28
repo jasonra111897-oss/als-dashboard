@@ -245,7 +245,7 @@
 
 .workbook-explorer-toolbar {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
   margin-top: 16px;
   width: 100%;
@@ -257,27 +257,25 @@
 }
 
 .workbook-explorer-toolbar-locked {
-  grid-template-columns: minmax(220px, 1.2fr) minmax(260px, 1.05fr) minmax(190px, 0.8fr) minmax(140px, 0.6fr);
+  grid-template-columns: minmax(180px, 0.9fr) minmax(190px, 0.9fr) minmax(320px, 1.45fr);
 }
 
-.workbook-explorer-toolbar-locked select:nth-of-type(1) {
-  grid-column: 1;
+.workbook-explorer-toolbar-simple {
+  grid-template-columns: minmax(180px, 0.85fr) minmax(360px, 2fr);
 }
 
-.workbook-explorer-toolbar-locked input {
-  grid-column: 2 / span 2;
+.workbook-filter-field {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
 }
 
-.workbook-explorer-toolbar-locked select:nth-of-type(2) {
-  grid-column: 4;
-}
-
-.workbook-explorer-toolbar-locked select:nth-of-type(3) {
-  grid-column: 1 / span 3;
-}
-
-.workbook-explorer-toolbar-locked select:nth-of-type(4) {
-  grid-column: 4;
+.workbook-filter-field span {
+  color: #173b78;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .workbook-explorer-toolbar select,
@@ -412,12 +410,11 @@
   }
 
   .workbook-explorer-toolbar-locked {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 
-  .workbook-explorer-toolbar-locked input,
-  .workbook-explorer-toolbar-locked select:nth-of-type(3) {
-    grid-column: auto;
+  .workbook-explorer-toolbar-simple {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -438,9 +435,8 @@
     grid-template-columns: 1fr;
   }
 
-  .workbook-explorer-toolbar-locked select,
-  .workbook-explorer-toolbar-locked input {
-    grid-column: auto;
+  .workbook-explorer-toolbar-simple {
+    grid-template-columns: 1fr;
   }
 
   .workbook-explorer-header,

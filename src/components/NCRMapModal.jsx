@@ -31,29 +31,13 @@ const NCRMapModal = ({
   onClose,
   divisions,
   currentDivision,
-  onSelectDivision,
-  onHomeClick,
   inlineMode = false,
 }) => {
   const [selectedDivisionName, setSelectedDivisionName] = useState(currentDivision || "");
 
-  const rankedDivisions = useMemo(
-    () =>
-      [...divisions].sort(
-        (left, right) => Number(right.totalImplementers || 0) - Number(left.totalImplementers || 0)
-      ),
-    [divisions]
-  );
-
   const selectedDivision =
     divisions.find((division) => division.division === (selectedDivisionName || currentDivision)) ||
-    divisions[0] ||
     null;
-
-  const selectedDivisionRank =
-    selectedDivision
-      ? rankedDivisions.findIndex((division) => division.division === selectedDivision.division) + 1
-      : 0;
 
   const selectedAddress = selectedDivision
     ? DIVISION_ADDRESSES[selectedDivision.division] ||
@@ -68,56 +52,57 @@ const NCRMapModal = ({
     return `https://www.google.com/maps?q=${encodeURIComponent(selectedAddress)}&z=16&output=embed`;
   }, [selectedAddress]);
 
-  const googleMapsUrl = useMemo(() => {
-    if (!selectedAddress) {
-      return "";
-    }
-
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedAddress)}`;
-  }, [selectedAddress]);
-
   if (!isOpen) {
     return null;
   }
 
   const content = (
       <div
-        className={`map-modal ${inlineMode ? "map-modal-inline" : ""}`}
+        className={`map-modal division-map-modal ${inlineMode ? "map-modal-inline" : ""}`}
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="modal-header map-modal-header">
-          <div>
+        <section className="division-map-hero">
+          <div className="division-map-hero-copy">
+            <span className="section-kicker section-kicker-light">NCR Division Map</span>
             <h2>NCR Division Office Map</h2>
-            <p className="map-modal-subtitle">
-              Select a division to view its office on an embedded map and open the exact location in
-              Google Maps.
+            <p>
+              Select a division to view its office location, regional coverage details, and embedded
+              map preview.
             </p>
           </div>
-          <div className="map-modal-actions">
+
+          {!inlineMode ? (
             <button
               type="button"
-              className="map-modal-button map-modal-button-secondary"
-              onClick={onHomeClick}
+              className="map-modal-button map-modal-button-primary"
+              onClick={onClose}
             >
-              HOME
+              Back to Dashboard
             </button>
-            {!inlineMode ? (
-              <button
-                type="button"
-                className="map-modal-button map-modal-button-primary"
-                onClick={onClose}
-              >
-                Back to Dashboard
-              </button>
-            ) : null}
-          </div>
-        </div>
+          ) : null}
+        </section>
 
         <div className="map-layout">
           <aside className="map-detail-card">
+            <div className="map-division-select-shell">
+              <label htmlFor="division-map-select">Choose Division</label>
+              <select
+                id="division-map-select"
+                className="map-division-select"
+                value={selectedDivisionName}
+                onChange={(event) => setSelectedDivisionName(event.target.value)}
+              >
+                <option value="">Select a division office</option>
+                {divisions.map((division) => (
+                  <option key={division.division} value={division.division}>
+                    {division.division}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {selectedDivision ? (
               <>
-                <span className="section-kicker">Selected Division</span>
                 <h3>{selectedDivision.division}</h3>
                 <p className="map-detail-address">{selectedAddress}</p>
 
@@ -131,55 +116,17 @@ const NCRMapModal = ({
                     <strong>{selectedDivision.totalImplementers}</strong>
                   </div>
                   <div className="map-detail-stat">
-                    <span>Regional Rank</span>
-                    <strong>#{selectedDivisionRank || "-"}</strong>
-                  </div>
-                  <div className="map-detail-stat">
                     <span>Status</span>
                     <strong>Active</strong>
                   </div>
                 </div>
-
-                <div className="map-detail-actions">
-                  <button
-                    type="button"
-                    className="map-modal-button map-modal-button-primary"
-                    onClick={() => {
-                      onSelectDivision(selectedDivision.division);
-                      onClose();
-                    }}
-                  >
-                    Open {selectedDivision.division}
-                  </button>
-                  <a
-                    className="map-open-link"
-                    href={googleMapsUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Open in Google Maps
-                  </a>
-                </div>
               </>
             ) : (
-              <p className="map-empty-state">No division data available for the map view.</p>
+              <div className="map-selection-empty">
+                <h3>Select a division</h3>
+                <p>Office details and the map preview will appear after choosing a division.</p>
+              </div>
             )}
-
-            <div className="map-list">
-              {divisions.map((division) => (
-                <button
-                  key={division.division}
-                  type="button"
-                  className={`map-list-item ${
-                    selectedDivision?.division === division.division ? "active" : ""
-                  }`}
-                  onClick={() => setSelectedDivisionName(division.division)}
-                >
-                  <span>{division.division}</span>
-                  <strong>{division.totalImplementers} staff</strong>
-                </button>
-              ))}
-            </div>
           </aside>
 
           <div className="map-canvas-card">
@@ -192,7 +139,7 @@ const NCRMapModal = ({
                 referrerPolicy="no-referrer-when-downgrade"
               />
             ) : (
-              <div className="map-iframe-empty">Map preview is unavailable for this division.</div>
+              <div className="map-iframe-empty">Choose a division to load its office map.</div>
             )}
           </div>
         </div>

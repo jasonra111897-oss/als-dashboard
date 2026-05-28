@@ -69,7 +69,6 @@ const Dashboard = () => {
   const [schoolsError, setSchoolsError] = useState("");
   const [isDashboardEnrolmentLoading, setIsDashboardEnrolmentLoading] = useState(false);
   const [dashboardEnrolmentError, setDashboardEnrolmentError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const [dashboardError, setDashboardError] = useState("");
   const regionalChartRef = useRef(null);
 
@@ -102,7 +101,6 @@ const Dashboard = () => {
 
     const hydrateDashboard = async () => {
       try {
-        setIsLoading(true);
         setDashboardError("");
         const data = await loadDashboard();
 
@@ -112,10 +110,6 @@ const Dashboard = () => {
       } catch (err) {
         if (!ignore) {
           setDashboardError(err.message || "Unable to load dashboard data.");
-        }
-      } finally {
-        if (!ignore) {
-          setIsLoading(false);
         }
       }
     };
@@ -129,7 +123,6 @@ const Dashboard = () => {
 
   const handleDataSourcesUpdated = useCallback(async () => {
     try {
-      setIsLoading(true);
       setDashboardError("");
       setEnrolmentData(null);
       setSchoolsData(null);
@@ -140,8 +133,6 @@ const Dashboard = () => {
       setAllData(data);
     } catch (err) {
       setDashboardError(err.message || "Unable to refresh dashboard data after workbook upload.");
-    } finally {
-      setIsLoading(false);
     }
   }, [loadDashboard]);
 
@@ -502,19 +493,7 @@ const Dashboard = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="loading-screen">
-        <div className="dashboard-state-card">
-          <span className="section-kicker">Initializing Dashboard</span>
-          <h2>Loading ALS NCR Dashboard...</h2>
-          <p>Preparing the latest regional personnel, enrolment, and division data.</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (dashboardError) {
+  if (dashboardError && !allData.length) {
     return (
       <div className="error-screen">
         <div className="dashboard-state-card dashboard-state-card-error">
@@ -541,15 +520,23 @@ const Dashboard = () => {
         activeView={activeTopNavView}
       />
 
-      <main className={`dashboard-content ${showClcshaDataPage ? "dashboard-content-wide" : ""}`.trim()}>
+      <main
+        className={`dashboard-content ${
+          showClcshaDataPage ? "dashboard-content-clc" : ""
+        } ${!selectedCity && activeTopNavView === "regional" ? "dashboard-content-home" : ""} ${
+          activeTopNavView === "about" ? "dashboard-content-about" : ""
+        } ${
+          activeTopNavView === "division-map" || activeTopNavView === "schools-map"
+            ? "dashboard-content-map"
+            : ""
+        }`.trim()}
+      >
         {showClcshaDataPage ? (
           <ClcshaDataPage onSourcesUpdated={handleDataSourcesUpdated} />
         ) : showAboutAlsModal ? (
           <AboutALSModal
             isOpen={showAboutAlsModal}
             onClose={() => setShowAboutAlsModal(false)}
-            allData={allData}
-            enrolmentData={enrolmentData}
             inlineMode
           />
         ) : showEnrolmentModal ? (
@@ -571,8 +558,6 @@ const Dashboard = () => {
             onClose={() => setShowMapModal(false)}
             divisions={allData}
             currentDivision={selectedDivision}
-            onSelectDivision={handleCityChange}
-            onHomeClick={resetToHome}
             inlineMode
           />
         ) : showShsMapModal ? (
@@ -580,13 +565,11 @@ const Dashboard = () => {
             key={`shs-map-inline-${selectedDivision || "regional-home"}`}
             isOpen={showShsMapModal}
             onClose={() => setShowShsMapModal(false)}
-            onHomeClick={resetToHome}
             currentDivision={selectedDivision}
             divisions={allData}
             schoolsData={schoolsData}
             isLoading={isSchoolsLoading}
             error={schoolsError}
-            onSelectDivision={handleCityChange}
             inlineMode
           />
         ) : selectedCity ? (

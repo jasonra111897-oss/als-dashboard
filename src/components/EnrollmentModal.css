@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: column;
   color: #10213d;
-  font-family: "Aptos", "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  font-family: var(--font-rounded);
 }
 
 .enrolment-modal-inline {
@@ -109,8 +109,6 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   box-shadow: 0 12px 28px rgba(16, 33, 61, 0.06);
-  animation: enrolmentChipRise 0.45s ease both;
-  animation-delay: calc(var(--chip-index, 0) * 28ms);
 }
 
 .enrolment-division-chip.active {

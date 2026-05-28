@@ -3,12 +3,11 @@
   top: 0;
   width: 100%;
   color: #fff;
-  font-family: "Aptos", "Segoe UI Variable", "Segoe UI", sans-serif;
+  font-family: var(--font-rounded);
   background:
-    radial-gradient(circle at 12% 18%, rgba(71, 130, 214, 0.28), transparent 24%),
-    radial-gradient(circle at 88% 10%, rgba(255, 199, 82, 0.18), transparent 22%),
-    linear-gradient(145deg, #0a1836 0%, #0f2550 44%, #173b78 100%);
-  box-shadow: 0 18px 44px rgba(10, 23, 48, 0.2);
+    linear-gradient(115deg, rgba(255, 255, 255, 0.035) 0%, transparent 36%, rgba(57, 135, 224, 0.12) 100%),
+    #0f4388;
+  box-shadow: none;
   z-index: 90;
   overflow: visible;
   transition:
@@ -28,8 +27,9 @@
 .banner-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: nowrap;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   min-width: 0;
 }
 
@@ -62,10 +62,13 @@
   position: absolute;
   top: calc(100% + 12px);
   left: 0;
-  min-width: 220px;
+  min-width: 230px;
   padding: 10px;
   border-radius: 18px;
-  background: #2f3379;
+  border: 1px solid rgba(213, 228, 249, 0.22);
+  background:
+    linear-gradient(135deg, rgba(47, 117, 214, 0.12), transparent 42%),
+    #0d326f;
   box-shadow: 0 24px 44px rgba(16, 33, 61, 0.22);
   display: none;
   z-index: 120;
@@ -92,20 +95,26 @@
 }
 
 .nav-dropdown-item:hover,
-.nav-dropdown-item:focus-visible {
+.nav-dropdown-item:focus-visible,
+.nav-dropdown-item.active {
   background: rgba(255, 255, 255, 0.08);
+  color: #ffd682;
 }
 
 .utility-button {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   border-radius: 0;
   font-weight: 700;
   border: 1px solid transparent;
-  padding: 5px 0 7px;
+  padding: 6px 2px 8px;
   background: transparent;
   color: rgba(233, 241, 255, 0.84);
   font-size: 0.72rem;
   letter-spacing: 0;
+  text-transform: uppercase;
   white-space: nowrap;
   transition:
     transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
@@ -167,12 +176,13 @@
 }
 
 .main-banner {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(260px, auto) minmax(0, 1fr);
   align-items: center;
   gap: 12px;
-  max-width: 1380px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   padding: 10px 22px;
   transition: padding 0.34s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -229,28 +239,16 @@
 .banner-right {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
-  flex: 0 1 auto;
-  margin-left: auto;
   min-width: 0;
-}
-
-.als-logo-img {
-  width: auto;
-  height: 44px;
-  padding: 4px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.96);
-  object-fit: contain;
-  box-shadow: 0 14px 28px rgba(10, 23, 48, 0.18);
-  transition: height 0.34s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .division-logo-bar {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
   width: 100%;
   max-width: none;
   margin: 0;
@@ -268,7 +266,7 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   overflow: hidden;
-  max-height: 196px;
+  max-height: none;
   opacity: 1;
   visibility: visible;
   box-shadow:
@@ -283,56 +281,15 @@
     box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.division-scroll-arrow {
-  width: 34px;
-  height: 46px;
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.42);
-  color: #ffffff;
-  font-size: 1.2rem;
-  line-height: 1;
-  box-shadow: 0 10px 22px rgba(16, 33, 61, 0.12);
-  transition:
-    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 0.24s cubic-bezier(0.22, 1, 0.36, 1),
-    width 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-    height 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-    font-size 0.34s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.division-scroll-arrow-icon {
-  width: 11px;
-  height: 11px;
-  display: inline-block;
-  border-right: 2.5px solid currentColor;
-  border-bottom: 2.5px solid currentColor;
-}
-
-.division-scroll-arrow-icon.left {
-  transform: rotate(135deg);
-}
-
-.division-scroll-arrow-icon.right {
-  transform: rotate(-45deg);
-}
-
-.division-scroll-arrow:hover {
-  transform: translateY(-1px);
-  background: rgba(0, 0, 0, 0.55);
-}
-
 .division-logo-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
   gap: 8px;
   width: 100%;
-  overflow-x: auto;
+  max-width: 100%;
+  justify-items: center;
+  overflow: visible;
   padding-bottom: 2px;
-  scroll-behavior: smooth;
   scrollbar-width: none;
   transition: gap 0.34s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -347,8 +304,9 @@
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
-  min-width: 96px;
-  max-width: 102px;
+  width: 100%;
+  min-width: 0;
+  max-width: 110px;
   min-height: 118px;
   padding: 4px 4px 6px;
   border: none;
@@ -371,6 +329,10 @@
 
 .division-logo-card.active {
   opacity: 1;
+}
+
+.division-logo-card.active .division-logo-name {
+  color: #f4c25f;
 }
 
 .division-logo-card:not(.active) {
@@ -467,32 +429,20 @@
 @media (max-width: 900px) {
   .utility-bar,
   .main-banner {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     align-items: flex-start;
     padding-left: 20px;
     padding-right: 20px;
   }
 
   .banner-right {
-    align-self: flex-end;
-  }
-
-  .division-logo-bar {
     width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  .banner-right {
-    width: 100%;
-    flex-direction: column-reverse;
-    align-items: flex-end;
+    justify-content: flex-end;
   }
 
   .banner-actions {
     width: 100%;
+    justify-content: flex-start;
   }
 
   .nav-dropdown-menu {
@@ -528,10 +478,6 @@
     height: 44px;
   }
 
-  .als-logo-img {
-    height: 50px;
-  }
-
   .banner-actions {
     justify-content: flex-start;
   }
@@ -541,15 +487,8 @@
   }
 
   .division-logo-card {
-    min-width: 88px;
-    max-width: 94px;
+    max-width: 96px;
     min-height: 110px;
-  }
-
-  .division-scroll-arrow {
-    width: 32px;
-    height: 42px;
-    font-size: 1.1rem;
   }
 
   .division-logo-image-shell {
@@ -573,27 +512,14 @@
   }
 }
 
-.top-nav-container.scrolled .main-banner {
-  padding-top: 9px;
-  padding-bottom: 9px;
+.top-nav-container,
+.top-nav-container * {
+  animation: none !important;
+  transition: none !important;
 }
 
-.top-nav-container.scrolled .deped-logo-img {
-  height: 38px;
-}
-
-.top-nav-container.scrolled .als-logo-img {
-  height: 44px;
-}
-
-.top-nav-container.scrolled .republic-text {
-  font-size: 8px;
-}
-
-.top-nav-container.scrolled .dept-text {
-  font-size: clamp(0.94rem, 1.2vw, 1.12rem);
-}
-
-.top-nav-container.scrolled .region-text {
-  font-size: 0.68rem;
+.utility-button:hover,
+.division-logo-card:hover,
+.division-logo-card:hover .division-logo-image-shell {
+  transform: none;
 }

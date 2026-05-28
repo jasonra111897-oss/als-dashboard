@@ -1,13 +1,34 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
+import { GraduationCap, Route } from "lucide-react";
 import {
   ABOUT_ALS_BENEFICIARIES,
   ABOUT_ALS_DELIVERY_POINTS,
   ABOUT_ALS_PROGRAMS,
 } from "../constants/aboutAls";
-import { formatNumber } from "../utils/formatters";
 import "./AboutALSModal.css";
 
-const AboutALSModal = ({ isOpen, onClose, allData, enrolmentData, inlineMode = false }) => {
+const ABOUT_ALS_SECTION_IMAGES = {
+  programs: {
+    src: "/images_aboutals/als-program-areas.webp",
+    alt: "Illustration showing ALS program areas and flexible learning resources",
+    width: 960,
+    height: 720,
+  },
+  learners: {
+    src: "/images_aboutals/who-als-serves.webp",
+    alt: "Illustration showing learner access, modules, and ALS learning support",
+    width: 960,
+    height: 720,
+  },
+  delivery: {
+    src: "/images_aboutals/regional-delivery-points.webp",
+    alt: "Illustration showing regional delivery points and data coordination",
+    width: 960,
+    height: 690,
+  },
+};
+
+const AboutALSModal = ({ isOpen, onClose, inlineMode = false }) => {
   useEffect(() => {
     if (!isOpen || inlineMode) {
       return undefined;
@@ -25,19 +46,6 @@ const AboutALSModal = ({ isOpen, onClose, allData, enrolmentData, inlineMode = f
     };
   }, [inlineMode, isOpen]);
 
-  const regionalMetrics = useMemo(() => {
-    const divisions = Array.isArray(allData) ? allData.length : 0;
-    const schools = Array.isArray(allData)
-      ? allData.reduce((sum, division) => sum + Number(division.totalSchools || 0), 0)
-      : 0;
-    const personnel = Array.isArray(allData)
-      ? allData.reduce((sum, division) => sum + Number(division.totalImplementers || 0), 0)
-      : 0;
-    const enrollees = enrolmentData?.totals?.grandTotal?.total || 0;
-
-    return { divisions, schools, personnel, enrollees };
-  }, [allData, enrolmentData]);
-
   if (!isOpen) {
     return null;
   }
@@ -48,111 +56,97 @@ const AboutALSModal = ({ isOpen, onClose, allData, enrolmentData, inlineMode = f
       onClick={(event) => event.stopPropagation()}
       id="about-als-top"
     >
-      <div className="modal-header about-als-header">
-        <div className="about-als-header-copy">
-          <span className="section-kicker">Regional Information</span>
-          <h2>About ALS</h2>
-          <p>
-            A quick NCR-focused guide to the Alternative Learning System, its programs, target
-            learners, and the regional footprint currently tracked in this dashboard.
-          </p>
-        </div>
-
-        <div className="about-als-header-actions" />
-      </div>
-
       <section className="about-als-hero" id="about-als-overview">
-        <div className="about-als-hero-copy">
-          <span className="section-kicker">Alternative Learning System</span>
-          <h3>Flexible education access for learners across the National Capital Region</h3>
-          <p>
-            ALS provides alternative and inclusive learning opportunities for Filipinos who need
-            a flexible path to basic education. In NCR, the system depends on coordinated
-            regional planning, division implementation, and school-site access.
-          </p>
-        </div>
-
-        <div className="about-als-hero-grid">
-          <div className="about-als-metric-card">
-            <span>Tracked Divisions</span>
-            <strong>{formatNumber(regionalMetrics.divisions)}</strong>
-            <small>NCR divisions covered in the dashboard</small>
-          </div>
-          <div className="about-als-metric-card">
-            <span>School Sites</span>
-            <strong>{formatNumber(regionalMetrics.schools)}</strong>
-            <small>Mapped ALS school coverage in the workbook</small>
-          </div>
-          <div className="about-als-metric-card">
-            <span>ALS Personnel</span>
-            <strong>{formatNumber(regionalMetrics.personnel)}</strong>
-            <small>Regional implementers currently tracked</small>
-          </div>
-          <div className="about-als-metric-card">
-            <span>Enrolment Footprint</span>
-            <strong>{formatNumber(regionalMetrics.enrollees)}</strong>
-            <small>Latest NCR enrolment total in the dashboard</small>
-          </div>
-        </div>
+        <span className="section-kicker">Alternative Learning System</span>
+        <h2>About ALS NCR</h2>
+        <p>Program areas, learner groups, and regional delivery points for ALS implementation in NCR.</p>
       </section>
 
-      <div className="about-als-grid">
-        <section className="about-als-panel">
-          <div className="about-als-panel-header">
-            <span className="section-kicker">Mission and Purpose</span>
-            <h3>What ALS supports in NCR</h3>
+      <div className="about-als-walkthrough">
+        <section className="about-als-step" id="about-als-programs">
+          <div className="about-als-visual about-als-program-visual">
+            <div className="about-als-image-card">
+              <img
+                src={ABOUT_ALS_SECTION_IMAGES.programs.src}
+                alt={ABOUT_ALS_SECTION_IMAGES.programs.alt}
+                width={ABOUT_ALS_SECTION_IMAGES.programs.width}
+                height={ABOUT_ALS_SECTION_IMAGES.programs.height}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
           </div>
-          <p>
-            The dashboard supports regional and division teams by consolidating personnel,
-            enrolment, school-site, and map access into one workspace. It helps teams understand
-            where services exist, who is implementing them, and how divisions compare across the
-            region.
-          </p>
-          <ul className="about-als-list">
-            <li>Strengthens visibility across all tracked NCR divisions</li>
-            <li>Supports flexible learning delivery and regional coordination</li>
-            <li>Connects school sites, personnel records, maps, and enrolment views</li>
-          </ul>
-        </section>
 
-        <section className="about-als-panel" id="about-als-programs">
-          <div className="about-als-panel-header">
-            <span className="section-kicker">Core Programs</span>
-            <h3>Major ALS program areas</h3>
-          </div>
-          <div className="about-als-program-grid">
-            {ABOUT_ALS_PROGRAMS.map((program) => (
-              <article key={program.title} className="about-als-program-card">
-                <strong>{program.title}</strong>
-                <p>{program.description}</p>
-              </article>
-            ))}
+          <div className="about-als-step-copy">
+            <span className="about-als-step-number">01</span>
+            <h3>ALS Program Areas</h3>
+            <div className="about-als-program-list">
+              {ABOUT_ALS_PROGRAMS.map((program) => (
+                <article key={program.title}>
+                  <strong>{program.title}</strong>
+                  <p>{program.description}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="about-als-panel" id="about-als-learners">
-          <div className="about-als-panel-header">
-            <span className="section-kicker">Who ALS Serves</span>
-            <h3>Priority learner groups</h3>
+        <section className="about-als-step about-als-step-reverse" id="about-als-learners">
+          <div className="about-als-step-copy">
+            <span className="about-als-step-number">02</span>
+            <h3>Who ALS Serves</h3>
+            <div className="about-als-learner-list">
+              {ABOUT_ALS_BENEFICIARIES.map((item) => (
+                <div key={item}>
+                  <GraduationCap aria-hidden="true" />
+                  <span>{item.replace(/\.$/, "")}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <ul className="about-als-list">
-            {ABOUT_ALS_BENEFICIARIES.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+
+          <div className="about-als-visual about-als-learner-visual">
+            <div className="about-als-image-card">
+              <img
+                src={ABOUT_ALS_SECTION_IMAGES.learners.src}
+                alt={ABOUT_ALS_SECTION_IMAGES.learners.alt}
+                width={ABOUT_ALS_SECTION_IMAGES.learners.width}
+                height={ABOUT_ALS_SECTION_IMAGES.learners.height}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
         </section>
 
-        <section className="about-als-panel" id="about-als-delivery">
-          <div className="about-als-panel-header">
-            <span className="section-kicker">Regional Delivery</span>
-            <h3>How this dashboard supports implementation</h3>
+        <section className="about-als-step" id="about-als-delivery">
+          <div className="about-als-visual about-als-delivery-visual">
+            <div className="about-als-image-card">
+              <img
+                src={ABOUT_ALS_SECTION_IMAGES.delivery.src}
+                alt={ABOUT_ALS_SECTION_IMAGES.delivery.alt}
+                width={ABOUT_ALS_SECTION_IMAGES.delivery.width}
+                height={ABOUT_ALS_SECTION_IMAGES.delivery.height}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
           </div>
-          <ul className="about-als-list">
-            {ABOUT_ALS_DELIVERY_POINTS.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+
+          <div className="about-als-step-copy">
+            <span className="about-als-step-number">03</span>
+            <h3>Regional Delivery Points</h3>
+            <div className="about-als-delivery-list">
+              {ABOUT_ALS_DELIVERY_POINTS.map((item) => (
+                <div key={item}>
+                  <Route aria-hidden="true" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
+
       </div>
     </div>
   );

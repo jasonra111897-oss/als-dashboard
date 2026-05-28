@@ -42,12 +42,16 @@ const WorkbookDataWorkbench = ({
   title = "Manage multiple Excel data sources",
   description = "Upload, compare, and explore both workbook databases without disrupting the current ALS dashboard views.",
   sectionKicker = "Workbook Data Center",
+  explorerTitle = "Search, filter, sort, and export rows",
   lockedSourceId = "",
   showHeader = true,
   showSourceCards = true,
   showCombinedAnalytics = true,
   showTopDivisions = true,
   showSummaryMetrics = true,
+  showExportButton = true,
+  showExplorerHeader = true,
+  showSortControl = true,
 }) => {
   const [sourcesPayload, setSourcesPayload] = useState({ sources: [], summary: null });
   const [analytics, setAnalytics] = useState(null);
@@ -461,95 +465,101 @@ const WorkbookDataWorkbench = ({
       ) : null}
 
       <div className="workbook-explorer-card">
-        <div className="workbook-explorer-header">
-          <div>
-            <span className="section-kicker">Dataset Explorer</span>
-            <h3>Search, filter, sort, and export rows</h3>
+        {showExplorerHeader || showExportButton ? (
+          <div className="workbook-explorer-header">
+            {showExplorerHeader ? (
+              <div>
+                <span className="section-kicker">Dataset Explorer</span>
+                <h3>{explorerTitle}</h3>
+              </div>
+            ) : (
+              <span />
+            )}
+            {showExportButton ? (
+              <button
+                type="button"
+                className="workbook-export-button"
+                onClick={handleExport}
+                disabled={isExporting}
+              >
+                {isExporting ? "Exporting..." : "Export Filtered Rows"}
+              </button>
+            ) : null}
           </div>
-          <button
-            type="button"
-            className="workbook-export-button"
-            onClick={handleExport}
-            disabled={isExporting}
-          >
-            {isExporting ? "Exporting..." : "Export Filtered Rows"}
-          </button>
-        </div>
+        ) : null}
 
         <div
           className={`workbook-explorer-toolbar ${
             lockedSourceId ? "workbook-explorer-toolbar-locked" : ""
+          } ${!showSortControl ? "workbook-explorer-toolbar-simple" : ""
           }`.trim()}
         >
           {!lockedSourceId ? (
+            <label className="workbook-filter-field">
+              <span>Dataset</span>
+              <select
+                value={query.sourceId}
+                onChange={(event) =>
+                  handleQueryChange({
+                    sourceId: event.target.value,
+                    sheetName: "all",
+                    sortBy: "_source",
+                  })
+                }
+              >
+                <option value="all">All Datasets</option>
+                {rowsPayload.sourceOptions.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
+          <label className="workbook-filter-field">
+            <span>Division</span>
             <select
-              value={query.sourceId}
+              value={query.sheetName}
               onChange={(event) =>
-                handleQueryChange({
-                  sourceId: event.target.value,
-                  sheetName: "all",
-                  sortBy: "_source",
-                })
+                handleQueryChange({ sheetName: event.target.value, sortBy: "_source" })
               }
+              disabled={query.sourceId === "all"}
             >
-              <option value="all">All Datasets</option>
-              {rowsPayload.sourceOptions.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.label}
+              <option value="all">All Divisions</option>
+              {visibleSheetOptions.map((option) => (
+                <option key={`${option.sourceId}:${option.sheetName}`} value={option.sheetName}>
+                  {option.sheetName} ({option.rowCount})
                 </option>
               ))}
             </select>
+          </label>
+
+          {showSortControl ? (
+            <label className="workbook-filter-field">
+              <span>Sort By</span>
+              <select
+                value={query.sortBy}
+                onChange={(event) => handleQueryChange({ sortBy: event.target.value })}
+              >
+                {rowsPayload.columns.map((column) => (
+                  <option key={column.key} value={column.key}>
+                    {column.label}
+                  </option>
+                ))}
+              </select>
+            </label>
           ) : null}
 
-          <select
-            value={query.sheetName}
-            onChange={(event) =>
-              handleQueryChange({ sheetName: event.target.value, sortBy: "_source" })
-            }
-            disabled={query.sourceId === "all"}
-          >
-            <option value="all">All Sheets</option>
-            {visibleSheetOptions.map((option) => (
-              <option key={`${option.sourceId}:${option.sheetName}`} value={option.sheetName}>
-                {option.sheetName} ({option.rowCount})
-              </option>
-            ))}
-          </select>
-
-          <input
-            type="text"
-            value={query.search}
-            placeholder="Search by division, school, teacher, address..."
-            onChange={(event) => handleQueryChange({ search: event.target.value })}
-          />
-
-          <select
-            value={query.sortBy}
-            onChange={(event) => handleQueryChange({ sortBy: event.target.value })}
-          >
-            {rowsPayload.columns.map((column) => (
-              <option key={column.key} value={column.key}>
-                Sort: {column.label}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={query.sortDir}
-            onChange={(event) => handleQueryChange({ sortDir: event.target.value })}
-          >
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
-
-          <select
-            value={query.pageSize}
-            onChange={(event) => handleQueryChange({ pageSize: Number(event.target.value) })}
-          >
-            <option value="10">10 / page</option>
-            <option value="25">25 / page</option>
-            <option value="50">50 / page</option>
-          </select>
+          <label className="workbook-filter-field workbook-filter-field-search">
+            <span>Search</span>
+            <input
+              type="text"
+              value={query.search}
+              placeholder="Search by division, school, teacher, address..."
+              onChange={(event) => handleQueryChange({ search: event.target.value })}
+            />
+          </label>
         </div>
 
         <div className="workbook-table-shell">

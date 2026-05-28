@@ -106,6 +106,7 @@ const spawnProcess = (label, scriptName, extraEnv = {}) => {
     }
   });
 
+
   child.on("error", (error) => {
     console.error(`[${label}] failed to start: ${error.message}`);
     shutdown(1);

@@ -1,12 +1,13 @@
 .dashboard-wrapper {
   min-height: 100vh;
   color: #10213d;
-  font-family: "Aptos", "Segoe UI Variable", "Segoe UI", sans-serif;
+  font-family: var(--font-rounded);
   background:
     radial-gradient(circle at top left, rgba(48, 103, 188, 0.15), transparent 24%),
     radial-gradient(circle at top right, rgba(255, 203, 96, 0.16), transparent 18%),
     linear-gradient(180deg, #f3f7fc 0%, #eef4fb 42%, #e8f0f8 100%);
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .dashboard-content {
@@ -19,6 +20,34 @@
   max-width: min(1760px, calc(100vw - 20px));
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.dashboard-content-home {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-content-about {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-content-map {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-content-clc {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
 
 .loading-screen,
@@ -91,7 +120,6 @@
   grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.82fr);
   gap: 18px;
   margin-bottom: 22px;
-  animation: sectionRise 0.65s ease both;
 }
 
 .division-hero-copy,
@@ -291,7 +319,6 @@
     radial-gradient(circle at top right, rgba(255, 203, 96, 0.18), transparent 22%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(241, 246, 252, 0.95));
   box-shadow: 0 20px 40px rgba(16, 33, 61, 0.08);
-  animation: sectionRise 0.7s ease both;
 }
 
 .executive-summary-copy h3 {
@@ -362,7 +389,6 @@
     radial-gradient(circle at left center, rgba(78, 141, 228, 0.12), transparent 22%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(241, 246, 252, 0.95));
   box-shadow: 0 20px 40px rgba(16, 33, 61, 0.08);
-  animation: sectionRise 0.75s ease both;
 }
 
 .dashboard-enrolment-band::before {
@@ -386,7 +412,7 @@
   margin: 12px 0 8px;
   color: #10213d;
   font-size: clamp(1.36rem, 2.1vw, 1.82rem);
-  font-family: "Aptos Display", "Segoe UI Variable Display", "Aptos", "Segoe UI", sans-serif;
+  font-family: var(--font-rounded-display);
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 1.02;
@@ -525,7 +551,6 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin: 0 0 22px;
-  animation: sectionRise 0.8s ease both;
 }
 
 .division-insight-card {
@@ -587,7 +612,6 @@
   grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
   gap: 18px;
   margin-bottom: 22px;
-  animation: sectionRise 0.85s ease both;
 }
 
 .insight-panel {
@@ -652,7 +676,6 @@
 
 .registry-card {
   padding: 22px;
-  animation: sectionRise 0.9s ease both;
 }
 
 .registry-header {
@@ -928,7 +951,7 @@
   display: flex;
   flex-direction: column;
   color: #10213d;
-  font-family: "Aptos", "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  font-family: var(--font-rounded);
 }
 
 .map-modal {
@@ -961,7 +984,7 @@
 .enrolment-modal-header h2 {
   margin: 0;
   color: #10213d;
-  font-family: "Aptos Display", "Segoe UI Variable Display", "Aptos", "Segoe UI", sans-serif;
+  font-family: var(--font-rounded-display);
   font-size: clamp(2rem, 3.5vw, 2.85rem);
   font-weight: 800;
   letter-spacing: -0.05em;
@@ -1909,8 +1932,6 @@
     border-color 0.22s ease,
     background 0.22s ease,
     color 0.22s ease;
-  animation: enrolmentChipRise 0.58s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: calc(var(--chip-index) * 0.04s);
 }
 
 .enrolment-division-chip:hover {
@@ -1969,7 +1990,7 @@
   margin: 18px 0 10px;
   color: #10213d;
   font-size: clamp(1.8rem, 3vw, 2.4rem);
-  font-family: "Aptos Display", "Segoe UI Variable Display", "Aptos", "Segoe UI", sans-serif;
+  font-family: var(--font-rounded-display);
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 0.98;
@@ -2033,7 +2054,7 @@
   margin-top: 12px;
   color: #10213d;
   font-size: 2rem;
-  font-family: "Aptos Display", "Segoe UI Variable Display", "Aptos", "Segoe UI", sans-serif;
+  font-family: var(--font-rounded-display);
   letter-spacing: -0.05em;
 }
 
@@ -2311,262 +2332,6 @@
   background: #dcfce7;
   color: #166534;
   font-weight: bold;
-}
-
-.about-als-modal {
-  width: 100vw;
-  height: 100vh;
-  max-height: none;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 32px 40px 40px;
-  border-radius: 0;
-  background:
-    radial-gradient(circle at top left, rgba(48, 103, 188, 0.12), transparent 24%),
-    radial-gradient(circle at top right, rgba(255, 203, 96, 0.16), transparent 18%),
-    linear-gradient(180deg, #f8fbff 0%, #eef4fb 48%, #e8f0f8 100%);
-  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.24);
-  display: flex;
-  flex-direction: column;
-  color: #10213d;
-}
-
-.about-als-header {
-  align-items: flex-start;
-  margin-bottom: 24px;
-  padding: 0 2px;
-}
-
-.about-als-header-copy {
-  max-width: 720px;
-}
-
-.about-als-header-copy h2 {
-  margin: 14px 0 10px;
-  color: #10213d;
-  font-family: "Aptos Display", "Segoe UI Variable Display", "Aptos", "Segoe UI", sans-serif;
-  font-size: clamp(2rem, 3.5vw, 2.85rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-}
-
-.about-als-header-copy p {
-  margin: 0;
-  max-width: 62ch;
-  color: #576d87;
-  line-height: 1.72;
-}
-
-.about-als-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.about-als-hero {
-  display: grid;
-  grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.2fr);
-  gap: 24px;
-  margin-bottom: 28px;
-}
-
-.about-als-hero-copy,
-.about-als-panel {
-  padding: 26px;
-  border: 1px solid rgba(196, 211, 230, 0.84);
-  border-radius: 30px;
-  background:
-    radial-gradient(circle at top right, rgba(255, 203, 96, 0.16), transparent 24%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(241, 246, 252, 0.95));
-  box-shadow: 0 20px 40px rgba(16, 33, 61, 0.08);
-}
-
-.about-als-hero-copy h3 {
-  margin: 16px 0 12px;
-  color: #10213d;
-  font-family: "Aptos Display", "Segoe UI Variable Display", "Aptos", "Segoe UI", sans-serif;
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  line-height: 1.05;
-}
-
-.about-als-hero-copy p,
-.about-als-panel p {
-  margin: 0;
-  color: #5b6f88;
-  line-height: 1.72;
-}
-
-.about-als-hero-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.about-als-metric-card {
-  padding: 22px;
-  border: 1px solid rgba(199, 213, 231, 0.84);
-  border-radius: 24px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 245, 252, 0.94));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
-}
-
-.about-als-metric-card span {
-  display: block;
-  color: #688099;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.about-als-metric-card strong {
-  display: block;
-  margin-top: 12px;
-  color: #10213d;
-  font-family: "Aptos Display", "Segoe UI Variable Display", "Aptos", "Segoe UI", sans-serif;
-  font-size: clamp(2rem, 3.1vw, 2.6rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-}
-
-.about-als-metric-card small {
-  display: block;
-  margin-top: 8px;
-  color: #5d6d82;
-  font-size: 0.82rem;
-  font-weight: 700;
-  line-height: 1.5;
-}
-
-.about-als-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.about-als-panel-header {
-  margin-bottom: 18px;
-}
-
-.about-als-panel-header h3 {
-  margin: 14px 0 0;
-  color: #10213d;
-  font-family: "Aptos Display", "Segoe UI Variable Display", "Aptos", "Segoe UI", sans-serif;
-  font-size: clamp(1.4rem, 2vw, 1.75rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-}
-
-.about-als-program-grid {
-  display: grid;
-  gap: 14px;
-}
-
-.about-als-program-card {
-  padding: 18px 18px 16px;
-  border: 1px solid rgba(199, 213, 231, 0.84);
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.84);
-}
-
-.about-als-program-card strong {
-  display: block;
-  color: #173b78;
-  font-size: 1rem;
-  font-weight: 800;
-}
-
-.about-als-program-card p {
-  margin-top: 8px;
-  color: #5b6f88;
-  font-size: 0.92rem;
-  line-height: 1.65;
-}
-
-.about-als-list {
-  margin: 16px 0 0;
-  padding-left: 18px;
-  color: #5b6f88;
-  display: grid;
-  gap: 10px;
-  line-height: 1.68;
-}
-
-.about-als-list li::marker {
-  color: #173b78;
-}
-
-.ncr-overview-container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  margin: 0 0 -56px;
-  padding: 20px 22px 76px;
-  border: 1px solid rgba(195, 210, 230, 0.84);
-  border-radius: 34px;
-  background:
-    radial-gradient(circle at 14% 18%, rgba(99, 160, 241, 0.2), transparent 24%),
-    radial-gradient(circle at 86% 12%, rgba(255, 203, 96, 0.16), transparent 18%),
-    radial-gradient(circle at 50% 80%, rgba(216, 230, 248, 0.22), transparent 28%),
-    linear-gradient(
-      180deg,
-      rgba(242, 247, 253, 0.98) 0%,
-      rgba(236, 243, 251, 0.96) 36%,
-      rgba(230, 238, 249, 0.94) 68%,
-      rgba(245, 248, 252, 0.98) 100%
-    );
-  box-shadow: 0 24px 48px rgba(10, 23, 48, 0.1);
-  text-align: center;
-  animation: sectionRise 0.7s ease both;
-}
-
-.ncr-overview-container::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background:
-    radial-gradient(circle at 18% 34%, rgba(255, 255, 255, 0.46), transparent 20%),
-    radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.34), transparent 20%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02));
-  pointer-events: none;
-  z-index: 0;
-  opacity: 1;
-}
-
-.ncr-overview-container::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0)),
-    repeating-linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.06) 0,
-      rgba(255, 255, 255, 0.06) 1px,
-      transparent 1px,
-      transparent 36px
-    ),
-    repeating-linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.05) 0,
-      rgba(255, 255, 255, 0.05) 1px,
-      transparent 1px,
-      transparent 36px
-    );
-  opacity: 0.2;
-  pointer-events: none;
-  z-index: 0;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.18));
-}
-
-.ncr-overview-container > * {
-  position: relative;
-  z-index: 1;
 }
 
 .welcome-banner {
@@ -2934,8 +2699,6 @@
   .division-insight-ribbon,
   .overview-signal-strip,
   .insight-layout,
-  .about-als-hero,
-  .about-als-grid,
   .enrolment-focus-grid,
   .map-layout,
   .shs-map-layout,
@@ -2963,12 +2726,6 @@
     padding: 12px 8px 8px;
   }
 
-  .ncr-overview-container {
-    margin-bottom: -48px;
-    padding: 20px 20px 70px;
-    border-radius: 34px;
-  }
-
   .ncr-stats-summary,
   .overview-signal-strip,
   .overview-intelligence-layout {
@@ -2987,7 +2744,6 @@
   .registry-card,
   .profile-modal,
   .enrolment-modal,
-  .about-als-modal,
   .map-modal {
     padding: 24px;
   }
@@ -3019,19 +2775,6 @@
 
   .enrolment-summary-grid {
     grid-template-columns: 1fr 1fr;
-  }
-
-  .about-als-hero-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .about-als-header {
-    align-items: stretch;
-  }
-
-  .about-als-header-actions {
-    width: 100%;
-    justify-content: flex-end;
   }
 
   .enrolment-division-strip {
@@ -3144,12 +2887,6 @@
   .overview-status-pill {
     justify-content: center;
     width: 100%;
-  }
-
-  .ncr-overview-container {
-    margin-bottom: -56px;
-    padding: 18px 16px 84px;
-    border-radius: 28px;
   }
 
   .detail-row {
