@@ -1,4 +1,7 @@
 .chart-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   margin-top: 0;
   padding: 28px;
   border: 1px solid rgba(198, 213, 231, 0.84);
@@ -84,7 +87,9 @@
 }
 
 .chart-wrapper {
+  flex: 1;
   height: 400px;
+  min-height: 400px;
 }
 
 @keyframes chartRise {

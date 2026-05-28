@@ -1,5 +1,5 @@
 import React from "react";
-import { Building2, GraduationCap, MapPinned, Trophy, UsersRound } from "lucide-react";
+import { Building2, MapPinned, Trophy, UsersRound } from "lucide-react";
 import {
   getDivisionBadge,
   getDivisionDisplayName,
@@ -77,7 +77,6 @@ const NCROverview = ({ allData, onSelectDivision }) => {
       : 0,
   };
 
-  const averagePersonnel = hasData ? Math.round(ncrTotals.teachers / allData.length) : 0;
   const maxPersonnel = Math.max(...divisionMetrics.map((division) => division.personnel), 1);
   const maxSchools = Math.max(...divisionMetrics.map((division) => division.schools), 1);
   const maxPersonnelPerSchool = Math.max(
@@ -155,7 +154,7 @@ const NCROverview = ({ allData, onSelectDivision }) => {
             <img src="/als.png" alt="ALS NCR" />
           </div>
 
-          {divisionLogos.map((division) => (
+          {divisionLogos.map((division, index) => (
             <button
               key={division.division}
               type="button"
@@ -166,6 +165,7 @@ const NCROverview = ({ allData, onSelectDivision }) => {
                 "--counter-angle": `${-division.angle}deg`,
                 "--counter-angle-end": `${-(division.angle + 360)}deg`,
                 "--radius": division.radius,
+                "--entrance-delay": `${0.18 + index * 0.11}s`,
               }}
               onClick={() => onSelectDivision?.(division.division)}
               title={division.displayName}
@@ -221,15 +221,6 @@ const NCROverview = ({ allData, onSelectDivision }) => {
           </div>
         </div>
 
-        <div className="ncr-stat-item">
-          <div className="stat-card-main">
-            <GraduationCap className="stat-icon" aria-hidden="true" />
-            <span>
-              <span className="stat-label">Avg Personnel</span>
-              <span className="stat-value">{formatMetric(averagePersonnel)}</span>
-            </span>
-          </div>
-        </div>
       </div>
 
       <section className="ncr-data-insights" aria-label="NCR data insights">

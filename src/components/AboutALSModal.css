@@ -146,6 +146,44 @@
   object-fit: contain;
   background: transparent;
   filter: drop-shadow(0 24px 34px rgba(20, 45, 80, 0.12));
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.about-als-image-card.is-visible img {
+  animation: aboutAlsImageFadeIn 0.86s ease var(--about-image-delay, 0.08s) both;
+}
+
+.about-als-program-visual {
+  --about-image-delay: 0.16s;
+}
+
+.about-als-learner-visual {
+  --about-image-delay: 0.34s;
+}
+
+.about-als-delivery-visual {
+  --about-image-delay: 0.52s;
+}
+
+@keyframes aboutAlsImageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-als-image-card img {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
 }
 
 .about-als-step-copy {

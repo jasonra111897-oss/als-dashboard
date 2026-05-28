@@ -25,14 +25,7 @@ const StatCards = ({ cityData, divisionEnrolment, divisionInsights }) => {
       value: formatNumber(divisionEnrolment?.grandTotal?.total || 0),
       subtext: "School year 2025-2026",
       accentClass: "border-orange",
-      trend: divisionInsights?.rankLabel || "Waiting for regional rank",
-    },
-    {
-      title: "Current Focus",
-      value: formatNumber(cityData.activeDivisions || 0),
-      subtext: "Selected division view",
-      accentClass: "border-platinum",
-      trend: divisionInsights?.leadingRole || "ALS implementers",
+      trend: divisionInsights?.rankLabel || "Waiting for enrolment data",
     },
   ];
 

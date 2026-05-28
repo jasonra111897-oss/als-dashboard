@@ -11,7 +11,49 @@ import {
 } from "chart.js";
 import "./LearningStrandsChart.css";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+const barValueLabelsPlugin = {
+  id: "barValueLabels",
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+
+    chart.data.datasets.forEach((dataset, datasetIndex) => {
+      const meta = chart.getDatasetMeta(datasetIndex);
+
+      meta.data.forEach((bar, index) => {
+        const value = dataset.data[index];
+
+        if (!value) {
+          return;
+        }
+
+        const props = bar.getProps(["x", "y", "base"], true);
+        const barTop = Math.min(props.y, props.base);
+        const barBottom = Math.max(props.y, props.base);
+        const labelY = (barTop + barBottom) / 2;
+
+        ctx.save();
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "900 20px Arial, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.shadowColor = "rgba(5, 20, 47, 0.28)";
+        ctx.shadowBlur = 6;
+        ctx.fillText(String(value), props.x, labelY);
+        ctx.restore();
+      });
+    });
+  },
+};
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  barValueLabelsPlugin
+);
 
 const LearningStrandsChart = ({ cityData }) => {
   const positionCounts = (cityData?.teacherList || []).reduce((counts, teacher) => {
@@ -38,6 +80,7 @@ const LearningStrandsChart = ({ cityData }) => {
           "rgba(248, 185, 63, 0.84)",
         ],
         borderRadius: 10,
+        minBarLength: 28,
       },
     ],
   };

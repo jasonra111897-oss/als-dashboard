@@ -46,6 +46,41 @@ const AboutALSModal = ({ isOpen, onClose, inlineMode = false }) => {
     };
   }, [inlineMode, isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    const imageCards = Array.from(document.querySelectorAll(".about-als-image-card"));
+
+    imageCards.forEach((card) => card.classList.remove("is-visible"));
+
+    if (!("IntersectionObserver" in window)) {
+      imageCards.forEach((card) => card.classList.add("is-visible"));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px 0px -12% 0px",
+        threshold: 0.24,
+      }
+    );
+
+    imageCards.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, [isOpen]);
+
   if (!isOpen) {
     return null;
   }
