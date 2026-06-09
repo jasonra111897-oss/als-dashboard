@@ -1,18 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 import { formatNumber } from "../utils/formatters";
 import "./EnrollmentModal.css";
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const PROGRAM_ROWS = [
   {
@@ -42,10 +30,11 @@ const PROGRAM_ROWS = [
   },
 ];
 
+const CHART_PROGRAM_ROWS = PROGRAM_ROWS.filter((program) => program.key !== "grandTotal");
+
 const EnrollmentModal = ({
   isOpen,
   onClose,
-  onHomeClick,
   enrolmentData,
   isLoading,
   error,
@@ -78,88 +67,20 @@ const EnrollmentModal = ({
     enrolmentData?.divisions?.[0] ||
     null;
 
-  const selectedProgramCards = selectedDivision
-    ? PROGRAM_ROWS.map((program) => ({
-        ...program,
-        values: selectedDivision[program.key],
-      }))
-    : [];
-
-  const chartData = useMemo(() => {
-    if (!selectedDivision) {
-      return null;
-    }
-
-    return {
-      labels: PROGRAM_ROWS.map((program) => program.shortLabel),
-      datasets: [
-        {
-          label: "Male",
-          data: PROGRAM_ROWS.map((program) => selectedDivision[program.key].male),
-          backgroundColor: "rgba(23, 59, 120, 0.9)",
-          borderRadius: 10,
-        },
-        {
-          label: "Female",
-          data: PROGRAM_ROWS.map((program) => selectedDivision[program.key].female),
-          backgroundColor: "rgba(72, 130, 214, 0.82)",
-          borderRadius: 10,
-        },
-        {
-          label: "Total",
-          data: PROGRAM_ROWS.map((program) => selectedDivision[program.key].total),
-          backgroundColor: "rgba(244, 180, 56, 0.86)",
-          borderRadius: 10,
-        },
-      ],
-    };
-  }, [selectedDivision]);
-
-  const chartOptions = useMemo(
-    () => ({
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "top",
-          labels: {
-            usePointStyle: true,
-            boxWidth: 10,
-          },
-        },
-        title: {
-          display: true,
-          text: selectedDivision
-            ? `${selectedDivision.division} Enrolment Breakdown`
-            : "Division Enrolment Breakdown",
-          color: "#10213d",
-          font: {
-            size: 16,
-            weight: "700",
-          },
-          padding: {
-            bottom: 16,
-          },
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            precision: 0,
-          },
-          grid: {
-            color: "rgba(15, 23, 42, 0.08)",
-          },
-        },
-        x: {
-          grid: {
-            display: false,
-          },
-        },
-      },
-    }),
+  const selectedProgramCards = useMemo(
+    () =>
+      selectedDivision
+        ? CHART_PROGRAM_ROWS.map((program) => ({
+            ...program,
+            values: selectedDivision[program.key],
+          }))
+        : [],
     [selectedDivision]
+  );
+
+  const maxProgramTotal = useMemo(
+    () => Math.max(...selectedProgramCards.map((item) => item.values.total), 1),
+    [selectedProgramCards]
   );
 
   if (!isOpen) {
@@ -218,53 +139,45 @@ const EnrollmentModal = ({
     );
   }
 
-  if (!enrolmentData || !selectedDivision || !chartData) {
+  if (!enrolmentData || !selectedDivision) {
     return null;
   }
 
   const content = (
       <div
-        className={`enrolment-modal ${inlineMode ? "enrolment-modal-inline" : ""}`}
+        className={`enrolment-modal enrolment-page ${inlineMode ? "enrolment-modal-inline" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="modal-header enrolment-modal-header">
-          <div>
+        <section className="enrolment-hero">
+          <div className="enrolment-hero-copy">
+            <span className="section-kicker section-kicker-light">NCR ALS</span>
             <h2>ALS Enrolment {enrolmentData.schoolYear}</h2>
-            <p className="enrolment-subtitle">
-              Click any NCR division to inspect its exact male, female, and total enrolment
-              figures from the workbook&apos;s <code>enrolment</code> sheet.
-            </p>
           </div>
-          <div className="enrolment-header-actions">
-            <button type="button" className="enrolment-home-button" onClick={onHomeClick}>
-              HOME
-            </button>
-          </div>
-        </div>
+        </section>
 
-        <div className="enrolment-division-strip" role="tablist" aria-label="NCR divisions">
-          {enrolmentData.divisions.map((division, index) => (
-            <button
-              key={division.division}
-              type="button"
-              className={`enrolment-division-chip ${
-                selectedDivision.division === division.division ? "active" : ""
-              }`}
-              onClick={() => setSelectedDivisionName(division.division)}
-              style={{ "--chip-index": index }}
-            >
-              {division.division}
-            </button>
-          ))}
-        </div>
-
-        <section className="enrolment-focus-grid">
+        <section className="enrolment-focus-grid" aria-label="Enrolment dashboard">
           <div className="enrolment-focus-panel">
-            <span className="section-kicker">Selected Division</span>
-            <h3>{selectedDivision.division}</h3>
-            <p>
-              Division grand total: <strong>{formatNumber(selectedDivision.grandTotal.total)}</strong>
-            </p>
+            <div className="enrolment-division-select-shell">
+              <label htmlFor="enrolment-division-select">Choose Division</label>
+              <select
+                id="enrolment-division-select"
+                className="enrolment-division-select"
+                value={selectedDivision.division}
+                onChange={(event) => setSelectedDivisionName(event.target.value)}
+              >
+                {enrolmentData.divisions.map((division) => (
+                  <option key={division.division} value={division.division}>
+                    {division.division}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="enrolment-selected-heading">
+              <h3>{selectedDivision.division}</h3>
+              <strong>{formatNumber(selectedDivision.grandTotal.total)}</strong>
+              <span>Total learners</span>
+            </div>
 
             <div className="enrolment-summary-grid">
               {selectedProgramCards.map((item) => (
@@ -281,8 +194,43 @@ const EnrollmentModal = ({
           </div>
 
           <div className="enrolment-chart-card">
+            <div className="enrolment-chart-heading">
+              <span className="section-kicker">Program Breakdown</span>
+              <h3>{selectedDivision.division}</h3>
+            </div>
             <div className="enrolment-chart-shell">
-              <Bar data={chartData} options={chartOptions} />
+              <div className="enrolment-breakdown-table">
+                <div className="enrolment-breakdown-head" aria-hidden="true">
+                  <span>Program</span>
+                  <span>Male</span>
+                  <span>Female</span>
+                  <span>Total</span>
+                </div>
+
+                {selectedProgramCards.map((item) => {
+                  const total = item.values.total || 0;
+                  const male = item.values.male || 0;
+                  const female = item.values.female || 0;
+                  const totalPercent = Math.max((total / maxProgramTotal) * 100, total ? 10 : 0);
+
+                  return (
+                    <div key={item.key} className="enrolment-breakdown-row">
+                      <div className="enrolment-breakdown-label">
+                        <strong>{item.shortLabel}</strong>
+                        <span>{item.label}</span>
+                      </div>
+                      <strong className="enrolment-breakdown-number">{formatNumber(male)}</strong>
+                      <strong className="enrolment-breakdown-number">{formatNumber(female)}</strong>
+                      <strong className="enrolment-breakdown-number enrolment-breakdown-number-total">
+                        {formatNumber(total)}
+                      </strong>
+                      <div className="enrolment-breakdown-meter" aria-hidden="true">
+                        <span style={{ width: `${totalPercent}%` }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>

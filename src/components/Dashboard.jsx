@@ -8,6 +8,7 @@ import EnrollmentModal from "./EnrollmentModal";
 import NCRMapModal from "./NCRMapModal";
 import ALSShsMapModal from "./ALSShsMapModal";
 import AboutALSModal from "./AboutALSModal";
+import ALSStructurePage from "./ALSStructurePage";
 import ClcshaDataPage from "./ClcshaDataPage";
 import { getDivisionLogoSrc, getDivisionOfficeTitle } from "../constants/divisions";
 import { fetchDashboardData, fetchEnrolmentData, fetchSchoolsData } from "../services/dataService";
@@ -29,6 +30,7 @@ const Dashboard = () => {
   const [showMapModal, setShowMapModal] = useState(false);
   const [showShsMapModal, setShowShsMapModal] = useState(false);
   const [showAboutAlsModal, setShowAboutAlsModal] = useState(false);
+  const [showAlsStructurePage, setShowAlsStructurePage] = useState(false);
   const [showClcshaDataPage, setShowClcshaDataPage] = useState(false);
   const [enrolmentData, setEnrolmentData] = useState(null);
   const [schoolsData, setSchoolsData] = useState(null);
@@ -47,11 +49,14 @@ const Dashboard = () => {
     setShowEnrolmentModal(false);
     setShowMapModal(false);
     setShowShsMapModal(false);
+    setShowAlsStructurePage(false);
     setShowClcshaDataPage(false);
   };
 
   const activeTopNavView = showClcshaDataPage
     ? "clcsha-data"
+    : showAlsStructurePage
+    ? "als-structure"
     : showAboutAlsModal
     ? "about"
     : showShsMapModal
@@ -191,6 +196,11 @@ const Dashboard = () => {
     setShowAboutAlsModal(true);
   };
 
+  const handleOpenAlsStructure = () => {
+    closeSecondaryViews();
+    setShowAlsStructurePage(true);
+  };
+
   const handleOpenClcshaData = () => {
     closeSecondaryViews();
     setShowClcshaDataPage(true);
@@ -317,6 +327,7 @@ const Dashboard = () => {
         onCitySelect={handleCityChange}
         onHomeClick={resetToHome}
         onAboutClick={handleOpenAboutAls}
+        onStructureClick={handleOpenAlsStructure}
         onEnrolmentClick={handleOpenEnrolment}
         onMapClick={handleOpenDivisionMap}
         onShsMapClick={handleOpenShsMap}
@@ -330,6 +341,8 @@ const Dashboard = () => {
           showClcshaDataPage ? "dashboard-content-clc" : ""
         } ${!selectedCity && activeTopNavView === "regional" ? "dashboard-content-home" : ""} ${
           activeTopNavView === "about" ? "dashboard-content-about" : ""
+        } ${activeTopNavView === "als-structure" ? "dashboard-content-structure" : ""} ${
+          activeTopNavView === "enrolment" ? "dashboard-content-enrolment" : ""
         } ${
           activeTopNavView === "division-map" || activeTopNavView === "schools-map"
             ? "dashboard-content-map"
@@ -340,6 +353,8 @@ const Dashboard = () => {
       >
         {showClcshaDataPage ? (
           <ClcshaDataPage onSourcesUpdated={handleDataSourcesUpdated} />
+        ) : showAlsStructurePage ? (
+          <ALSStructurePage divisions={allData} currentDivision={selectedDivision} />
         ) : showAboutAlsModal ? (
           <AboutALSModal
             isOpen={showAboutAlsModal}
@@ -554,6 +569,7 @@ const Dashboard = () => {
         !showEnrolmentModal &&
         !showMapModal &&
         !showShsMapModal &&
+        !showAlsStructurePage &&
         !showClcshaDataPage &&
         selectedTeacher ? (
           <div className="modal-overlay" onClick={() => setSelectedTeacher(null)}>

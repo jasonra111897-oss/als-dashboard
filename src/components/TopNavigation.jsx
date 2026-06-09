@@ -4,6 +4,7 @@ import "./TopNavigation.css";
 const PRIMARY_NAV_ITEMS = [
   { key: "regional", label: "Home" },
   { key: "about", label: "About ALS" },
+  { key: "als-structure", label: "ALS Structure" },
   { key: "enrolment", label: "Enrolment 2025-2026" },
 ];
 
@@ -15,6 +16,7 @@ const MAP_NAV_ITEMS = [
 const TopNavigation = ({
   onHomeClick,
   onAboutClick,
+  onStructureClick,
   onEnrolmentClick,
   onMapClick,
   onShsMapClick,
@@ -68,6 +70,9 @@ const TopNavigation = ({
         break;
       case "about":
         onAboutClick();
+        break;
+      case "als-structure":
+        onStructureClick();
         break;
       case "enrolment":
         onEnrolmentClick();
