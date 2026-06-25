@@ -9,7 +9,11 @@
   background:
     radial-gradient(circle at top left, rgba(48, 103, 188, 0.14), transparent 24%),
     radial-gradient(circle at top right, rgba(255, 203, 96, 0.16), transparent 18%),
-    linear-gradient(180deg, #f8fbff 0%, #eef4fb 48%, #e8f0f8 100%);
+    linear-gradient(180deg, rgba(248, 251, 255, 0.92), rgba(238, 244, 251, 0.94)),
+    url("/DEPED-NCR.jpg");
+  background-position: center center, center center, center center, center center;
+  background-repeat: no-repeat;
+  background-size: auto, auto, cover, cover;
   box-shadow: 0 25px 60px rgba(15, 23, 42, 0.24);
   display: flex;
   flex-direction: column;
@@ -28,9 +32,13 @@
   background:
     radial-gradient(circle at 12% 18%, rgba(47, 117, 214, 0.11) 0 86px, transparent 87px),
     radial-gradient(circle at 88% 34%, rgba(23, 59, 120, 0.08) 0 122px, transparent 123px),
-    radial-gradient(circle at 28% 78%, rgba(213, 228, 249, 0.74) 0 136px, transparent 137px),
+    radial-gradient(circle at 28% 78%, rgba(213, 228, 249, 0.56) 0 136px, transparent 137px),
     radial-gradient(circle at 72% 86%, rgba(244, 180, 56, 0.12) 0 94px, transparent 95px),
-    #f3f8ff;
+    linear-gradient(180deg, rgba(243, 248, 255, 0.92), rgba(235, 243, 251, 0.94)),
+    url("/DEPED-NCR.jpg");
+  background-position: center center, center center, center center, center center, center center, center center;
+  background-repeat: no-repeat;
+  background-size: auto, auto, auto, auto, cover, cover;
   box-shadow: none;
 }
 
@@ -52,9 +60,13 @@
   background:
     radial-gradient(circle at 12% 18%, rgba(47, 117, 214, 0.11) 0 86px, transparent 87px),
     radial-gradient(circle at 88% 34%, rgba(23, 59, 120, 0.08) 0 122px, transparent 123px),
-    radial-gradient(circle at 28% 78%, rgba(213, 228, 249, 0.74) 0 136px, transparent 137px),
+    radial-gradient(circle at 28% 78%, rgba(213, 228, 249, 0.56) 0 136px, transparent 137px),
     radial-gradient(circle at 72% 86%, rgba(244, 180, 56, 0.12) 0 94px, transparent 95px),
-    #f3f8ff;
+    linear-gradient(180deg, rgba(243, 248, 255, 0.92), rgba(235, 243, 251, 0.94)),
+    url("/DEPED-NCR.jpg");
+  background-position: center center, center center, center center, center center, center center, center center;
+  background-repeat: no-repeat;
+  background-size: auto, auto, auto, auto, cover, cover;
 }
 
 .enrolment-modal-state {
@@ -76,8 +88,11 @@
     radial-gradient(circle at 16% 28%, rgba(213, 228, 249, 0.12) 0 72px, transparent 73px),
     radial-gradient(circle at 82% 26%, rgba(255, 255, 255, 0.1) 0 92px, transparent 93px),
     radial-gradient(circle at 48% 78%, rgba(47, 117, 214, 0.12) 0 108px, transparent 109px),
-    linear-gradient(115deg, rgba(255, 255, 255, 0.035) 0%, transparent 36%, rgba(57, 135, 224, 0.12) 100%),
-    #0f4388;
+    linear-gradient(135deg, rgba(7, 36, 84, 0.84), rgba(15, 67, 136, 0.76)),
+    url("/DEPED-NCR.jpg");
+  background-position: center center, center center, center center, center center, center center;
+  background-repeat: no-repeat;
+  background-size: auto, auto, auto, cover, cover;
 }
 
 .enrolment-hero::before,

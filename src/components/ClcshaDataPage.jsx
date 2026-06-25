@@ -1,20 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { fetchClcshaRows } from "../services/dataService";
+import { fetchClcshaCenters } from "../services/dataService";
 import WorkbookDataWorkbench from "./WorkbookDataWorkbench";
 import "./ClcshaDataPage.css";
 
 const normalizeText = (value) => String(value ?? "").replace(/\s+/g, " ").trim();
-const cleanDisplayText = (value) => normalizeText(value).replace(/\bN\/A\b/gi, "").trim();
-const isUsefulCategory = (value) => {
-  const text = cleanDisplayText(value);
-  return text && !/^\d+$/.test(text);
-};
-
-const buildCenterName = (row) =>
-  cleanDisplayText(row.clcName) ||
-  cleanDisplayText(row.schoolName) ||
-  cleanDisplayText(row.clcId) ||
-  "Community Learning Center";
 
 const buildMapUrl = (center) => {
   const query = [
@@ -33,43 +22,6 @@ const buildMapUrl = (center) => {
   return `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
 };
 
-const buildAddressRecords = (rows = []) => {
-  const uniqueCenters = new Map();
-
-  rows.forEach((row) => {
-    const division = normalizeText(row.division || row.sheetName);
-    const address = normalizeText(row.clcAddress);
-
-    if (!division || !address) {
-      return;
-    }
-
-    const name = buildCenterName(row);
-    const key = [division, name, address].join("|").toUpperCase();
-
-    if (!uniqueCenters.has(key)) {
-      const category = [row.clcType, row.clcLocation].find(isUsefulCategory);
-
-      uniqueCenters.set(key, {
-        id: key,
-        name,
-        division,
-        address,
-        category: cleanDisplayText(category) || "Community Center",
-        contact: cleanDisplayText(row.teacherName) || "Not specified",
-        barangay: cleanDisplayText(row.barangay),
-        cityMunicipality: cleanDisplayText(row.cityMunicipality),
-      });
-    }
-  });
-
-  return Array.from(uniqueCenters.values()).sort(
-    (left, right) =>
-      left.division.localeCompare(right.division, undefined, { sensitivity: "base" }) ||
-      left.name.localeCompare(right.name, undefined, { sensitivity: "base" })
-  );
-};
-
 const CommunityCenterAddressPanel = () => {
   const [centers, setCenters] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState("");
@@ -80,22 +32,14 @@ const CommunityCenterAddressPanel = () => {
   useEffect(() => {
     let ignore = false;
 
-    const loadRows = async () => {
+    const loadCenters = async () => {
       try {
         setIsLoading(true);
         setError("");
-
-        const firstPage = await fetchClcshaRows({ page: 1, pageSize: 250 });
-        const totalPages = Math.max(Number(firstPage.totalPages) || 1, 1);
-        const nextPages = await Promise.all(
-          Array.from({ length: totalPages - 1 }, (_, index) =>
-            fetchClcshaRows({ page: index + 2, pageSize: 250 })
-          )
-        );
-        const allRows = [firstPage, ...nextPages].flatMap((payload) => payload.rows || []);
+        const allCenters = await fetchClcshaCenters();
 
         if (!ignore) {
-          setCenters(buildAddressRecords(allRows));
+          setCenters(allCenters);
         }
       } catch (err) {
         if (!ignore) {
@@ -108,7 +52,7 @@ const CommunityCenterAddressPanel = () => {
       }
     };
 
-    loadRows();
+    loadCenters();
 
     return () => {
       ignore = true;

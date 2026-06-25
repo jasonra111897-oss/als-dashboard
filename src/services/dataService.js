@@ -4,6 +4,7 @@ const ENROLMENT_DATA_URL = `${API_BASE_URL}/api/enrolment`;
 const SCHOOLS_DATA_URL = `${API_BASE_URL}/api/schools`;
 const CLCSHA_DATA_URL = `${API_BASE_URL}/api/clcsha`;
 const DATA_SOURCES_URL = `${API_BASE_URL}/api/data-sources`;
+const DEPED_NEWS_URL = `${API_BASE_URL}/api/news/deped`;
 
 const parseErrorMessage = async (response) => {
   try {
@@ -39,6 +40,21 @@ export const fetchEnrolmentData = () => fetchJson(ENROLMENT_DATA_URL);
 export const fetchSchoolsData = () => fetchJson(SCHOOLS_DATA_URL);
 
 export const fetchClcshaSummary = () => fetchJson(CLCSHA_DATA_URL);
+
+export const fetchDepedNews = (params = {}) => {
+  const searchParams = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      searchParams.set(key, String(value));
+    }
+  });
+
+  const suffix = searchParams.toString();
+  return fetchJson(`${DEPED_NEWS_URL}${suffix ? `?${suffix}` : ""}`);
+};
+
+export const fetchClcshaCenters = () => fetchJson(`${CLCSHA_DATA_URL}/centers`);
 
 export const fetchClcshaRows = (params = {}) => {
   const searchParams = new URLSearchParams();

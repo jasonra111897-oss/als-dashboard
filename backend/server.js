@@ -14,7 +14,12 @@ const {
   uploadDataSourceFile,
   buildCombinedSummary,
 } = require("../lib/excelSourceRegistry");
-const { getClcshaSummary, queryClcshaRows } = require("../lib/clcshaWorkbook");
+const {
+  buildClcshaCenters,
+  getClcshaSummary,
+  queryClcshaRows,
+} = require("../lib/clcshaWorkbook");
+const { fetchDepedNewsFeed } = require("../lib/newsFeed");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -97,6 +102,31 @@ app.get("/api/clcsha/rows", (req, res) => {
     );
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/clcsha/centers", (_req, res) => {
+  try {
+    res.json(buildClcshaCenters());
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/news/deped", async (req, res) => {
+  try {
+    const limit = Number(req.query.limit || 6);
+    const items = await fetchDepedNewsFeed(Number.isFinite(limit) && limit > 0 ? limit : 6);
+
+    res.json({
+      source: "Department of Education",
+      fetchedAt: new Date().toISOString(),
+      items,
+    });
+  } catch (error) {
+    res.status(502).json({
+      error: error.message || "Unable to load the DepEd official news feed.",
+    });
   }
 });
 

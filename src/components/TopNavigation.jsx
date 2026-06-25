@@ -1,6 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./TopNavigation.css";
 
+const PST_BANNER_FORMATTER = new Intl.DateTimeFormat("en-PH", {
+  timeZone: "Asia/Manila",
+  weekday: "long",
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+  second: "2-digit",
+  hour12: true,
+});
+
 const PRIMARY_NAV_ITEMS = [
   { key: "regional", label: "Home" },
   { key: "about", label: "About ALS" },
@@ -25,8 +37,17 @@ const TopNavigation = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMapsOpen, setIsMapsOpen] = useState(false);
+  const [currentTime, setCurrentTime] = useState(() => new Date());
   const mapsDropdownRef = useRef(null);
   const isMapsActive = activeView === "division-map" || activeView === "schools-map";
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,6 +121,8 @@ const TopNavigation = ({
     }
   };
 
+  const formattedPst = PST_BANNER_FORMATTER.format(currentTime);
+
   return (
     <header className={`top-nav-container ${isScrolled ? "scrolled" : ""}`}>
       <div className="main-banner">
@@ -159,6 +182,11 @@ const TopNavigation = ({
             Community Learning Centers
           </button>
         </nav>
+
+        <div className="banner-time" aria-label="Philippine Standard Time">
+          <span className="banner-time-label">Philippine Standard Time:</span>
+          <strong className="banner-time-value">{formattedPst}</strong>
+        </div>
       </div>
     </header>
   );
