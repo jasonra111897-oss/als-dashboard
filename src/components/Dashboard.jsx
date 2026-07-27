@@ -10,6 +10,7 @@ import ALSShsMapModal from "./ALSShsMapModal";
 import AboutALSModal from "./AboutALSModal";
 import ALSStructurePage from "./ALSStructurePage";
 import ClcshaDataPage from "./ClcshaDataPage";
+import AnnouncementsPage from "./AnnouncementsPage";
 import { getDivisionLogoSrc, getDivisionOfficeTitle } from "../constants/divisions";
 import { fetchDashboardData, fetchEnrolmentData, fetchSchoolsData } from "../services/dataService";
 import {
@@ -32,6 +33,7 @@ const Dashboard = () => {
   const [showAboutAlsModal, setShowAboutAlsModal] = useState(false);
   const [showAlsStructurePage, setShowAlsStructurePage] = useState(false);
   const [showClcshaDataPage, setShowClcshaDataPage] = useState(false);
+  const [showAnnouncementsPage, setShowAnnouncementsPage] = useState(false);
   const [enrolmentData, setEnrolmentData] = useState(null);
   const [schoolsData, setSchoolsData] = useState(null);
   const [isEnrolmentLoading, setIsEnrolmentLoading] = useState(false);
@@ -51,10 +53,13 @@ const Dashboard = () => {
     setShowShsMapModal(false);
     setShowAlsStructurePage(false);
     setShowClcshaDataPage(false);
+    setShowAnnouncementsPage(false);
   };
 
   const activeTopNavView = showClcshaDataPage
     ? "clcsha-data"
+    : showAnnouncementsPage
+    ? "announcements"
     : showAlsStructurePage
     ? "als-structure"
     : showAboutAlsModal
@@ -206,6 +211,11 @@ const Dashboard = () => {
     setShowClcshaDataPage(true);
   };
 
+  const handleOpenAnnouncements = () => {
+    closeSecondaryViews();
+    setShowAnnouncementsPage(true);
+  };
+
   const handleOpenDivisionMap = () => {
     closeSecondaryViews();
     setShowMapModal(true);
@@ -332,6 +342,7 @@ const Dashboard = () => {
         onMapClick={handleOpenDivisionMap}
         onShsMapClick={handleOpenShsMap}
         onClcshaDataClick={handleOpenClcshaData}
+        onAnnouncementsClick={handleOpenAnnouncements}
         currentSelection={selectedDivision}
         activeView={activeTopNavView}
       />
@@ -339,7 +350,9 @@ const Dashboard = () => {
       <main
         className={`dashboard-content ${
           showClcshaDataPage ? "dashboard-content-clc" : ""
-        } ${!selectedCity && activeTopNavView === "regional" ? "dashboard-content-home" : ""} ${
+        } ${showAnnouncementsPage ? "dashboard-content-announcements dashboard-content-wide" : ""} ${
+          !selectedCity && activeTopNavView === "regional" ? "dashboard-content-home" : ""
+        } ${
           activeTopNavView === "about" ? "dashboard-content-about" : ""
         } ${activeTopNavView === "als-structure" ? "dashboard-content-structure" : ""} ${
           activeTopNavView === "enrolment" ? "dashboard-content-enrolment" : ""
@@ -353,6 +366,8 @@ const Dashboard = () => {
       >
         {showClcshaDataPage ? (
           <ClcshaDataPage onSourcesUpdated={handleDataSourcesUpdated} />
+        ) : showAnnouncementsPage ? (
+          <AnnouncementsPage />
         ) : showAlsStructurePage ? (
           <ALSStructurePage divisions={allData} currentDivision={selectedDivision} />
         ) : showAboutAlsModal ? (
@@ -571,6 +586,7 @@ const Dashboard = () => {
         !showShsMapModal &&
         !showAlsStructurePage &&
         !showClcshaDataPage &&
+        !showAnnouncementsPage &&
         selectedTeacher ? (
           <div className="modal-overlay" onClick={() => setSelectedTeacher(null)}>
             <div className="profile-modal" onClick={(e) => e.stopPropagation()}>

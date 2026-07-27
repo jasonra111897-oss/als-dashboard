@@ -179,6 +179,17 @@ const HOME_SPOTLIGHT_STORIES = [
   },
   {
     source: "DepEd NCR",
+    type: "School-Based Feeding Program 2026-2027",
+    title:
+      "NATIONAL KICK-OFF OF THE SCHOOL-BASED FEEDING PROGRAM FOR SCHOOL YEAR 2026-2027 \"NUTRISYON AT KALIKASAN, ATING PANGALAGAAN\"",
+    date: "July 6, 2026",
+    summary:
+      "📢 SAVE THE DATE! Ngayong Hulyo 6, samahan ang Department of Education sa paglulunsad ng School-Based Feeding Program (SBFP) for SY 2026–2027. Layunin ng inisyatibang ito na mapabuti ang nutrisyon, kalusugan, at overall well-being ng mga batang mag-aaral, lalo na sa kanilang kritikal na taon ng paglaki. Bahagi rin ito ng mas malawak na hangarin ng pamahalaan na tugunan ang kakulangan sa early childhood care at nutrisyon, lalo na sa mga underserved communities. Abangan ang pagbubukas ng programa dito sa DepEd Philippines ngayong Lunes. Tara, simulan ang hakbang para sa mas malusog na kinabukasan ng bawat batang Pilipino!",
+    image: "/feedingprogram/734039332_1400205745304137_5244462390655031016_n.jpg",
+    gallery: ["/feedingprogram/734039332_1400205745304137_5244462390655031016_n.jpg"],
+  },
+  {
+    source: "DepEd NCR",
     type: "Reading Nooks Launch 2026",
     title: "DIVISION LAUNCH OF READING NOOKS FOR KINDER TO GRADE 3",
     date: "June 25, 2026",
@@ -230,6 +241,25 @@ const ALS_ACTIVITY_UPSKILLING_GALLERY = [
   "/Upskilling2025/547372575_1205844588253280_7456035575006454740_n.jpg",
 ];
 
+const ALS_PIR_CONVERGENCE_GALLERY = [
+  "/PIRandconvergence/551812537_1596951174642300_1458014334957693554_n.jpg",
+  "/PIRandconvergence/552177376_25374416658842689_6255943626386257568_n.jpg",
+  "/PIRandconvergence/552197742_1432743788221240_5935915479003537591_n.jpg",
+  "/PIRandconvergence/552815183_1159394592782901_5421272789203389790_n.jpg",
+  "/PIRandconvergence/555725128_1162709195838164_1506026751262382820_n.jpg",
+  "/PIRandconvergence/566039036_1507863193786596_8010113185762667353_n.jpg",
+  "/PIRandconvergence/566517750_1170677735013489_3169472367260270380_n.jpg",
+  "/PIRandconvergence/566523968_1105627625071197_8730534908637167239_n.jpg",
+  "/PIRandconvergence/566598754_781988431370137_2090980478691806203_n.jpg",
+  "/PIRandconvergence/567642216_3838843243082674_2660884204546860417_n.jpg",
+  "/PIRandconvergence/567648083_1546757333188059_8171213646088627369_n.jpg",
+  "/PIRandconvergence/567671158_1344050696712417_4934128044833186742_n.jpg",
+  "/PIRandconvergence/569119174_1454071945673070_3694526435824680144_n.jpg",
+  "/PIRandconvergence/569753826_1351768606669991_2234284134676149679_n.jpg",
+  "/PIRandconvergence/573189434_1574791293530627_7090258559423412060_n.jpg",
+  "/PIRandconvergence/573433377_594908853711410_4251267029176038836_n.jpg",
+];
+
 const ALS_INFO_STORIES = [
   {
     source: "ALS NCR",
@@ -240,6 +270,16 @@ const ALS_INFO_STORIES = [
       "This ALS activity highlights the upskilling and training of EPS II-ALS on instructional supervision, focusing on strengthening field support, coaching practices, and quality monitoring across NCR divisions.",
     image: ALS_ACTIVITY_UPSKILLING_GALLERY[0],
     gallery: ALS_ACTIVITY_UPSKILLING_GALLERY,
+  },
+  {
+    source: "ALS NCR",
+    type: "ALS Convergence",
+    title: "PROGRAM IMPLEMENTATION REVIEW AND CONVERGENCE IN ALTERNATIVE LEARNING SYSTEM",
+    date: "October 29-31, 2025",
+    summary:
+      "Held at Great Eastern Hotel, Quezon City from October 29 to 31, 2025, this ALS convergence gathered teams for program implementation review, coordination, and shared planning to strengthen delivery, alignment, and monitoring across the region.",
+    image: ALS_PIR_CONVERGENCE_GALLERY[0],
+    gallery: ALS_PIR_CONVERGENCE_GALLERY,
   },
   {
     source: "ALS NCR",
@@ -335,7 +375,14 @@ const NCROverview = ({ allData, onSelectDivision }) => {
     };
   });
 
-  const readingNooksStory = useMemo(() => normalizeStory(HOME_SPOTLIGHT_STORIES[1], 1), []);
+  const feedingProgramStory = useMemo(() => normalizeStory(HOME_SPOTLIGHT_STORIES[1], 1), []);
+  const readingNooksStory = useMemo(() => normalizeStory(HOME_SPOTLIGHT_STORIES[2], 2), []);
+  const alsFeaturedStory = useMemo(() => normalizeStory(ALS_INFO_STORIES[0], "als-featured"), []);
+  const alsHighlightStories = useMemo(() => ALS_INFO_STORIES.slice(1, 3).map(normalizeStory), []);
+  const alsSpotlightStory = useMemo(
+    () => normalizeStory(ALS_INFO_STORIES[ALS_INFO_STORIES.length - 1], "als-spotlight"),
+    []
+  );
   const palarongSpotlightStory = useMemo(
     () =>
       normalizeStory(
@@ -653,6 +700,31 @@ const NCROverview = ({ allData, onSelectDivision }) => {
                 </button>
               </div>
 
+              {feedingProgramStory ? (
+                <button
+                  type="button"
+                  className="overview-secondary-story"
+                  onClick={() => openStoryGallery(feedingProgramStory)}
+                >
+                  <div className="overview-secondary-story-media overview-secondary-story-media--poster">
+                    <img
+                      src={feedingProgramStory.image}
+                      alt={feedingProgramStory.title}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <div className="overview-secondary-story-copy">
+                    <div className="overview-news-card-top">
+                      <span>{feedingProgramStory.type}</span>
+                      <small>{formatStoryDate(feedingProgramStory.date || feedingProgramStory.publishedAt)}</small>
+                    </div>
+                    <strong>{feedingProgramStory.title}</strong>
+                    <p>{buildStorySummary(feedingProgramStory.summary)}</p>
+                  </div>
+                </button>
+              ) : null}
+
               {readingNooksStory ? (
                 <button
                   type="button"
@@ -677,6 +749,7 @@ const NCROverview = ({ allData, onSelectDivision }) => {
                   </div>
                 </button>
               ) : null}
+
             </article>
           ) : null}
         </article>
@@ -835,12 +908,12 @@ const NCROverview = ({ allData, onSelectDivision }) => {
             </div>
 
             <div className="overview-trending-stack">
-              {ALS_INFO_STORIES.slice(1, 3).map((story) => (
+              {alsHighlightStories.map((story) => (
                 <button
-                  key={story.title}
+                  key={story.id}
                   type="button"
                   className="overview-trending-item"
-                  onClick={() => openStoryGallery(normalizeStory(story, story.title))}
+                  onClick={() => openStoryGallery(story)}
                 >
                   <div className="overview-trending-copy">
                     <div className="overview-trending-meta">
@@ -869,23 +942,24 @@ const NCROverview = ({ allData, onSelectDivision }) => {
               <button
                 type="button"
                 className="overview-news-media overview-news-media-button"
-                onClick={() => openStoryGallery(normalizeStory(ALS_INFO_STORIES[0], "als-featured"))}
+                onClick={() => openStoryGallery(alsFeaturedStory)}
               >
                 <img
-                  src={ALS_INFO_STORIES[0].image}
-                  alt={ALS_INFO_STORIES[0].title}
+                  src={alsFeaturedStory.image}
+                  alt={alsFeaturedStory.title}
                   loading="lazy"
                   decoding="async"
                 />
                 <div className="overview-news-overlay">
                   <div className="overview-news-card-top">
-                    <span>{ALS_INFO_STORIES[0].type}</span>
-                    <small>{formatStoryDate(ALS_INFO_STORIES[0].date)}</small>
+                    <span>{alsFeaturedStory.type}</span>
+                    <small>{formatStoryDate(alsFeaturedStory.date)}</small>
                   </div>
-                  <strong>{ALS_INFO_STORIES[0].title}</strong>
-                  <p>{buildStorySummary(ALS_INFO_STORIES[0].summary)}</p>
+                  <strong>{alsFeaturedStory.title}</strong>
+                  <p>{buildStorySummary(alsFeaturedStory.summary)}</p>
                 </div>
               </button>
+
             </article>
           </article>
 
@@ -900,26 +974,26 @@ const NCROverview = ({ allData, onSelectDivision }) => {
               className="overview-corner-spotlight overview-corner-spotlight-button"
               role="button"
               tabIndex={0}
-              onClick={() => openStoryGallery(normalizeStory(ALS_INFO_STORIES[3], "als-spotlight"))}
+              onClick={() => openStoryGallery(alsSpotlightStory)}
               onKeyDown={(event) => {
                 if (event.key === "Enter" || event.key === " ") {
                   event.preventDefault();
-                  openStoryGallery(normalizeStory(ALS_INFO_STORIES[3], "als-spotlight"));
+                  openStoryGallery(alsSpotlightStory);
                 }
               }}
             >
               <div className="overview-corner-spotlight-media">
                 <img
-                  src={ALS_INFO_STORIES[3].image}
-                  alt={ALS_INFO_STORIES[3].title}
+                  src={alsSpotlightStory.image}
+                  alt={alsSpotlightStory.title}
                   loading="lazy"
                   decoding="async"
                 />
               </div>
-              <span>{ALS_INFO_STORIES[3].type}</span>
-              <strong>{ALS_INFO_STORIES[3].title}</strong>
-              <small>{formatStoryDate(ALS_INFO_STORIES[3].date)}</small>
-              <p>{buildStorySummary(ALS_INFO_STORIES[3].summary)}</p>
+              <span>{alsSpotlightStory.type}</span>
+              <strong>{alsSpotlightStory.title}</strong>
+              <small>{formatStoryDate(alsSpotlightStory.date)}</small>
+              <p>{buildStorySummary(alsSpotlightStory.summary)}</p>
             </div>
           </aside>
         </div>

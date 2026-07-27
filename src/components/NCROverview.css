@@ -624,6 +624,15 @@
   object-fit: cover;
 }
 
+.overview-secondary-story-media--poster {
+  min-height: 168px;
+}
+
+.overview-secondary-story-media--poster img {
+  height: 168px;
+  object-position: center top;
+}
+
 .overview-secondary-story-copy {
   display: grid;
   align-content: start;

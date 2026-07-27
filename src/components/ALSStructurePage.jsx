@@ -157,6 +157,9 @@ const DIVISION_LEADERSHIP = {
       role: "CID Chief",
       name: "RAQUEL M. AUSTERO",
       position: "CID, Chief Education Supervisor",
+      photo: "/laspiñas-leadership/RAQUEL M. AUSTERO.jpg",
+      photoFit: "cover",
+      photoPosition: "center 18%",
     },
     {
       role: "Division ALS Supervisor",

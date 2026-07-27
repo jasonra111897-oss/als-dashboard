@@ -15,6 +15,7 @@ const PST_BANNER_FORMATTER = new Intl.DateTimeFormat("en-PH", {
 
 const PRIMARY_NAV_ITEMS = [
   { key: "regional", label: "Home" },
+  { key: "announcements", label: "Announcements" },
   { key: "about", label: "About ALS" },
   { key: "als-structure", label: "ALS Structure" },
   { key: "enrolment", label: "Enrolment 2025-2026" },
@@ -33,6 +34,7 @@ const TopNavigation = ({
   onMapClick,
   onShsMapClick,
   onClcshaDataClick,
+  onAnnouncementsClick,
   activeView = "regional",
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -91,6 +93,9 @@ const TopNavigation = ({
         break;
       case "about":
         onAboutClick();
+        break;
+      case "announcements":
+        onAnnouncementsClick();
         break;
       case "als-structure":
         onStructureClick();
